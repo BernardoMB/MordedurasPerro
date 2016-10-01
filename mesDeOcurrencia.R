@@ -1,3 +1,4 @@
-MP_Mes_de_ocurrencia_2004 <- read.csv("./DATOS/BRUTOS/Siniestros.csv", 
+mp22004 <- read.csv("2004mp2.csv", 
                        colClasses = "character", 
                        na.strings = "#N/A")
+
