@@ -1,6 +1,6 @@
 fn2004g <- within(fn2004g , 
                   {
-                    #  Eliminar espacios en números.
+                    #  Eliminar espacios en n??meros.
                     SALUD <- gsub("[ ]", "", SALUD)
                     IMSS.ORD <- gsub("[ ]", "", IMSS.ORD)
                     ISSSTE <- gsub("[ ]", "", ISSSTE)
@@ -33,7 +33,7 @@ fn2004g <- within(fn2004g ,
 )
 fn2005g  <- within(fn2005g , 
                    {
-                     #  Eliminar espacios en números.
+                     #  Eliminar espacios en n??meros.
                      SALUD <- gsub("[ ]", "", SALUD)
                      IMSS.ORD <- gsub("[ ]", "", IMSS.ORD)
                      ISSSTE <- gsub("[ ]", "", ISSSTE)
@@ -66,7 +66,7 @@ fn2005g  <- within(fn2005g ,
                    
                    fn2006g  <- within(fn2006g , 
                                       {
-                                        #  Eliminar espacios en números.
+                                        #  Eliminar espacios en n??meros.
                                         SALUD <- gsub("[ ]", "", SALUD)
                                         IMSS.ORD <- gsub("[ ]", "", IMSS.ORD)
                                         ISSSTE <- gsub("[ ]", "", ISSSTE)
@@ -99,7 +99,7 @@ fn2005g  <- within(fn2005g ,
                    )
                    fn2007g <- within(fn2007g , 
                                      {
-                                       #  Eliminar espacios en números.
+                                       #  Eliminar espacios en n??meros.
                                        SALUD <- gsub("[ ]", "", SALUD)
                                        IMSS.ORD <- gsub("[ ]", "", IMSS.ORD)
                                        ISSSTE <- gsub("[ ]", "", ISSSTE)
@@ -132,7 +132,7 @@ fn2005g  <- within(fn2005g ,
                    )
                    fn2008g  <- within(fn2008g , 
                                       {
-                                        #  Eliminar espacios en números.
+                                        #  Eliminar espacios en n??meros.
                                         SALUD <- gsub("[ ]", "", SALUD)
                                         IMSS.ORD <- gsub("[ ]", "", IMSS.ORD)
                                         ISSSTE <- gsub("[ ]", "", ISSSTE)
@@ -165,7 +165,7 @@ fn2005g  <- within(fn2005g ,
                    )
                    fn2009g <- within(fn2009g , 
                                      {
-                                       #  Eliminar espacios en números.
+                                       #  Eliminar espacios en n??meros.
                                        SALUD <- gsub("[ ]", "", SALUD)
                                        IMSS.ORD <- gsub("[ ]", "", IMSS.ORD)
                                        ISSSTE <- gsub("[ ]", "", ISSSTE)
@@ -198,7 +198,7 @@ fn2005g  <- within(fn2005g ,
                    )
                    fn2010g  <- within(fn2010g , 
                                       {
-                                        #  Eliminar espacios en números.
+                                        #  Eliminar espacios en n??meros.
                                         SALUD <- gsub("[ ]", "", SALUD)
                                         IMSS.ORD <- gsub("[ ]", "", IMSS.ORD)
                                         ISSSTE <- gsub("[ ]", "", ISSSTE)
@@ -231,7 +231,7 @@ fn2005g  <- within(fn2005g ,
                    )
                    fn2011g  <- within(fn2011g , 
                                       {
-                                        #  Eliminar espacios en números.
+                                        #  Eliminar espacios en n??meros.
                                         SALUD <- gsub("[ ]", "", SALUD)
                                         IMSS.ORD <- gsub("[ ]", "", IMSS.ORD)
                                         ISSSTE <- gsub("[ ]", "", ISSSTE)
@@ -264,7 +264,7 @@ fn2005g  <- within(fn2005g ,
                    )
                    fn2012g  <- within(fn2012g , 
                                       {
-                                        #  Eliminar espacios en números.
+                                        #  Eliminar espacios en n??meros.
                                         SALUD <- gsub("[ ]", "", SALUD)
                                         IMSS.ORD <- gsub("[ ]", "", IMSS.ORD)
                                         ISSSTE <- gsub("[ ]", "", ISSSTE)
@@ -297,7 +297,7 @@ fn2005g  <- within(fn2005g ,
                    )
                    fn2013g <- within(fn2013g , 
                                      {
-                                       #  Eliminar espacios en números.
+                                       #  Eliminar espacios en n??meros.
                                        SALUD <- gsub("[ ]", "", SALUD)
                                        IMSS.ORD <- gsub("[ ]", "", IMSS.ORD)
                                        ISSSTE <- gsub("[ ]", "", ISSSTE)
@@ -330,7 +330,7 @@ fn2005g  <- within(fn2005g ,
                    )
                    fn2014g  <- within(fn2014g , 
                                       {
-                                        #  Eliminar espacios en números.
+                                        #  Eliminar espacios en n??meros.
                                         SALUD <- gsub("[ ]", "", SALUD)
                                         IMSS.ORD <- gsub("[ ]", "", IMSS.ORD)
                                         ISSSTE <- gsub("[ ]", "", ISSSTE)
@@ -363,7 +363,7 @@ fn2005g  <- within(fn2005g ,
                    )
                    fn2015g  <- within(fn2015g , 
                                       {
-                                        #  Eliminar espacios en números.
+                                        #  Eliminar espacios en n??meros.
                                         SALUD <- gsub("[ ]", "", SALUD)
                                         IMSS.ORD <- gsub("[ ]", "", IMSS.ORD)
                                         ISSSTE <- gsub("[ ]", "", ISSSTE)
