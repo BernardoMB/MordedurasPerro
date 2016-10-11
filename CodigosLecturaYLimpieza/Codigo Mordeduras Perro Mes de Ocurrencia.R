@@ -1,14 +1,14 @@
-setwd("/Users/rayangf/Desktop/MordedurasPerro/Data/CSV/MesDeOcurrencia/General")
+setwd("C:/Users/rgarciafa/Desktop/MordedurasPerro-master/Data/CSV/MesDeOcurrencia/General")
 mog = list.files(pattern="*.csv") #Codigo para leer los csv MesDeOcurrencia caso general
 for (i in 1:length(mog)) assign(mog[i], read.csv(mog[i],colClasses = "character", 
                                                  na.strings = "#N/A"))
 
-setwd("/Users/rayangf/Desktop/MordedurasPerro/Data/CSV/MesDeOcurrencia/Hombres")
+setwd("C:/Users/rgarciafa/Desktop/MordedurasPerro-master/Data/CSV/MesDeOcurrencia/Hombres")
 moh = list.files(pattern="*.csv") #Codigo para leer los csv MesDeOcurrencia caso hombres
 for (i in 1:length(moh)) assign(moh[i], read.csv(moh[i],colClasses = "character", 
                                                  na.strings = "#N/A"))
 
-setwd("/Users/rayangf/Desktop/MordedurasPerro/Data/CSV/MesDeOcurrencia/Mujeres")
+setwd("C:/Users/rgarciafa/Desktop/MordedurasPerro-master/Data/CSV/MesDeOcurrencia/Mujeres")
 mom = list.files(pattern="*.csv") #Codigo para leer los csv MesDeOcurrencia caso mujeres
 for (i in 1:length(mom)) assign(mom[i], read.csv(mom[i],colClasses = "character", 
                                                  na.strings = "#N/A"))

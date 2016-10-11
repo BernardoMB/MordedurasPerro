@@ -1,34 +1,33 @@
-Estado,Salud,IMSS-ORD,ISSSTE,IMSS-OP,"Fuente de notificaci¢n
-DIF                PEMEX",,SEDENA,SEMAR,Otras
-Aguascalientes,399,153,3,S/R,0,S/R,1,S/R,9
-Baja California,505,388,34,23,S/R,S/R,3,2,111
-Baja California Sur,236,34,36,S/R,S/R,S/R,18,0,S/R
-Campeche,228,36,15,58,0,1,0,4,35
-Coahuila,566,412,19,158,0,S/R,9,S/R,244
-Colima,164,77,8,S/R,0,S/R,0,3,12
-Chiapas,668,35,46,355,S/R,12,3,0,0
-Chihuahua,1 475,540,39,167,S/R,S/R,1,S/R,223
-Distrito Federal,5 657,291,409,1,5,78,49,4,83
-Durango,1 024,68,10,172,0,S/R,0,S/R,2
-Guanajuato,2 451,224,35,0,S/R,21,6,S/R,56
-Guerrero,1 567,361,109,0,S/R,S/R,5,19,S/R
-Hidalgo,1 469,62,12,188,23,19,0,S/R,8
-Jalisco,2 082,1 253,19,1,0,0,0,0,374
-M‚xico,6 443,368,108,0,52,S/R,29,S/R,212
-Michoac n,1 366,292,29,436,S/R,S/R,2,8,S/R
-Morelos,771,92,23,0,S/R,S/R,0,S/R,S/R
-Nayarit,358,126,21,180,12,S/R,0,0,7
-Nuevo Le¢n,1 340,401,16,0,S/R,12,2,S/R,515
-Oaxaca,971,53,60,995,1,29,1,16,21
-Puebla,2 873,364,47,347,0,13,4,S/R,174
-Quer‚taro,351,200,24,0,0,S/R,0,S/R,1
-Quintana Roo,508,220,44,S/R,S/R,S/R,5,4,S/R
-San Luis Potos¡,1 258,321,33,372,S/R,0,0,S/R,6
-Sinaloa,442,101,39,134,5,0,2,2,157
-Sonora,1 352,190,20,0,S/R,S/R,1,4,113
-Tabasco,479,7,9,S/R,S/R,47,0,1,32
-Tamaulipas,1 038,110,22,142,3,59,1,1,8
-Tlaxcala,513,51,9,0,0,S/R,0,S/R,0
-Veracruz,2 148,290,50,651,0,109,9,15,S/R
-Yucat n,679,124,15,358,2,S/R,4,1,2
-Zacatecas,382,54,11,178,0,S/R,1,S/R,0
+ESTADO,SALUD,IMSS-ORD,ISSSTE,IMSS-OP,DIF,PEMEX,SEDENA,SEMAR,OTRAS,TOTAL
+Aguascalientes,399,153,3,S/R,0,S/R,1,S/R,9,565
+Baja California,505,388,34,23,S/R,S/R,3,2,111,1066
+Baja California Sur,236,34,36,S/R,S/R,S/R,18,0,S/R,324
+Campeche,228,36,15,58,0,1,0,4,35,377
+Coahuila,566,412,19,158,0,S/R,9,S/R,244,1408
+Colima,164,77,8,S/R,0,S/R,0,3,12,264
+Chiapas,668,35,46,355,S/R,12,3,0,0,1119
+Chihuahua,1 475,540,39,167,S/R,S/R,1,S/R,223,970
+Distrito Federal,5 657,291,409,1,5,78,49,4,83,920
+Durango,1 024,68,10,172,0,S/R,0,S/R,2,252
+Guanajuato,2 451,224,35,0,S/R,21,6,S/R,56,342
+Guerrero,1 567,361,109,0,S/R,S/R,5,19,S/R,494
+Hidalgo,1 469,62,12,188,23,19,0,S/R,8,312
+Jalisco,2 082,1 253,19,1,0,0,0,0,374,394
+M‚xico,6 443,368,108,0,52,S/R,29,S/R,212,769
+Michoac n,1 366,292,29,436,S/R,S/R,2,8,S/R,767
+Morelos,771,92,23,0,S/R,S/R,0,S/R,S/R,886
+Nayarit,358,126,21,180,12,S/R,0,0,7,704
+Nuevo Le¢n,1 340,401,16,0,S/R,12,2,S/R,515,946
+Oaxaca,971,53,60,995,1,29,1,16,21,2147
+Puebla,2 873,364,47,347,0,13,4,S/R,174,949
+Quer‚taro,351,200,24,0,0,S/R,0,S/R,1,576
+Quintana Roo,508,220,44,S/R,S/R,S/R,5,4,S/R,781
+San Luis Potos¡,1 258,321,33,372,S/R,0,0,S/R,6,732
+Sinaloa,442,101,39,134,5,0,2,2,157,882
+Sonora,1 352,190,20,0,S/R,S/R,1,4,113,328
+Tabasco,479,7,9,S/R,S/R,47,0,1,32,575
+Tamaulipas,1 038,110,22,142,3,59,1,1,8,346
+Tlaxcala,513,51,9,0,0,S/R,0,S/R,0,573
+Veracruz,2 148,290,50,651,0,109,9,15,S/R,1124
+Yucat n,679,124,15,358,2,S/R,4,1,2,1185
+Zacatecas,382,54,11,178,0,S/R,1,S/R,0,626
