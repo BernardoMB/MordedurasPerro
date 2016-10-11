@@ -1,3 +1,4 @@
+install.packages("data.table")
 library(data.table)
 setwd("/Users/rayangf/Desktop/MordedurasPerro-m/Data/CSV/FuenteDeNotificacion/General")
 fng = list.files(pattern="*.csv") #Codigo para leer los csv FuenteDeNotificacion caso general
