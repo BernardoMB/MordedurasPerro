@@ -1,12 +1,12 @@
-setwd("/Users/rayangf/Desktop/MordedurasPerro/Data/CSV/GrupoDeEdad/General")
+setwd("C:/Users/rgarciafa/Desktop/MordedurasPerro-master/Data/CSV/GrupoDeEdad/General")
 geg = list.files(pattern="*.csv") #Codigo para leer los csv GrupoDeEdad caso general
 for (i in 1:length(geg)) assign(geg[i], read.csv(geg[i],colClasses = "character", 
                                                  na.strings = "#N/A"))
-setwd("/Users/rayangf/Desktop/MordedurasPerro/Data/CSV/GrupoDeEdad/Hombres")
+setwd("C:/Users/rgarciafa/Desktop/MordedurasPerro-master/Data/CSV/GrupoDeEdad/Hombres")
 geh = list.files(pattern="*.csv") #Codigo para leer los csv GrupoDeEdad caso hombres
 for (i in 1:length(geh)) assign(geh[i], read.csv(geh[i],colClasses = "character", 
                                                  na.strings = "#N/A"))
-setwd("/Users/rayangf/Desktop/MordedurasPerro/Data/CSV/GrupoDeEdad/Mujeres")
+setwd("C:/Users/rgarciafa/Desktop/MordedurasPerro-master/Data/CSV/GrupoDeEdad/Mujeres")
 gem = list.files(pattern="*.csv") #Codigo para leer los csv GrupoDeEdad caso mujeres
 for (i in 1:length(gem)) assign(gem[i], read.csv(gem[i],colClasses = "character", 
                                                  na.strings = "#N/A"))
