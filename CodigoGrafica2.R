@@ -39,21 +39,75 @@ fn2015g <- read.csv("fn2015g.csv",
                     na.strings = "#N/A")
 
 
-Mordeduras <- c(sum(as.numeric(fn2004g$TOTAL)), sum(as.numeric(fn2005g$TOTAL)), 
-       sum(as.numeric(fn2006g$TOTAL)), sum(as.numeric(fn2007g$TOTAL)), 
-       sum(as.numeric(fn2008g$TOTAL)), sum(as.numeric(fn2009g$TOTAL)),
-       sum(as.numeric(fn2010g$TOTAL)), sum(as.numeric(fn2011g$TOTAL)),
-       sum(as.numeric(fn2012g$TOTAL)), sum(as.numeric(fn2013g$TOTAL)),
-       sum(as.numeric(fn2014g$TOTAL)), sum(as.numeric(fn2015g$TOTAL)))
 
-year <- c(2004:2015)
+names(fn2004g) <- toupper(names(fn2004g))
+names(fn2005g) <- toupper(names(fn2005g))
+names(fn2006g) <- toupper(names(fn2006g))
+names(fn2007g) <- toupper(names(fn2007g))
+names(fn2008g) <- toupper(names(fn2008g))
+names(fn2009g) <- toupper(names(fn2009g))
+names(fn2010g) <- toupper(names(fn2010g))
+names(fn2011g) <- toupper(names(fn2011g))
+names(fn2012g) <- toupper(names(fn2012g))
+names(fn2013g) <- toupper(names(fn2013g))
+names(fn2014g) <- toupper(names(fn2014g))
+names(fn2015g) <- toupper(names(fn2015g))
 
-Tendencia <- data.frame(Mordeduras, year)
 
-Tendencia$year <- as.numeric(Tendencia$year)
 
-Tendencia$Mordeduras<- as.numeric(paste(Tendencia$Mordeduras))
 
-Tendencia
+
+
+
+
+
+fn2004g$TOTAL <- as.numeric(fn2004g$TOTAL)
+fn2005g$TOTAL <- as.numeric(fn2005g$TOTAL)
+fn2006g$TOTAL <- as.numeric(fn2006g$TOTAL)
+fn2007g$TOTAL <- as.numeric(fn2007g$TOTAL)
+fn2008g$TOTAL <- as.numeric(fn2008g$TOTAL)
+fn2009g$TOTAL <- as.numeric(fn2009g$TOTAL)
+fn2010g$TOTAL <- as.numeric(fn2010g$TOTAL)
+fn2011g$TOTAL <- as.numeric(fn2011g$TOTAL)
+fn2012g$TOTAL <- as.numeric(fn2012g$TOTAL)
+fn2013g$TOTAL <- as.numeric(fn2013g$TOTAL)
+fn2014g$TOTAL <- as.numeric(fn2014g$TOTAL)
+fn2015g$TOTAL <- as.numeric(fn2015g$TOTAL)
+
+
+sum(fn2004g$TOTAL)
+
+
+mordeduras <- c(sum(fn2004g$TOTAL), sum(fn2005g$TOTAL), sum(fn2006g$TOTAL), sum(fn2007g$TOTAL), sum(fn2008g$TOTAL), sum(fn2009g$TOTAL),  
+       sum(fn2010g$TOTAL), sum(fn2011g$TOTAL),
+       sum(fn2012g$TOTAL), sum(fn2013g$TOTAL), sum(fn2014g$TOTAL), sum(fn2015g$TOTAL)) 
+
+mordeudras
+
+year <- (2004:2015)
+
+
+
+
+tendencia <- data.frame(year, mordeduras)
+
+
+
+plot(year, mordeduras, type ="p", main = "Tendencia de mordeduras en todo Mexico", 
+     xlab = "Años", ylab = "Mordeduras", pch = 16, col = "blue" )                   #Codigo Para leer la segunda grafica con plot
+
+
+
+p <- ggplot(tendencia, aes(year, mordeduras), xlab = Años)
+p + geom_point()+ geom_smooth()                                                  #codigo para leer la grafica con ggplot
+
+
+
+
+
+
+
+
+
 
 
