@@ -1,3 +1,50 @@
+fn2004g <- read.csv("fn2004g.csv", 
+                    colClasses = "character", 
+                    na.strings = "#N/A")
+fn2005g <- read.csv("fn2005g.csv", 
+                    colClasses = "character", 
+                    na.strings = "#N/A")
+fn2006g <- read.csv("fn2006g.csv", 
+                    colClasses = "character", 
+                    na.strings = "#N/A")
+fn2007g <- read.csv("fn2007g.csv", 
+                    colClasses = "character", 
+                    na.strings = "#N/A")
+fn2008g <- read.csv("fn2008g.csv", 
+                    colClasses = "character", 
+                    na.strings = "#N/A")
+fn2009g <- read.csv("fn2009g.csv", 
+                    colClasses = "character", 
+                    na.strings = "#N/A")
+fn2010g <- read.csv("fn2010g.csv", 
+                    colClasses = "character", 
+                    na.strings = "#N/A")
+fn2010g <- read.csv("fn2010g.csv", 
+                    colClasses = "character", 
+                    na.strings = "#N/A")
+fn2011g <- read.csv("fn2011g.csv", 
+                    colClasses = "character", 
+                    na.strings = "#N/A")
+fn2012g <- read.csv("fn2012g.csv", 
+                    colClasses = "character", 
+                    na.strings = "#N/A")
+fn2013g <- read.csv("fn2013g.csv", 
+                    colClasses = "character", 
+                    na.strings = "#N/A")
+fn2014g <- read.csv("fn2014g.csv", 
+                    colClasses = "character", 
+                    na.strings = "#N/A")
+fn2015g <- read.csv("fn2015g.csv", 
+                    colClasses = "character", 
+                    na.strings = "#N/A")
+
+
+
+
+
+
+
+
 fn2004g <- within(fn2004g , 
                   {
                     #  Eliminar espacios en n??meros.
@@ -31,6 +78,7 @@ fn2004g <- within(fn2004g ,
                     ESTADO <- gsub("Yuca.*n.*", "Yucatan",ESTADO)
                   }
 )
+
 fn2005g  <- within(fn2005g , 
                    {
                      #  Eliminar espacios en n??meros.
@@ -62,11 +110,11 @@ fn2005g  <- within(fn2005g ,
                      ESTADO <- gsub("Quer.taro.*", "Queretaro", ESTADO)
                      ESTADO <- gsub("San Luis Pot.*.*", "San Luis Potosi", ESTADO)
                      ESTADO <- gsub("Yuca.*n.*", "Yucatan",ESTADO)
-                   }
+                   })
                    
-                   fn2006g  <- within(fn2006g , 
-                                      {
-                                        #  Eliminar espacios en n??meros.
+fn2006g  <- within(fn2006g , 
+        {
+                                       #  Eliminar espacios en n??meros.
                                         SALUD <- gsub("[ ]", "", SALUD)
                                         IMSS.ORD <- gsub("[ ]", "", IMSS.ORD)
                                         ISSSTE <- gsub("[ ]", "", ISSSTE)
@@ -638,34 +686,51 @@ fn2005g  <- within(fn2005g ,
          
                    
             
-
-
-
-for(i in 1:12) {
+bb <- c(fn2004g,fn2005g,fn2006g,fn2007g,fn2008g,fn2009g,fn2010g,fn2011g,
+                           fn2012g,fn2013g,fn2014g,fn2015g)
+                   
+for(i in bb) {
   
-t[i] = ggplot(bb[i], aes(x = ESTADO, y = TOTAL)) + 
+t[i] = ggplot([[i]], aes(x = ESTADO, y = TOTAL)) + 
     theme_bw() + geom_bar(stat = "identity")  #Grafica un histograma 
 
-grid.arrange(T[i], 
+grid.arrange(t[1], t[2]) 
       
 }
 
+qq1 <-  ggplot(fn2004g, aes(x = ESTADO, y = TOTAL)) + 
+                     theme_bw() + geom_bar(stat = "identity")+ ggtitle("2004") 
+qq2 <-  ggplot(fn2005g, aes(x = ESTADO, y = TOTAL)) + 
+  theme_bw() + geom_bar(stat = "identity") + ggtitle("2005")
+qq3 <-  ggplot(fn2006g, aes(x = ESTADO, y = TOTAL)) + 
+  theme_bw() + geom_bar(stat = "identity")  + ggtitle("2006")
+qq4 <-  ggplot(fn2007g, aes(x = ESTADO, y = TOTAL)) + 
+  theme_bw() + geom_bar(stat = "identity") + ggtitle("2007")
+qq5 <-  ggplot(fn2008g, aes(x = ESTADO, y = TOTAL)) + 
+  theme_bw() + geom_bar(stat = "identity") + ggtitle("2008")  
+qq6 <-  ggplot(fn2009g, aes(x = ESTADO, y = TOTAL)) + 
+  theme_bw() + geom_bar(stat = "identity") + ggtitle("2009")
+qq7 <-  ggplot(fn2010g, aes(x = ESTADO, y = TOTAL)) + 
+  theme_bw() + geom_bar(stat = "identity") + ggtitle("2010")  
+qq8 <-  ggplot(fn2011g, aes(x = ESTADO, y = TOTAL)) + 
+  theme_bw() + geom_bar(stat = "identity") + ggtitle("2011")
+qq9 <-  ggplot(fn2012g, aes(x = ESTADO, y = TOTAL)) + 
+  theme_bw() + geom_bar(stat = "identity") + ggtitle("2012")  
+qq10 <-  ggplot(fn2013g, aes(x = ESTADO, y = TOTAL)) + 
+  theme_bw() + geom_bar(stat = "identity") + ggtitle("2013")
+qq11 <-  ggplot(fn2014g, aes(x = ESTADO, y = TOTAL)) + 
+  theme_bw() + geom_bar(stat = "identity") + ggtitle("2014")
+qq12 <-  ggplot(fn2015g, aes(x = ESTADO, y = TOTAL)) + 
+  theme_bw() + geom_bar(stat = "identity") + ggtitle("2015")
 
 
 
-bb <- c(fn2004g,fn2005g,fn2006g,fn2007g,fn2008g,fn2009g,fn2010g,fn2011g,fn2012g,fn2013g,fn2014g,fn2015g)
+grid.arrange(qq1,qq2,qq3,qq4,qq5,qq6,qq7,qq8,qq9,qq10,qq11,qq12, nrow = 4, ncol = 3) 
 
-mm <- c(1:12)
+                   
 
-
-
-
-
-
-grid.arrange(p, pp, ncol=2)
-
-multiplot(p, pp, ncols=2)
-
+ggplot(fn2004g, aes(x = ESTADO, y = TOTAL)) + 
+  theme_bw() + geom_bar(stat = "identity") + ggtitle("2004")
 
 
 
