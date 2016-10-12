@@ -1,69 +1,122 @@
 install.packages("data.table")
 library(data.table)
-setwd("/Users/rayangf/Desktop/MordedurasPerro/Data/CSV/FuenteDeNotificacion/General")
-fng = list.files(pattern="*.csv") #Codigo para leer los csv FuenteDeNotificacion caso general
-for (i in 1:length(fng)) assign(fng[i], read.csv(fng[i],colClasses = "character", 
-                                                 na.strings = "#N/A"))
-fng <- lapply(fng, fread, sep=",")
 
-setwd("/Users/rayangf/Desktop/MordedurasPerro/Data/CSV/FuenteDeNotificacion/Hombres")
-fnh = list.files(pattern="*.csv") #Codigo para leer los csv FuenteDeNotificacion caso hombres
-for (i in 1:length(fnh)) assign(fnh[i], read.csv(fnh[i],colClasses = "character", 
-                                                 na.strings = "#N/A"))
-fnh <- lapply(fnh, fread, sep=",")
+# ---------------------------- 1.- Directorio de Trabajo --------------------------
+
+# Especificar el directorio de trabajo.
+# El directorio de trabajo debe ser la capeta del proyecto:
+workingDirectory <- "/Users/Bernardo/Documents/ITAM/Semestre 07/Estadistica Aplicada I/Proyecto/mordedurasperro"
+setwd(workingDirectory)
 
 
-setwd("/Users/rayangf/Desktop/MordedurasPerro/Data/CSV/FuenteDeNotificacion/Mujeres")
-fnm = list.files(pattern="*.csv") #Codigo para leer los csv FuenteDeNotificacion caso mujeres
-for (i in 1:length(fnm)) assign(fnm[i], read.csv(fnm[i],colClasses = "character", 
-                                                 na.strings = "#N/A"))
-fnm <- lapply(fnm, fread, sep=",")
+# ---------------------------- 2.- Lectura de Tablas ------------------------------
 
-setwd("/Users/rayangf/Desktop/MordedurasPerro/Data/CSV/GrupoDeEdad/General")
-geg = list.files(pattern="*.csv") #Codigo para leer los csv GrupoDeEdad caso general
-for (i in 1:length(geg)) assign(geg[i], read.csv(geg[i],colClasses = "character", 
-                                                 na.strings = "#N/A"))
-geg <- lapply(geg, fread, sep=",") 
-
-setwd("/Users/rayangf/Desktop/MordedurasPerro/Data/CSV/GrupoDeEdad/Hombres")
-geh = list.files(pattern="*.csv") #Codigo para leer los csv GrupoDeEdad caso hombres
-for (i in 1:length(geh)) assign(geh[i], read.csv(geh[i],colClasses = "character", 
-                                                 na.strings = "#N/A"))
-geh <- lapply(geh, fread, sep=",") 
-
-setwd("/Users/rayangf/Desktop/MordedurasPerro/Data/CSV/GrupoDeEdad/Mujeres")
-gem = list.files(pattern="*.csv") #Codigo para leer los csv GrupoDeEdad caso mujeres
-for (i in 1:length(gem)) assign(gem[i], read.csv(gem[i],colClasses = "character", 
-                                                 na.strings = "#N/A"))
-gem <- lapply(gem, fread, sep=",") 
-
-library(data.table)  
-setwd("/Users/rayangf/Desktop/MordedurasPerro/Data/CSV/MesDeOcurrencia/General")
-mog = list.files(pattern="*.csv") #Codigo para leer los csv MesDeOcurrencia caso general
-for (i in 1:length(mog)) assign(mog[i], read.csv(mog[i],colClasses = "character", 
-                                                 na.strings = "#N/A"))
-mog <- lapply(mog, fread, sep=",") 
-
-
-setwd("/Users/rayangf/Desktop/MordedurasPerro/Data/CSV/MesDeOcurrencia/Hombres")
-moh = list.files(pattern="*.csv") #Codigo para leer los csv MesDeOcurrencia caso hombres
-for (i in 1:length(moh)) assign(moh[i], read.csv(moh[i],colClasses = "character", 
-                                                 na.strings = "#N/A"))
-moh <- lapply(moh, fread, sep=",") 
-
-
-setwd("/Users/rayangf/Desktop/MordedurasPerro/Data/CSV/MesDeOcurrencia/Mujeres")
-mom = list.files(pattern="*.csv") #Codigo para leer los csv MesDeOcurrencia caso mujeres
-for (i in 1:length(mom)) assign(mom[i], read.csv(mom[i],colClasses = "character", 
-                                                 na.strings = "#N/A"))
-mom <- lapply(mom, fread, sep=",") 
-
+nombres <- c()
 for (i in 1:length(fng)) {
-  names(fng[[i]]) <- toupper(names(fng[[i]]))
+  nombres <- c(nombres, paste(2003 + i))
 }
 
-for (j in 1:length(fng)) {
-  fng[[j]] <- within( fng[[j]] , 
+# ------------------- 2.1.- Fuente de Notificacion --------------------
+
+# Fuente de Notificacion General
+spath <-paste(getwd(), "/Data/CSV/FuenteDeNotificacion/General/", sep="")
+setwd(spath)
+fng <- list.files()
+fng
+fng <- lapply(fng, fread, sep=",")
+names(fng) <- nombres
+setwd(workingDirectory)
+
+# Fuente de Notificacion Hombres
+spath <-paste(getwd(), "/Data/CSV/FuenteDeNotificacion/Hombres/", sep="")
+setwd(spath)
+fnh <- list.files()
+fnh <- lapply(fnh, fread, sep=",")
+names(fnh) <- nombres
+setwd(workingDirectory)
+
+# Fuente de Notificacion Mujeres
+spath <-paste(getwd(), "/Data/CSV/FuenteDeNotificacion/Mujeres/", sep="")
+setwd(spath)
+fnm <- list.files()
+fnm <- lapply(fnm, fread, sep=",")
+names(fnm) <- nombres
+setwd(workingDirectory)
+
+# ------------------- 2.2.- Grupo de Edad --------------------
+
+# Grupo de Edad General
+spath <-paste(getwd(), "/Data/CSV/GrupoDeEdad/General/", sep="")
+setwd(spath)
+geg <- list.files()
+geg <- lapply(geg, fread, sep=",")
+names(geg) <- nombres
+setwd(workingDirectory)
+
+# Grupo de Edad Hombres
+spath <-paste(getwd(), "/Data/CSV/GrupoDeEdad/Hombres/", sep="")
+setwd(spath)
+geh <- list.files()
+geh <- lapply(geh, fread, sep=",")
+names(geh) <- nombres
+setwd(workingDirectory)
+
+# Grupo de Edad Mujeres
+spath <-paste(getwd(), "/Data/CSV/GrupoDeEdad/Mujeres/", sep="")
+setwd(spath)
+gem <- list.files()
+gem <- lapply(gem, fread, sep=",")
+names(gem) <- nombres
+setwd(workingDirectory)
+
+# ------------------- 2.3.- Mes de Ocurrencia --------------------
+
+# Mes de Ocurrencia General
+spath <-paste(getwd(), "/Data/CSV/MesDeOcurrencia/General/", sep="")
+setwd(spath)
+mog <- list.files()
+mog <- lapply(mog, fread, sep=",")
+names(mog) <- nombres
+setwd(workingDirectory)
+
+# Mes de Ocurrencia Hombres
+spath <-paste(getwd(), "/Data/CSV/MesDeOcurrencia/Hombres/", sep="")
+setwd(spath)
+moh <- list.files()
+moh <- lapply(moh, fread, sep=",")
+names(moh) <- nombres
+setwd(workingDirectory)
+
+# Mes de Ocurrencia Mujeres
+spath <-paste(getwd(), "/Data/CSV/MesDeOcurrencia/Mujeres/", sep="")
+setwd(spath)
+mom <- list.files()
+mom <- lapply(mom, fread, sep=",")
+names(mom) <- nombres
+setwd(workingDirectory)
+
+FuenteDeNotificacion = list(fng, fnh, fnm)
+names(FuenteDeNotificacion) <- c("General", "Hombres", "Mujeres")
+
+GrupoDeEdad = list(geg, geh, gem)
+names(GrupoDeEdad) <- c("General", "Hombres", "Mujeres")
+
+MesDeOcurrencia = list(mog, moh, mom)
+names(MesDeOcurrencia) <- c("General", "Hombres", "Mujeres")
+
+mpData = list(FuenteDeNotificacion, GrupoDeEdad, MesDeOcurrencia)
+names(mpData) <- c("FuenteDeNotificacion", "GrupoDeEdad", "MesDeOcurrencia")
+
+mpData$GrupoDeEdad$Hombres$`2005`
+
+# ---------------------------- 3.- Limpieza de Codigo -----------------------------
+
+for (i in 1:length(fngeneral)) {
+  names(fngeneral[[i]]) <- toupper(names(fngeneral[[i]]))
+}
+
+for (j in 1:length(fngeneral)) {
+  fngeneral[[j]] <- within( fngeneral[[j]] , 
                             {
                               SALUD <- gsub("[ ]", "", SALUD)
                               IMSS.ORD <- gsub("[ ]", "", IMSS.ORD)
@@ -101,12 +154,12 @@ for (j in 1:length(fng)) {
   )
 }
 
-for (i in 1:length(fnh)) {
-  names(fnh[[i]]) <- toupper(names(fnh[[i]]))
+for (i in 1:length(fnhombres)) {
+  names(fnhombres[[i]]) <- toupper(names(fnhombres[[i]]))
 }
 
-for (j in 1:length(fnh)) {
-  fnh[[j]] <- within( fnh[[j]] , 
+for (j in 1:length(fnhombres)) {
+  fnhombres[[j]] <- within( fnhombres[[j]] , 
                             {
                               SALUD <- gsub("[ ]", "", SALUD)
                               IMSS.ORD <- gsub("[ ]", "", IMSS.ORD)
@@ -144,12 +197,12 @@ for (j in 1:length(fnh)) {
   )
 }
 
-for (i in 1:length(fnm)) {
-  names(fnm[[i]]) <- toupper(names(fnm[[i]]))
+for (i in 1:length(fnmujeres)) {
+  names(fnmujeres[[i]]) <- toupper(names(fnmujeres[[i]]))
 }
 
-for (j in 1:length(fnm)) {
-  fnm[[j]] <- within( fnm[[j]] , 
+for (j in 1:length(fnmujeres)) {
+  fnmujeres[[j]] <- within( fnmujeres[[j]] , 
                             {
                               SALUD <- gsub("[ ]", "", SALUD)
                               IMSS.ORD <- gsub("[ ]", "", IMSS.ORD)
@@ -187,12 +240,12 @@ for (j in 1:length(fnm)) {
   )
 }
 
-for (i in 1:length(geg)) {
-  names(geg[[i]]) <- toupper(names(geg[[i]]))
+for (i in 1:length(gegeneral)) {
+  names(gegeneral[[i]]) <- toupper(names(gegeneral[[i]]))
 }
 
-for (j in 1:length(geg)) {
-  geg[[j]] <- within( geg[[j]] , 
+for (j in 1:length(gegeneral)) {
+  gegeneral[[j]] <- within( gegeneral[[j]] , 
                             {
                               MAYOR.A.UNO <- gsub("[ ]", "", MAYOR.A.UNO)
                               UNO.A.CUATRO <- gsub("[ ]", "", UNO.A.CUATRO)
@@ -223,12 +276,12 @@ for (j in 1:length(geg)) {
   )
 }
 
-for (i in 1:length(geh)) {
-  names(geh[[i]]) <- toupper(names(geh[[i]]))
+for (i in 1:length(gehombres)) {
+  names(gehombres[[i]]) <- toupper(names(gehombres[[i]]))
 }
 
-for (j in 1:length(geh)) {
-  geh[[j]] <- within( geh[[j]] , 
+for (j in 1:length(gehombres)) {
+  gehombres[[j]] <- within( gehombres[[j]] , 
                             {
                               MAYOR.A.UNO <- gsub("[ ]", "", MAYOR.A.UNO)
                               UNO.A.CUATRO <- gsub("[ ]", "", UNO.A.CUATRO)
@@ -261,12 +314,12 @@ for (j in 1:length(geh)) {
 
 
 
-for (i in 1:length(gem)) {
-  names(gem[[i]]) <- toupper(names(gem[[i]]))
+for (i in 1:length(gemujeres)) {
+  names(gemujeres[[i]]) <- toupper(names(gemujeres[[i]]))
 }
 
-for (j in 1:length(gem)) {
-  gem[[j]] <- within( gem[[j]] , 
+for (j in 1:length(gemujeres)) {
+  gemujeres[[j]] <- within( gemujeres[[j]] , 
                             {
                               MAYOR.A.UNO <- gsub("[ ]", "", MAYOR.A.UNO)
                               UNO.A.CUATRO <- gsub("[ ]", "", UNO.A.CUATRO)
@@ -297,12 +350,12 @@ for (j in 1:length(gem)) {
   )
 }
 
-for (i in 1:length(mog)) {
-  names(mog[[i]]) <- toupper(names(mog[[i]]))
+for (i in 1:length(mogeneral)) {
+  names(mogeneral[[i]]) <- toupper(names(mogeneral[[i]]))
 }
 
-for (j in 1:length(mog)) {
-  mog[[j]] <- within( mog[[j]] , 
+for (j in 1:length(mogeneral)) {
+  mogeneral[[j]] <- within( mogeneral[[j]] , 
                             {
                               ESTADO <- gsub("M.*co.*", "Mexico", ESTADO)
                               ESTADO <- gsub("Agua.*es.*", "Aguascalientes", ESTADO)
@@ -320,12 +373,12 @@ for (j in 1:length(mog)) {
   )
 }
 
-for (i in 1:length(moh)) {
-  names(moh[[i]]) <- toupper(names(moh[[i]]))
+for (i in 1:length(mohombres)) {
+  names(mohombres[[i]]) <- toupper(names(mohombres[[i]]))
 }
 
-for (j in 1:length(moh)) {
-  moh[[j]] <- within( moh[[j]] , 
+for (j in 1:length(mohombres)) {
+  mohombres[[j]] <- within( mohombres[[j]] , 
                             {
                               ESTADO <- gsub("M.*co.*", "Mexico", ESTADO)
                               ESTADO <- gsub("Agua.*es.*", "Aguascalientes", ESTADO)
@@ -343,12 +396,12 @@ for (j in 1:length(moh)) {
   )
 }
 
-for (i in 1:length(mom)) {
-  names(mom[[i]]) <- toupper(names(mom[[i]]))
+for (i in 1:length(momujeres)) {
+  names(momujeres[[i]]) <- toupper(names(momujeres[[i]]))
 }
 
-for (j in 1:length(mom)) {
-  mom[[j]] <- within( mom[[j]] , 
+for (j in 1:length(momujeres)) {
+  momujeres[[j]] <- within( momujeres[[j]] , 
                             {
                               ESTADO <- gsub("M.*co.*", "Mexico", ESTADO)
                               ESTADO <- gsub("Agua.*es.*", "Aguascalientes", ESTADO)
