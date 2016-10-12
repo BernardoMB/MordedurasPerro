@@ -147,5 +147,3 @@ for (j in 1:length(fnmujeres)) {
   )
 }
 
-7
-8
