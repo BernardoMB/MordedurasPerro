@@ -5,14 +5,14 @@ library(data.table)
 
 # Especificar el directorio de trabajo.
 # El directorio de trabajo debe ser la capeta del proyecto:
-workingDirectory <- "/Users/Bernardo/Documents/ITAM/Semestre 07/Estadistica Aplicada I/Proyecto/mordedurasperro"
+workingDirectory <- "/Users/rayangf/Desktop/MordedurasPerro"
 setwd(workingDirectory)
 
 
 # ---------------------------- 2.- Lectura de Tablas ------------------------------
 
 nombres <- c()
-for (i in 1:length(fng)) {
+for (i in 1:12) {
   nombres <- c(nombres, paste(2003 + i))
 }
 
@@ -107,16 +107,16 @@ names(MesDeOcurrencia) <- c("General", "Hombres", "Mujeres")
 mpData = list(FuenteDeNotificacion, GrupoDeEdad, MesDeOcurrencia)
 names(mpData) <- c("FuenteDeNotificacion", "GrupoDeEdad", "MesDeOcurrencia")
 
-mpData$GrupoDeEdad$Hombres$`2005`
+mpData$GrupoDeEdad$Hombres$`2005` 
 
 # ---------------------------- 3.- Limpieza de Codigo -----------------------------
 
-for (i in 1:length(fngeneral)) {
-  names(fngeneral[[i]]) <- toupper(names(fngeneral[[i]]))
+for (i in 1:length(fng)) {
+  names(fng[[i]]) <- toupper(names(fng[[i]]))
 }
 
-for (j in 1:length(fngeneral)) {
-  fngeneral[[j]] <- within( fngeneral[[j]] , 
+for (j in 1:length(fng)) {
+  fng[[j]] <- within( fng[[j]] , 
                             {
                               SALUD <- gsub("[ ]", "", SALUD)
                               IMSS.ORD <- gsub("[ ]", "", IMSS.ORD)
@@ -154,12 +154,12 @@ for (j in 1:length(fngeneral)) {
   )
 }
 
-for (i in 1:length(fnhombres)) {
-  names(fnhombres[[i]]) <- toupper(names(fnhombres[[i]]))
+for (i in 1:length(fnh)) {
+  names(fnh[[i]]) <- toupper(names(fnh[[i]]))
 }
 
-for (j in 1:length(fnhombres)) {
-  fnhombres[[j]] <- within( fnhombres[[j]] , 
+for (j in 1:length(fnh)) {
+  fnh[[j]] <- within( fnh[[j]] , 
                             {
                               SALUD <- gsub("[ ]", "", SALUD)
                               IMSS.ORD <- gsub("[ ]", "", IMSS.ORD)
@@ -197,12 +197,12 @@ for (j in 1:length(fnhombres)) {
   )
 }
 
-for (i in 1:length(fnmujeres)) {
-  names(fnmujeres[[i]]) <- toupper(names(fnmujeres[[i]]))
+for (i in 1:length(fnm)) {
+  names(fnm[[i]]) <- toupper(names(fnm[[i]]))
 }
 
-for (j in 1:length(fnmujeres)) {
-  fnmujeres[[j]] <- within( fnmujeres[[j]] , 
+for (j in 1:length(fnm)) {
+  fnm[[j]] <- within( fnm[[j]] , 
                             {
                               SALUD <- gsub("[ ]", "", SALUD)
                               IMSS.ORD <- gsub("[ ]", "", IMSS.ORD)
@@ -240,12 +240,12 @@ for (j in 1:length(fnmujeres)) {
   )
 }
 
-for (i in 1:length(gegeneral)) {
-  names(gegeneral[[i]]) <- toupper(names(gegeneral[[i]]))
+for (i in 1:length(geg)) {
+  names(geg[[i]]) <- toupper(names(geg[[i]]))
 }
 
-for (j in 1:length(gegeneral)) {
-  gegeneral[[j]] <- within( gegeneral[[j]] , 
+for (j in 1:length(geg)) {
+  geg[[j]] <- within( geg[[j]] , 
                             {
                               MAYOR.A.UNO <- gsub("[ ]", "", MAYOR.A.UNO)
                               UNO.A.CUATRO <- gsub("[ ]", "", UNO.A.CUATRO)
@@ -276,12 +276,12 @@ for (j in 1:length(gegeneral)) {
   )
 }
 
-for (i in 1:length(gehombres)) {
-  names(gehombres[[i]]) <- toupper(names(gehombres[[i]]))
+for (i in 1:length(geh)) {
+  names(geh[[i]]) <- toupper(names(geh[[i]]))
 }
 
-for (j in 1:length(gehombres)) {
-  gehombres[[j]] <- within( gehombres[[j]] , 
+for (j in 1:length(geh)) {
+  geh[[j]] <- within( geh[[j]] , 
                             {
                               MAYOR.A.UNO <- gsub("[ ]", "", MAYOR.A.UNO)
                               UNO.A.CUATRO <- gsub("[ ]", "", UNO.A.CUATRO)
@@ -314,12 +314,12 @@ for (j in 1:length(gehombres)) {
 
 
 
-for (i in 1:length(gemujeres)) {
-  names(gemujeres[[i]]) <- toupper(names(gemujeres[[i]]))
+for (i in 1:length(gem)) {
+  names(gem[[i]]) <- toupper(names(gem[[i]]))
 }
 
-for (j in 1:length(gemujeres)) {
-  gemujeres[[j]] <- within( gemujeres[[j]] , 
+for (j in 1:length(gem)) {
+  gem[[j]] <- within( gem[[j]] , 
                             {
                               MAYOR.A.UNO <- gsub("[ ]", "", MAYOR.A.UNO)
                               UNO.A.CUATRO <- gsub("[ ]", "", UNO.A.CUATRO)
@@ -350,12 +350,12 @@ for (j in 1:length(gemujeres)) {
   )
 }
 
-for (i in 1:length(mogeneral)) {
-  names(mogeneral[[i]]) <- toupper(names(mogeneral[[i]]))
+for (i in 1:length(mog)) {
+  names(mog[[i]]) <- toupper(names(mog[[i]]))
 }
 
-for (j in 1:length(mogeneral)) {
-  mogeneral[[j]] <- within( mogeneral[[j]] , 
+for (j in 1:length(mog)) {
+  mog[[j]] <- within( mog[[j]] , 
                             {
                               ESTADO <- gsub("M.*co.*", "Mexico", ESTADO)
                               ESTADO <- gsub("Agua.*es.*", "Aguascalientes", ESTADO)
@@ -373,12 +373,12 @@ for (j in 1:length(mogeneral)) {
   )
 }
 
-for (i in 1:length(mohombres)) {
-  names(mohombres[[i]]) <- toupper(names(mohombres[[i]]))
+for (i in 1:length(moh)) {
+  names(moh[[i]]) <- toupper(names(moh[[i]]))
 }
 
-for (j in 1:length(mohombres)) {
-  mohombres[[j]] <- within( mohombres[[j]] , 
+for (j in 1:length(moh)) {
+  moh[[j]] <- within( moh[[j]] , 
                             {
                               ESTADO <- gsub("M.*co.*", "Mexico", ESTADO)
                               ESTADO <- gsub("Agua.*es.*", "Aguascalientes", ESTADO)
@@ -396,12 +396,12 @@ for (j in 1:length(mohombres)) {
   )
 }
 
-for (i in 1:length(momujeres)) {
-  names(momujeres[[i]]) <- toupper(names(momujeres[[i]]))
+for (i in 1:length(mom)) {
+  names(mom[[i]]) <- toupper(names(mom[[i]]))
 }
 
-for (j in 1:length(momujeres)) {
-  momujeres[[j]] <- within( momujeres[[j]] , 
+for (j in 1:length(mom)) {
+  mom[[j]] <- within( mom[[j]] , 
                             {
                               ESTADO <- gsub("M.*co.*", "Mexico", ESTADO)
                               ESTADO <- gsub("Agua.*es.*", "Aguascalientes", ESTADO)
