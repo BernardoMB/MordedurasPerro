@@ -1,7 +1,9 @@
 install.packages("data.table")
 install.packages("dplyr")
+install.packages("tidyr")
 library(data.table)
 library(dplyr)
+library(tidyr)
 
 # ---------------------------- 1.- Directorio de Trabajo --------------------------
 
@@ -112,106 +114,7 @@ names(mpData) <- c("FuenteDeNotificacion", "GrupoDeEdad", "MesDeOcurrencia")
 
 # ---------------------------- 3.- Limpieza de Codigo -----------------------------
 
-# ---------------- 3.1.- Nombres ----------------------- 
-
-# Corrige el nombre de los estados y de los encabezados.
-for (i in 1:length(mpData)) {
-  cat <- mpData[[i]]
-  for (j in 1:length(cat)) {
-    type <- cat[[j]]
-    for (l in 1:length(type)) {
-      names(type[[l]]) <- toupper(names(type[[l]]))
-    }
-    for (m in 1:length(type)) {
-      if (i == 1) {
-        type[[m]] <- within(type[[m]], 
-                            {
-                              SALUD <- gsub("[ ]", "", SALUD)
-                              IMSS.ORD <- gsub("[ ]", "", IMSS.ORD)
-                              ISSSTE <- gsub("[ ]", "", ISSSTE)
-                              IMSS.OP <- gsub("[ ]", "",IMSS.OP)
-                              DIF <- gsub("[ ]", "", DIF)
-                              PEMEX <- gsub("[ ]", "", PEMEX)
-                              SEDENA <- gsub("[ ]", "", SEDENA)
-                              SEMAR <- gsub("[ ]", "", SEMAR)
-                              OTRAS <- gsub("[ ]", "", OTRAS)
-                              TOTAL <- gsub("[ ]", "", TOTAL)
-                              IMSS.ORD <- gsub("N.A.*|S.R*|NA.", "NA", IMSS.ORD)
-                              SALUD <- gsub("N.A.*|S.R*|NA.", "NA", SALUD)
-                              ISSSTE <- gsub("N.A.*|S.R*|NA.", "NA", ISSSTE)
-                              IMSS.OP <- gsub("N.A.*|S.R*|NA.", "NA",IMSS.OP)
-                              DIF <- gsub("N.A.*|S.R*|NA.", "NA", DIF)
-                              PEMEX <- gsub("N.A.*|S.R*|NA.", "NA", PEMEX)
-                              SEDENA <- gsub("N.A.*|S.R*|NA.", "NA", SEDENA)
-                              SEMAR <- gsub("N.A.*|S.R*|NA.", "NA", SEMAR)
-                              OTRAS <- gsub("N.A.*|S.R*|NA.", "NA", OTRAS)
-                              TOTAL <- gsub("N.A.*|S.R*|NA.", "NA", TOTAL)
-                              ESTADO <- gsub("M.*co.*", "Mexico", ESTADO)
-                              ESTADO <- gsub("Agua.*es.*", "Aguascalientes", ESTADO)
-                              ESTADO <- gsub("Dist.*al.*", "Distrito Federal", ESTADO)
-                              ESTADO <- gsub("Guan.*o.*", "Guanajuato", ESTADO)
-                              ESTADO <- gsub("M.*n.*", "Michoacan", ESTADO)
-                              ESTADO <- gsub("M.*los.*", "Morelos", ESTADO)
-                              ESTADO <- gsub("Nuevo Le.*n.*", "Nuevo Leon", ESTADO)
-                              ESTADO <- gsub("Quer.*ro.*", "Queretaro", ESTADO)
-                              ESTADO <- gsub("Zac.*cas.*", "Zacatecas", ESTADO)
-                              ESTADO <- gsub("Quint.*oo.*", "Quintana Roo", ESTADO)
-                              ESTADO <- gsub("San Luis Pot.*.*", "San Luis Potosi", ESTADO)
-                              ESTADO <- gsub("Yuca.*n.*", "Yucatan",ESTADO)
-                            })
-      } else if (i == 2) {
-        type[[m]] <- within(type[[m]] , 
-                            {
-                              MAYOR.A.UNO <- gsub("[ ]", "", MAYOR.A.UNO)
-                              UNO.A.CUATRO <- gsub("[ ]", "", UNO.A.CUATRO)
-                              CINCO.A.NUEVE <- gsub("[ ]", "", CINCO.A.NUEVE)
-                              DIEZ.A.CATORCE <- gsub("[ ]", "",DIEZ.A.CATORCE)
-                              QUINCE.A.DIECINUEVE <- gsub("[ ]", "", QUINCE.A.DIECINUEVE)
-                              VEINTE.A.VEINTICUATRO <- gsub("[ ]", "", VEINTE.A.VEINTICUATRO )
-                              VEINTICINCO.A.CUARENTAYCUATRO <- gsub("[ ]", "", VEINTICINCO.A.CUARENTAYCUATRO)
-                              CUARENTAYCINCO.A.CUARENTAYNUEVE <- gsub("[ ]", "", CUARENTAYCINCO.A.CUARENTAYNUEVE)
-                              CINCUENTA.A.CINCUENTAYNUEVE <- gsub("[ ]", "", CINCUENTA.A.CINCUENTAYNUEVE)
-                              SESENTA.A.SESENTAYCUATRO <- gsub("[ ]", "", SESENTA.A.SESENTAYCUATRO)
-                              MAYOR.A.SESENTAYCINCO <- gsub("[ ]", "", MAYOR.A.SESENTAYCINCO)
-                              NO.SE.REPORTO.LA.EDAD <- gsub("[ ]", "", NO.SE.REPORTO.LA.EDAD)
-                              TOTAL <- gsub("[ ]", "", TOTAL)
-                              ESTADO <- gsub("M.*co.*", "Mexico", ESTADO)
-                              ESTADO <- gsub("Agua.*es.*", "Aguascalientes", ESTADO)
-                              ESTADO <- gsub("Dist.*al.*", "Distrito Federal", ESTADO)
-                              ESTADO <- gsub("Guan.*o.*", "Guanajuato", ESTADO)
-                              ESTADO <- gsub("M.*n.*", "Michoacan", ESTADO)
-                              ESTADO <- gsub("M.*los.*", "Morelos", ESTADO)
-                              ESTADO <- gsub("Nuevo Le.*n.*", "Nuevo Leon", ESTADO)
-                              ESTADO <- gsub("Quer.*ro.*", "Queretaro", ESTADO)
-                              ESTADO <- gsub("Zac.*cas.*", "Zacatecas", ESTADO)
-                              ESTADO <- gsub("Quint.*oo.*", "Quintana Roo", ESTADO)
-                              ESTADO <- gsub("San Luis Pot.*.*", "San Luis Potosi", ESTADO)
-                              ESTADO <- gsub("Yuca.*n.*", "Yucatan",ESTADO)
-                            })
-      } else if (i == 3) {
-        type[[m]] <- within(type[[m]] , 
-                             {
-                               ESTADO <- gsub("M.*co.*", "Mexico", ESTADO)
-                               ESTADO <- gsub("Agua.*es.*", "Aguascalientes", ESTADO)
-                               ESTADO <- gsub("Dist.*al.*", "Distrito Federal", ESTADO)
-                               ESTADO <- gsub("Guan.*o.*", "Guanajuato", ESTADO)
-                               ESTADO <- gsub("M.*n.*", "Michoacan", ESTADO)
-                               ESTADO <- gsub("M.*los.*", "Morelos", ESTADO)
-                               ESTADO <- gsub("Nuevo Le.*n.*", "Nuevo Leon", ESTADO)
-                               ESTADO <- gsub("Quer.*ro.*", "Queretaro", ESTADO)
-                               ESTADO <- gsub("Zac.*cas.*", "Zacatecas", ESTADO)
-                               ESTADO <- gsub("Quint.*oo.*", "Quintana Roo", ESTADO)
-                               ESTADO <- gsub("San Luis Pot.*.*", "San Luis Potosi", ESTADO)
-                               ESTADO <- gsub("Yuca.*n.*", "Yucatan",ESTADO)
-                             }) 
-      } 
-    }
-    cat[[j]] <- type
-  }
-  mpData[[i]] <- cat 
-}
-
-# ---------------- 3.2.- Eliminacion de columnas ---------
+# ---------------- 3.1.- Eliminacion de columnas ---------
 
 # Elimina la columna TOTAL de los data.frames de Fuente de Notificacion.
 for (i in 1:length(mpData$FuenteDeNotificacion)) {
@@ -227,10 +130,247 @@ for (i in 1:length(mpData$GrupoDeEdad)) {
   }
 } 
 
-# --------------------------------------------------------
+# ---------------- 3.2.- Nombres, Agrega columnas, Pasa a formato organizado, Mordeduras to numeric--- 
+
+# Corrige el nombre de los estados y de los encabezados.
+for (i in 1:length(mpData)) {
+  cat <- mpData[[i]]
+  for (j in 1:length(cat)) {
+    type <- cat[[j]]
+    for (l in 1:length(type)) {
+      names(type[[l]]) <- toupper(names(type[[l]]))
+    }
+    for (m in 1:length(type)) {
+      if (i == 1) {
+        # Fuente de Notificacion
+        type[[m]] <- within(type[[m]], 
+                            {
+                              SALUD <- gsub("[ ]", "", SALUD)
+                              IMSS.ORD <- gsub("[ ]", "", IMSS.ORD)
+                              ISSSTE <- gsub("[ ]", "", ISSSTE)
+                              IMSS.OP <- gsub("[ ]", "",IMSS.OP)
+                              DIF <- gsub("[ ]", "", DIF)
+                              PEMEX <- gsub("[ ]", "", PEMEX)
+                              SEDENA <- gsub("[ ]", "", SEDENA)
+                              SEMAR <- gsub("[ ]", "", SEMAR)
+                              OTRAS <- gsub("[ ]", "", OTRAS)
+                              IMSS.ORD <- gsub("N.A.*|S.R*|NA.", "NA", IMSS.ORD)
+                              SALUD <- gsub("N.A.*|S.R*|NA.", "NA", SALUD)
+                              ISSSTE <- gsub("N.A.*|S.R*|NA.", "NA", ISSSTE)
+                              IMSS.OP <- gsub("N.A.*|S.R*|NA.", "NA",IMSS.OP)
+                              DIF <- gsub("N.A.*|S.R*|NA.", "NA", DIF)
+                              PEMEX <- gsub("N.A.*|S.R*|NA.", "NA", PEMEX)
+                              SEDENA <- gsub("N.A.*|S.R*|NA.", "NA", SEDENA)
+                              SEMAR <- gsub("N.A.*|S.R*|NA.", "NA", SEMAR)
+                              OTRAS <- gsub("N.A.*|S.R*|NA.", "NA", OTRAS)
+                              ESTADO <- gsub("M.*co.*", "Mexico", ESTADO)
+                              ESTADO <- gsub("Agua.*es.*", "Aguascalientes", ESTADO)
+                              ESTADO <- gsub("Dist.*al.*", "Distrito Federal", ESTADO)
+                              ESTADO <- gsub("Guan.*o.*", "Guanajuato", ESTADO)
+                              ESTADO <- gsub("M.*n.*", "Michoacan", ESTADO)
+                              ESTADO <- gsub("M.*los.*", "Morelos", ESTADO)
+                              ESTADO <- gsub("Nuevo Le.*n.*", "Nuevo Leon", ESTADO)
+                              ESTADO <- gsub("Quer.*ro.*", "Queretaro", ESTADO)
+                              ESTADO <- gsub("Zac.*cas.*", "Zacatecas", ESTADO)
+                              ESTADO <- gsub("Quint.*oo.*", "Quintana Roo", ESTADO)
+                              ESTADO <- gsub("San Luis Pot.*.*", "San Luis Potosi", ESTADO)
+                              ESTADO <- gsub("Yuca.*n.*", "Yucatan",ESTADO)
+                            })
+        # Agregando la columna sexo para pasar a formato organizado.
+        if (j == 1) {
+          SEXO <- c()
+          for (n in 1:32) {
+            SEXO <- c(SEXO, "GENERAL")
+          }
+          type[[m]][["SEXO"]] <- SEXO
+        } else if (j == 2) {
+          SEXO <- c()
+          for (n in 1:32) {
+            SEXO <- c(SEXO, "HOMBRES")
+          }
+          type[[m]][["SEXO"]] <- SEXO
+        } else if (j == 3) {
+          SEXO <- c()
+          for (n in 1:32) {
+            SEXO <- c(SEXO, "MUJERES")
+          }
+          type[[m]][["SEXO"]] <- SEXO
+        }
+        # Agregando la columna de a??o para pasar a formato organizado.
+        ANIO <- c()
+        for (p in 1:32) {
+          ANIO <- c(ANIO, 2003 + m)
+        }
+        type[[m]][["ANIO"]] <- ANIO
+        # Pasar a formato organizado.
+        type[[m]] <- gather(data = type[[m]], 
+                         key = "FUENTE", 
+                         value = "MORDEDURAS", 
+                         2:10)
+      } 
+      else if (i == 2) {
+        # Grupo de Edad
+        type[[m]] <- within(type[[m]] , 
+                            {
+                              MAYOR.A.UNO <- gsub("[ ]", "", MAYOR.A.UNO)
+                              UNO.A.CUATRO <- gsub("[ ]", "", UNO.A.CUATRO)
+                              CINCO.A.NUEVE <- gsub("[ ]", "", CINCO.A.NUEVE)
+                              DIEZ.A.CATORCE <- gsub("[ ]", "",DIEZ.A.CATORCE)
+                              QUINCE.A.DIECINUEVE <- gsub("[ ]", "", QUINCE.A.DIECINUEVE)
+                              VEINTE.A.VEINTICUATRO <- gsub("[ ]", "", VEINTE.A.VEINTICUATRO )
+                              VEINTICINCO.A.CUARENTAYCUATRO <- gsub("[ ]", "", VEINTICINCO.A.CUARENTAYCUATRO)
+                              CUARENTAYCINCO.A.CUARENTAYNUEVE <- gsub("[ ]", "", CUARENTAYCINCO.A.CUARENTAYNUEVE)
+                              CINCUENTA.A.CINCUENTAYNUEVE <- gsub("[ ]", "", CINCUENTA.A.CINCUENTAYNUEVE)
+                              SESENTA.A.SESENTAYCUATRO <- gsub("[ ]", "", SESENTA.A.SESENTAYCUATRO)
+                              MAYOR.A.SESENTAYCINCO <- gsub("[ ]", "", MAYOR.A.SESENTAYCINCO)
+                              NO.SE.REPORTO.LA.EDAD <- gsub("[ ]", "", NO.SE.REPORTO.LA.EDAD)
+                              ESTADO <- gsub("M.*co.*", "Mexico", ESTADO)
+                              ESTADO <- gsub("Agua.*es.*", "Aguascalientes", ESTADO)
+                              ESTADO <- gsub("Dist.*al.*", "Distrito Federal", ESTADO)
+                              ESTADO <- gsub("Guan.*o.*", "Guanajuato", ESTADO)
+                              ESTADO <- gsub("M.*n.*", "Michoacan", ESTADO)
+                              ESTADO <- gsub("M.*los.*", "Morelos", ESTADO)
+                              ESTADO <- gsub("Nuevo Le.*n.*", "Nuevo Leon", ESTADO)
+                              ESTADO <- gsub("Quer.*ro.*", "Queretaro", ESTADO)
+                              ESTADO <- gsub("Zac.*cas.*", "Zacatecas", ESTADO)
+                              ESTADO <- gsub("Quint.*oo.*", "Quintana Roo", ESTADO)
+                              ESTADO <- gsub("San Luis Pot.*.*", "San Luis Potosi", ESTADO)
+                              ESTADO <- gsub("Yuca.*n.*", "Yucatan",ESTADO)
+                            })
+        # Agregando la columna sexo para pasar a formato organizado.
+        if (j == 1) {
+          SEXO <- c()
+          for (n in 1:32) {
+            SEXO <- c(SEXO, "GENERAL")
+          }
+          type[[m]][["SEXO"]] <- SEXO
+        } else if (j == 2) {
+          SEXO <- c()
+          for (n in 1:32) {
+            SEXO <- c(SEXO, "HOMBRES")
+          }
+          type[[m]][["SEXO"]] <- SEXO
+        } else if (j == 3) {
+          SEXO <- c()
+          for (n in 1:32) {
+            SEXO <- c(SEXO, "MUJERES")
+          }
+          type[[m]][["SEXO"]] <- SEXO
+        }
+        # Agregando la columna de a??o para pasar a formato organizado.
+        ANIO <- c()
+        for (p in 1:32) {
+          ANIO <- c(ANIO, 2003 + m)
+        }
+        type[[m]][["ANIO"]] <- ANIO
+        # Pasar a formato organizado.
+        type[[m]] <- gather(data = type[[m]], 
+                         key = "EDAD", 
+                         value = "MORDEDURAS", 
+                         2:13)
+      } 
+      else if (i == 3) {
+        # Mes de ocurrencia
+        type[[m]] <- within(type[[m]] , 
+                             {
+                               ESTADO <- gsub("M.*co.*", "Mexico", ESTADO)
+                               ESTADO <- gsub("Agua.*es.*", "Aguascalientes", ESTADO)
+                               ESTADO <- gsub("Dist.*al.*", "Distrito Federal", ESTADO)
+                               ESTADO <- gsub("Guan.*o.*", "Guanajuato", ESTADO)
+                               ESTADO <- gsub("M.*n.*", "Michoacan", ESTADO)
+                               ESTADO <- gsub("M.*los.*", "Morelos", ESTADO)
+                               ESTADO <- gsub("Nuevo Le.*n.*", "Nuevo Leon", ESTADO)
+                               ESTADO <- gsub("Quer.*ro.*", "Queretaro", ESTADO)
+                               ESTADO <- gsub("Zac.*cas.*", "Zacatecas", ESTADO)
+                               ESTADO <- gsub("Quint.*oo.*", "Quintana Roo", ESTADO)
+                               ESTADO <- gsub("San Luis Pot.*.*", "San Luis Potosi", ESTADO)
+                               ESTADO <- gsub("Yuca.*n.*", "Yucatan",ESTADO)
+                             })
+        # Agregando la columna sexo para pasar a formato organizado.
+        if (j == 1) {
+          SEXO <- c()
+          for (n in 1:32) {
+            SEXO <- c(SEXO, "GENERAL")
+          }
+          type[[m]][["SEXO"]] <- SEXO
+        } else if (j == 2) {
+          SEXO <- c()
+          for (n in 1:32) {
+            SEXO <- c(SEXO, "HOMBRES")
+          }
+          type[[m]][["SEXO"]] <- SEXO
+        } else if (j == 3) {
+          SEXO <- c()
+          for (n in 1:32) {
+            SEXO <- c(SEXO, "MUJERES")
+          }
+          type[[m]][["SEXO"]] <- SEXO
+        }
+        # Agregando la columna de a??o para pasar a formato organizado.
+        ANIO <- c()
+        for (p in 1:32) {
+          ANIO <- c(ANIO, 2003 + m)
+        }
+        type[[m]][["ANIO"]] <- ANIO
+        # Pasar a formato organizado.
+        type[[m]] <- gather(data = type[[m]], 
+                         key = "MES", 
+                         value = "MORDEDURAS", 
+                         2:13)
+      }
+      type[[m]][["MORDEDURAS"]] <- as.numeric(type[[m]][["MORDEDURAS"]])
+    }
+    cat[[j]] <- type
+  }
+  mpData[[i]] <- cat 
+}
 
 # Corroborando la informacion que se necesita.
 str(mpData$FuenteDeNotificacion)
 str(mpData$GrupoDeEdad)
 str(mpData$MesDeOcurrencia)
+
+# ---------------- 3.3.- Juntar todas las tablas en formato organizado ---------
+
+ofnGeneral <- data.frame()
+ofnHombres <- data.frame()
+ofnMujeres <- data.frame()
+
+ogeGeneral <- data.frame()
+ogeHombres <- data.frame()
+ogeMujeres <- data.frame()
+
+omoGeneral <- data.frame()
+omoHombres <- data.frame()
+omoMujeres <- data.frame()
+
+OFuenteDeNotifiacion = list(ofnGeneral, ofnHombres, ofnMujeres)
+names(OFuenteDeNotifiacion) <- c("General","Hombres","Mujeres")
+
+OGrupoDeEdad = list(ogeGeneral, ogeHombres, ogeMujeres)
+names(OGrupoDeEdad) <- c("General","Hombres","Mujeres")
+
+OMesDeOcurrencia = list(omoGeneral, omoHombres, omoMujeres)
+names(OMesDeOcurrencia) <- c("General","Hombres","Mujeres")
+
+mpOData = list(OFuenteDeNotifiacion, OGrupoDeEdad, OMesDeOcurrencia)
+names(mpOData) <- c("FuenteDeNotificacion","GrupoDeEdad","MesDeOcurrencia")
+
+for (i in 1:3) {
+  for (j in 1:3) {
+     mpOData[[i]][[j]] <- do.call(rbind, mpData[[i]][[j]])
+  }
+}
+
+orgFn = data.frame()
+orgGe = data.frame()
+orgMo = data.frame()
+
+mpOrgData = list(orgFn, orgGe, orgMo)
+names(mpOrgData) <- c("FuenteDeNotificacion", "GrupoDeEdad", "MesDeOcurrencia")
+
+for (i in 1:length(mpOrgData)) {
+  mpOrgData[[i]] <- do.call(rbind, mpOData[[i]])
+}
+
 
