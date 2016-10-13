@@ -1,5 +1,7 @@
 install.packages("data.table")
+install.packages("dplyr")
 library(data.table)
+library(dplyr)
 
 # ---------------------------- 1.- Directorio de Trabajo --------------------------
 
@@ -110,6 +112,9 @@ names(mpData) <- c("FuenteDeNotificacion", "GrupoDeEdad", "MesDeOcurrencia")
 
 # ---------------------------- 3.- Limpieza de Codigo -----------------------------
 
+# ---------------- 3.1.- Nombres ----------------------- 
+
+# Corrige el nombre de los estados y de los encabezados.
 for (i in 1:length(mpData)) {
   cat <- mpData[[i]]
   for (j in 1:length(cat)) {
@@ -206,7 +211,26 @@ for (i in 1:length(mpData)) {
   mpData[[i]] <- cat 
 }
 
-mpData$FuenteDeNotificacion
-mpData$GrupoDeEdad
-mpData$MesDeOcurrencia
+# ---------------- 3.2.- Eliminacion de columnas ---------
+
+# Elimina la columna TOTAL de los data.frames de Fuente de Notificacion.
+for (i in 1:length(mpData$FuenteDeNotificacion)) {
+  for (j in 1:length(mpData$FuenteDeNotificacion[[i]])) {
+    mpData$FuenteDeNotificacion[[i]][[j]][[11]] <- NULL
+  }
+}
+
+# Elimina la columna TOTAL de los data.frames de Gruepo de Edad.
+for (i in 1:length(mpData$GrupoDeEdad)) {
+  for (j in 1:length(mpData$GrupoDeEdad[[i]])) {
+    mpData$GrupoDeEdad[[i]][[j]][[14]] <- NULL
+  }
+} 
+
+# --------------------------------------------------------
+
+# Corroborando la informacion que se necesita.
+str(mpData$FuenteDeNotificacion)
+str(mpData$GrupoDeEdad)
+str(mpData$MesDeOcurrencia)
 
