@@ -5,7 +5,7 @@ library(data.table)
 
 # Especificar el directorio de trabajo.
 # El directorio de trabajo debe ser la capeta del proyecto:
-workingDirectory <- "/Users/rayangf/Desktop/MordedurasPerro"
+workingDirectory <- "/Users/Bernardo/Documents/ITAM/Semestre 07/Estadistica Aplicada I/Proyecto/MordedurasPerro"
 setwd(workingDirectory)
 
 
@@ -112,19 +112,15 @@ names(mpData) <- c("FuenteDeNotificacion", "GrupoDeEdad", "MesDeOcurrencia")
 
 for (i in 1:length(mpData)) {
   cat <- mpData[[i]]
-  #print(names(cat))
   for (j in 1:length(cat)) {
     type <- cat[[j]]
-    #print(names(type))
-    
-    #print(type)
     for (l in 1:length(type)) {
       names(type[[l]]) <- toupper(names(type[[l]]))
     }
-    
     for (m in 1:length(type)) {
-      type[[m]] <- within(type[[m]], 
-                          {
+      if (i == 1) {
+        type[[m]] <- within(type[[m]], 
+                            {
                               SALUD <- gsub("[ ]", "", SALUD)
                               IMSS.ORD <- gsub("[ ]", "", IMSS.ORD)
                               ISSSTE <- gsub("[ ]", "", ISSSTE)
@@ -157,10 +153,60 @@ for (i in 1:length(mpData)) {
                               ESTADO <- gsub("Quint.*oo.*", "Quintana Roo", ESTADO)
                               ESTADO <- gsub("San Luis Pot.*.*", "San Luis Potosi", ESTADO)
                               ESTADO <- gsub("Yuca.*n.*", "Yucatan",ESTADO)
-                          })
-      }
-    
+                            })
+      } else if (i == 2) {
+        type[[m]] <- within(type[[m]] , 
+                            {
+                              MAYOR.A.UNO <- gsub("[ ]", "", MAYOR.A.UNO)
+                              UNO.A.CUATRO <- gsub("[ ]", "", UNO.A.CUATRO)
+                              CINCO.A.NUEVE <- gsub("[ ]", "", CINCO.A.NUEVE)
+                              DIEZ.A.CATORCE <- gsub("[ ]", "",DIEZ.A.CATORCE)
+                              QUINCE.A.DIECINUEVE <- gsub("[ ]", "", QUINCE.A.DIECINUEVE)
+                              VEINTE.A.VEINTICUATRO <- gsub("[ ]", "", VEINTE.A.VEINTICUATRO )
+                              VEINTICINCO.A.CUARENTAYCUATRO <- gsub("[ ]", "", VEINTICINCO.A.CUARENTAYCUATRO)
+                              CUARENTAYCINCO.A.CUARENTAYNUEVE <- gsub("[ ]", "", CUARENTAYCINCO.A.CUARENTAYNUEVE)
+                              CINCUENTA.A.CINCUENTAYNUEVE <- gsub("[ ]", "", CINCUENTA.A.CINCUENTAYNUEVE)
+                              SESENTA.A.SESENTAYCUATRO <- gsub("[ ]", "", SESENTA.A.SESENTAYCUATRO)
+                              MAYOR.A.SESENTAYCINCO <- gsub("[ ]", "", MAYOR.A.SESENTAYCINCO)
+                              NO.SE.REPORTO.LA.EDAD <- gsub("[ ]", "", NO.SE.REPORTO.LA.EDAD)
+                              TOTAL <- gsub("[ ]", "", TOTAL)
+                              ESTADO <- gsub("M.*co.*", "Mexico", ESTADO)
+                              ESTADO <- gsub("Agua.*es.*", "Aguascalientes", ESTADO)
+                              ESTADO <- gsub("Dist.*al.*", "Distrito Federal", ESTADO)
+                              ESTADO <- gsub("Guan.*o.*", "Guanajuato", ESTADO)
+                              ESTADO <- gsub("M.*n.*", "Michoacan", ESTADO)
+                              ESTADO <- gsub("M.*los.*", "Morelos", ESTADO)
+                              ESTADO <- gsub("Nuevo Le.*n.*", "Nuevo Leon", ESTADO)
+                              ESTADO <- gsub("Quer.*ro.*", "Queretaro", ESTADO)
+                              ESTADO <- gsub("Zac.*cas.*", "Zacatecas", ESTADO)
+                              ESTADO <- gsub("Quint.*oo.*", "Quintana Roo", ESTADO)
+                              ESTADO <- gsub("San Luis Pot.*.*", "San Luis Potosi", ESTADO)
+                              ESTADO <- gsub("Yuca.*n.*", "Yucatan",ESTADO)
+                            })
+      } else if (i == 3) {
+        type[[m]] <- within(type[[m]] , 
+                             {
+                               ESTADO <- gsub("M.*co.*", "Mexico", ESTADO)
+                               ESTADO <- gsub("Agua.*es.*", "Aguascalientes", ESTADO)
+                               ESTADO <- gsub("Dist.*al.*", "Distrito Federal", ESTADO)
+                               ESTADO <- gsub("Guan.*o.*", "Guanajuato", ESTADO)
+                               ESTADO <- gsub("M.*n.*", "Michoacan", ESTADO)
+                               ESTADO <- gsub("M.*los.*", "Morelos", ESTADO)
+                               ESTADO <- gsub("Nuevo Le.*n.*", "Nuevo Leon", ESTADO)
+                               ESTADO <- gsub("Quer.*ro.*", "Queretaro", ESTADO)
+                               ESTADO <- gsub("Zac.*cas.*", "Zacatecas", ESTADO)
+                               ESTADO <- gsub("Quint.*oo.*", "Quintana Roo", ESTADO)
+                               ESTADO <- gsub("San Luis Pot.*.*", "San Luis Potosi", ESTADO)
+                               ESTADO <- gsub("Yuca.*n.*", "Yucatan",ESTADO)
+                             }) 
+      } 
+    }
     cat[[j]] <- type
   }
   mpData[[i]] <- cat 
 }
+
+mpData$FuenteDeNotificacion
+mpData$GrupoDeEdad
+mpData$MesDeOcurrencia
+
