@@ -2,10 +2,12 @@ install.packages("data.table")
 install.packages("dplyr")
 install.packages("tidyr")
 install.packages("ggplot2")
+install.packages("gridExtra")
 library(data.table)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
+library(gridExtra)
 
 # ---------------------------- 1.- Directorio de Trabajo --------------------------
 
@@ -380,6 +382,26 @@ for (i in 1:length(mpOrgData)) {
 
 
 
+
+# ------------------------- Piramides ------------------------------
+
+# Hombres.
+hombres <- subset(mpOrgData$FuenteDeNotificacion, SEXO %in% "HOMBRES")
+estados <- fng$`2004`$ESTADO
+fuentes <- names(fng$`2004`)
+fuentes <- fuentes[-c(1,11)]
+dataframesPorEstado <- list()
+for (i in 1:length(estados)) {
+  hombresYEstado <- subset(hombres, ESTADO %in% estados[[i]])
+  totales1 <- c()  
+  for (j in 1:length(fuentes)) {
+    hombresYEstadoYFuente <- subset(hombresYAguascalientes, FUENTE %in% fuentes[[j]])
+    suma <- sum(hombresYEstadoYFuente$MORDEDURAS)
+    totales1 <- c(totales1, suma)
+  }
+  dataframesPorEstado[[i]] <- data.frame(fuentes, totales1)
+}
+dataframesPorEstado
 
 
 
