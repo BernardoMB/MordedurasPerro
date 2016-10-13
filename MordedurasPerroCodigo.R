@@ -375,7 +375,7 @@ for (i in 1:length(mpOrgData)) {
   mpOrgData[[i]] <- do.call(rbind, mpOData[[i]])
 }
 
-
+# --------------- Fin limpieza ------------------------
 
 
 
