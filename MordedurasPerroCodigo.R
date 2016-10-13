@@ -1,9 +1,11 @@
 install.packages("data.table")
 install.packages("dplyr")
 install.packages("tidyr")
+install.packages("ggplot2")
 library(data.table)
 library(dplyr)
 library(tidyr)
+library(ggplot2)
 
 # ---------------------------- 1.- Directorio de Trabajo --------------------------
 
@@ -373,4 +375,36 @@ for (i in 1:length(mpOrgData)) {
   mpOrgData[[i]] <- do.call(rbind, mpOData[[i]])
 }
 
+
+
+
+
+
+
+
+
+
+# A??os vs. Total de mordeduras 
+fn <- subset(mpOrgData$FuenteDeNotificacion, SEXO  %in% c("GENERAL"))
+fn <-subset(fn, !is.na(MORDEDURAS))
+head(fn)
+tail(fn)
+years <- c()
+sums <- c()
+for (i in 1:12) {
+  new <- subset(fn, ANIO %in% c(i+2003))
+  sums <- c(sums, sum(new$MORDEDURAS))
+  years <- c(years, i+2003)
+}
+FuenteDeN <- data.frame(years, sums)
+FuenteDeN
+
+
+
+# Box plot A??os vs. Mordeduras por estado.
+fn1 <- subset(mpOrgData$FuenteDeNotificacion, SEXO  %in% c("GENERAL"))
+fn1 <-subset(fn, !is.na(MORDEDURAS))
+mean(subset(fn1$MORDEDURAS, fn1$ANIO %in% 2004))
+p <- ggplot(fn1, aes(factor(ANIO), MORDEDURAS))
+p + geom_boxplot()
 
