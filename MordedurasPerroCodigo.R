@@ -19,12 +19,17 @@ setwd(workingDirectory)
 
 # ---------------------------- 2.- Lectura de Tablas ------------------------------
 
-nombres <- c()
-for (i in 1:12) {
-  nombres <- c(nombres, paste(2003 + i))
+getNames <- function() {
+  nombres <- NULL
+  nombres <- c()
+  for (i in 1:12) {
+    nombres <- c(nombres, paste(2003 + i))
+  }
+  return(nombres)
 }
+nombres <- getNames()
 
-# ------------------- 2.1.- Fuente de Notificacion --------------------
+# --------------- 2.1.- Fuente de Notificacion.
 
 # Fuente de Notificacion General
 spath <-paste(getwd(), "/Data/CSV/FuenteDeNotificacion/General/", sep="")
@@ -51,7 +56,7 @@ fnm <- lapply(fnm, fread, sep=",")
 names(fnm) <- nombres
 setwd(workingDirectory)
 
-# ------------------- 2.2.- Grupo de Edad --------------------
+# --------------- 2.2.- Grupo de Edad.
 
 # Grupo de Edad General
 spath <-paste(getwd(), "/Data/CSV/GrupoDeEdad/General/", sep="")
@@ -77,7 +82,7 @@ gem <- lapply(gem, fread, sep=",")
 names(gem) <- nombres
 setwd(workingDirectory)
 
-# ------------------- 2.3.- Mes de Ocurrencia --------------------
+# --------------- 2.3.- Mes de Ocurrencia.
 
 # Mes de Ocurrencia General
 spath <-paste(getwd(), "/Data/CSV/MesDeOcurrencia/General/", sep="")
@@ -103,6 +108,8 @@ mom <- lapply(mom, fread, sep=",")
 names(mom) <- nombres
 setwd(workingDirectory)
 
+# --------------- 2.4.- Diccionario.
+
 FuenteDeNotificacion = list(fng, fnh, fnm)
 names(FuenteDeNotificacion) <- c("General", "Hombres", "Mujeres")
 
@@ -116,9 +123,9 @@ mpData = list(FuenteDeNotificacion, GrupoDeEdad, MesDeOcurrencia)
 names(mpData) <- c("FuenteDeNotificacion", "GrupoDeEdad", "MesDeOcurrencia")
 
 
-# ---------------------------- 3.- Limpieza de Codigo -----------------------------
+# ---------------------------- 3.- Limpieza de Codigo.
 
-# ---------------- 3.1.- Eliminacion de columnas ---------
+# ---------------- 3.1.- Eliminacion de columnas.
 
 # Elimina la columna TOTAL de los data.frames de Fuente de Notificacion.
 for (i in 1:length(mpData$FuenteDeNotificacion)) {
@@ -134,7 +141,7 @@ for (i in 1:length(mpData$GrupoDeEdad)) {
   }
 } 
 
-# ---------------- 3.2.- Nombres, Agrega columnas, Pasa a formato organizado, Mordeduras to numeric--- 
+# ---------------- 3.2.- Nombres, Agrega columnas, Pasa a formato organizado, Mordeduras to numeric.
 
 # Corrige el nombre de los estados y de los encabezados.
 for (i in 1:length(mpData)) {
@@ -330,8 +337,11 @@ for (i in 1:length(mpData)) {
 }
 
 # Corroborando la informacion que se necesita.
+mpData$FuenteDeNotificacion
 str(mpData$FuenteDeNotificacion)
+mpData$GrupoDeEdad
 str(mpData$GrupoDeEdad)
+mpData$MesDeOcurrencia
 str(mpData$MesDeOcurrencia)
 
 # ---------------- 3.3.- Juntar todas las tablas en formato organizado ---------
@@ -377,8 +387,27 @@ for (i in 1:length(mpOrgData)) {
   mpOrgData[[i]] <- do.call(rbind, mpOData[[i]])
 }
 
-# --------------- Fin limpieza ------------------------
+# Comprobando la informacion. (3 tablas en formato organizado).
 
+# Fuente de Notificacion.
+mpOrgData$FuenteDeNotificacion
+str(mpOrgData$FuenteDeNotificacion)
+head(mpOrgData$FuenteDeNotificacion)
+tail(mpOrgData$FuenteDeNotificacion)
+
+# Grupo de Edad.
+mpOrgData$GrupoDeEdad
+str(mpOrgData$GrupoDeEdad)
+head(mpOrgData$GrupoDeEdad)
+tail(mpOrgData$GrupoDeEdad)
+
+# Mes de Ocurrencia.
+mpOrgData$MesDeOcurrencia
+str(mpOrgData$MesDeOcurrencia)
+head(mpOrgData$MesDeOcurrencia)
+tail(mpOrgData$MesDeOcurrencia)
+
+# --------------- Fin limpieza ------------------------
 
 
 
@@ -387,19 +416,31 @@ for (i in 1:length(mpOrgData)) {
 
 # Hombres.
 hombres <- subset(mpOrgData$FuenteDeNotificacion, SEXO %in% "HOMBRES")
-estados <- fng$`2004`$ESTADO
+mujeres <- subset(mpOrgData$FuenteDeNotificacion, SEXO %in% "MUJERES")
+estados <- c('Aguascalientes', 'Baja California', 'Baja California Sur', 'Campeche', 'Chiapas', 'Chihuahua', 'Coahuila', 'Colima', 'Distrito Federal', 'Durango', 'Guanajuato','Guerrero', 'Hidalgo', 'Jalisco', 'Mexico', 'Michoacan', 'Morelos', 'Nayarit','Nuevo Leon', 'Oaxaca', 'Puebla', 'Queretaro', 'Quintana Roo', 'San Luis Potosi','Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas', 'Tlaxcala', 'Veracruz', 'Yucatan','Zacatecas')
 fuentes <- names(fng$`2004`)
 fuentes <- fuentes[-c(1,11)]
 dataframesPorEstado <- list()
 for (i in 1:length(estados)) {
+  # Hombres
   hombresYEstado <- subset(hombres, ESTADO %in% estados[[i]])
   totales1 <- c()  
   for (j in 1:length(fuentes)) {
-    hombresYEstadoYFuente <- subset(hombresYAguascalientes, FUENTE %in% fuentes[[j]])
-    suma <- sum(hombresYEstadoYFuente$MORDEDURAS)
+    hombresYEstadoYFuente <- subset(hombresYEstado, FUENTE %in% fuentes[[j]])
+    suma <- sum(subset(hombresYEstadoYFuente$MORDEDURAS,! is.na(hombresYEstadoYFuente$MORDEDURAS)))
     totales1 <- c(totales1, suma)
   }
-  dataframesPorEstado[[i]] <- data.frame(fuentes, totales1)
+  # Mujeres
+  mujeresYEstado <- subset(mujeres, ESTADO %in% estados[[i]])
+  totales2 <- c()  
+  for (k in 1:length(fuentes)) {
+    mujeresYEstadoYFuente <- subset(mujeresYEstado, FUENTE %in% fuentes[[k]])
+    suma2 <- sum(subset(mujeresYEstadoYFuente$MORDEDURAS,! is.na(mujeresYEstadoYFuente$MORDEDURAS)))
+    totales2 <- c(totales2, suma2)
+  }
+  # Creacion de los data.drames.
+  dataframesPorEstado[[i]] <- data.frame(fuentes, totales1, totales2)
+  names(dataframesPorEstado[[i]]) <- c("FUENTE", "HOMBRES", "MUJERES")
 }
 dataframesPorEstado
 
