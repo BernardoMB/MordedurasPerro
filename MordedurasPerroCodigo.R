@@ -451,7 +451,7 @@ totalHombresMO + totalMujeresMO
 
 
 
-# Fuente de notificacion 2004
+# Fuente de notificacion
 for (i in 1:12) {
   # General
   porSexoYAnioGeneral <- subset(mpOrgData$FuenteDeNotificacion, SEXO == "GENERAL" & ANIO == 2003 + i )
@@ -468,6 +468,39 @@ for (i in 1:12) {
   }
 }
 
+# Grupo de Edad
+for (i in 1:12) {
+  # General
+  porSexoYAnioGeneralge <- subset(mpOrgData$GrupoDeEdad, SEXO == "GENERAL" & ANIO == 2003 + i )
+  sumaGge <- sum(subset(porSexoYAnioGeneralge$MORDEDURAS, ! is.na(porSexoYAnioGeneralge$MORDEDURAS)))
+  # Hombres 
+  porSexoYAnioHombresge <- subset(mpOrgData$GrupoDeEdad, SEXO == "HOMBRES" & ANIO == 2003 + i )
+  sumaHge <- sum(subset(porSexoYAnioHombresge$MORDEDURAS, ! is.na(porSexoYAnioHombresge$MORDEDURAS)))
+  # Mujeres
+  porSexoYAnioMujeresge <- subset(mpOrgData$GrupoDeEdad, SEXO == "MUJERES" & ANIO == 2003 + i )
+  sumaMge <- sum(subset(porSexoYAnioMujeresge$MORDEDURAS, ! is.na(porSexoYAnioMujeresge$MORDEDURAS)))
+  # Prueba de consistencia
+  if (sumaGge != sumaHge + sumaMge) {
+    print(2003 + i)
+  }
+}
+
+# Mes de Ocurrencia
+for (i in 1:12) {
+  # General
+  porSexoYAnioGeneralmo <- subset(mpOrgData$MesDeOcurrencia, SEXO == "GENERAL" & ANIO == 2003 + i )
+  sumaGmo <- sum(subset(porSexoYAnioGeneralmo$MORDEDURAS, ! is.na(porSexoYAnioGeneralmo$MORDEDURAS)))
+  # Hombres 
+  porSexoYAnioHombresmo <- subset(mpOrgData$MesDeOcurrencia, SEXO == "HOMBRES" & ANIO == 2003 + i )
+  sumaHmo <- sum(subset(porSexoYAnioHombresmo$MORDEDURAS, ! is.na(porSexoYAnioHombresmo$MORDEDURAS)))
+  # Mujeres
+  porSexoYAnioMujeresmo <- subset(mpOrgData$MesDeOcurrencia, SEXO == "MUJERES" & ANIO == 2003 + i )
+  sumaMmo <- sum(subset(porSexoYAnioMujeresmo$MORDEDURAS, ! is.na(porSexoYAnioMujeresmo$MORDEDURAS)))
+  # Prueba de consistencia
+  if (sumaGmo != sumaHmo + sumaMmo) {
+    print(2003 + i)
+  }
+}
 
 
 
@@ -501,7 +534,7 @@ for (i in 1:length(estados)) {
 }
 
 
-# A??os vs. Total de mordeduras 
+# Tendencia
 fn <- subset(mpOrgData$FuenteDeNotificacion, SEXO  %in% c("GENERAL"))
 fn <-subset(fn, !is.na(MORDEDURAS))
 years <- c()
