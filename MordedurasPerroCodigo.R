@@ -562,15 +562,63 @@ p <- ggplot(data.frames.eats2, aes(factor(ANIO), TOTAL.MORDEDURAS))
 p + geom_boxplot() + geom_hline(yintercept=4267.594)
 
 
-
-mean(mtcars$cyl)
-ed <- subset(mtcars, cyl == 4)
-mean(ed$mpg)
-p <- ggplot(ed, aes(factor(cyl), mpg))
-p + geom_boxplot() + geom_hline(yintercept=)
+# ---------------- Prueba de consistencia ---------
+#Se compara los totales por grupo de edad, mes de ocurrencia y fuente de notificacion.
+#En cada uno se separan los totales en hombres y mujeres por estado
+entidades <- c('Aguascalientes', 'Baja California', 'Baja California Sur', 'Campeche', 'Chiapas', 'Chihuahua', 'Coahuila', 'Colima', 'Distrito Federal', 'Durango', 'Guanajuato','Guerrero', 'Hidalgo', 'Jalisco', 'Mexico', 'Michoacan', 'Morelos', 'Nayarit','Nuevo Leon', 'Oaxaca', 'Puebla', 'Queretaro', 'Quintana Roo', 'San Luis Potosi','Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas', 'Tlaxcala', 'Veracruz', 'Yucatan','Zacatecas')
 
 
+hog<-subset(mpOrgData$GrupoDeEdad,"HOMBRES" == (mpOrgData$GrupoDeEdad[[2]]))
+mug<-subset(mpOrgData$GrupoDeEdad,"MUJERES" == (mpOrgData$GrupoDeEdad[[2]]))
+
+hom<-subset(mpOrgData$MesDeOcurrencia,"HOMBRES" == (mpOrgData$MesDeOcurrencia[[2]]))
+mum<-subset(mpOrgData$MesDeOcurrencia,"MUJERES" == (mpOrgData$MesDeOcurrencia[[2]]))
+
+hof<-subset(mpOrgData$FuenteDeNotificacion,"HOMBRES" == (mpOrgData$FuenteDeNotificacion[[2]]))
+muf<-subset(mpOrgData$FuenteDeNotificacion,"MUJERES" == (mpOrgData$FuenteDeNotificacion[[2]]))
+
+vesuhog<-c()
+vesumug<-c()
+vesuhom<-c()
+vesumum<-c()
+vesuhof<-c()
+vesumuf<-c()
+
+for (i in 1:32 ) {
+  vesuhog<- c(vesuhog, sum((subset(hog,hog$ESTADO == entidades[i]))$MORDEDURAS))
+  vesumug<- c(vesumug,sum((subset(mug,mug$ESTADO == entidades[i]))$MORDEDURAS))
+  
+  vesuhom<- c(vesuhom, sum((subset(hom,hom$ESTADO == entidades[i]))$MORDEDURAS))
+  vesumum<- c(vesumum,sum((subset(mum,mum$ESTADO == entidades[i]))$MORDEDURAS))
+  
+  vesuhof<- c(vesuhof, sum((subset(hof,hof$ESTADO == entidades[i]))$MORDEDURAS))
+  vesumuf<- c(vesumuf,sum((subset(muf,muf$ESTADO == entidades[i]))$MORDEDURAS))
+}
 
 
+
+
+vesuhog<-subset(vesuhog,! is.na(vesuhog))
+vesumug<-subset(vesumug,! is.na(vesumug))
+vesuhom<-subset(vesuhom,! is.na(vesuhom))
+vesumum<-subset(vesumum,! is.na(vesumum))
+vesuhof<-subset(vesuhof,! is.na(vesuhof))
+vesumuf<-subset(vesumuf,! is.na(vesumuf))
+
+TotHMG<-data.frame(Edos=entidades,Hombres=vesuhog,Mujeres=vesumug)
+TotHMG
+TotHMM<-data.frame(Edos=entidades,Hombres=vesuhom,Mujeres=vesumum)
+TotHMM
+TotHMF<-data.frame(Edos=entidades,Hombres=vesuhof,Mujeres=vesumuf)
+TotHMF
+
+
+sum(TotHMG[[2]]) #Suma del total de hombres por grupo de edad
+sum(TotHMG[[3]]) #Suma del total de mujeres por grupo de edad
+sum(subset(TotHMM[[2]],! is.na(TotHMM[[2]])))# Suma total de hombres por mes de ocurrencia
+sum(subset(TotHMM[[3]],! is.na(TotHMM[[3]])))# Suma total de mujeres por mes de ocurrencia
+sum(subset(TotHMF[[2]],! is.na(TotHMF[[2]])))# Suma total de hombres por fuente de notificacion
+sum(subset(TotHMF[[3]],! is.na(TotHMF[[3]])))# Suma total de mujeres por fuente de notificacion 
+#Los totales no coinciden, por lo tanto no son consistentes.
 
 
