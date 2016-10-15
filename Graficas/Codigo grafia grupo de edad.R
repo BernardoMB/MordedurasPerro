@@ -522,7 +522,7 @@ geg2014 <- ge2014g
 geg2015 <- ge2015g
 
 
-
+# Aqu?? ya empieza.
 
 Ge1 <- c(sum(geg2004$MAYOR.A.UNO), sum(geg2004$UNO.A.CUATRO), sum(geg2004$CINCO.A.NUEVE), 
          sum(geg2004$DIEZ.A.CATORCE), sum(geg2004$QUINCE.A.DIECINUEVE), 
@@ -571,7 +571,7 @@ Ge8 <- c(sum(geg2011$MAYOR.A.UNO), sum(geg2011$UNO.A.CUATRO), sum(geg2011$CINCO.
          sum(geg2011$VEINTE.A.VEINTICUATRO), sum(geg2011$VEINTICINCO.A.CUARENTAYCUATRO),
          sum(geg2011$CUARENTAYCINCO.A.CUARENTAYNUEVE),sum(geg2011$CINCUENTA.A.CINCUENTAYNUEVE),
          sum(geg2011$SESENTA.A.SESENTAYCUATRO), sum(geg2011$MAYOR.A.SESENTAYCINCO), 
-         sum(geg2011$NO.SE.REPORTO.LA.EDAD)
+         sum(geg2011$NO.SE.REPORTO.LA.EDAD))
 Ge9 <- c(sum(geg2012$MAYOR.A.UNO), sum(geg2012$UNO.A.CUATRO), sum(geg2012$CINCO.A.NUEVE), 
          sum(geg2012$DIEZ.A.CATORCE), sum(geg2012$QUINCE.A.DIECINUEVE), 
          sum(geg2012$VEINTE.A.VEINTICUATRO), sum(geg2012$VEINTICINCO.A.CUARENTAYCUATRO),
@@ -605,6 +605,7 @@ grupoedad <- as.factor(grupoedad)
 levels(grupoedad) <- c("Ma1","1a4","5a9","10a14","15a19","20a24","25a44","45a49",
                        "50a59","60a64","Ma65","NSRE")
 
+
 GDE1 <- data.frame(grupoedad, Ge1)
 GDE2 <- data.frame(grupoedad, Ge2)
 GDE3 <- data.frame(grupoedad, Ge3)
@@ -617,7 +618,6 @@ GDE9 <- data.frame(grupoedad, Ge9)
 GDE10 <- data.frame(grupoedad, Ge10)
 GDE11 <- data.frame(grupoedad, Ge11)
 GDE12 <- data.frame(grupoedad, Ge12)
-
 
 mo1 <-  ggplot(GDE1, aes(x = grupoedad, y = Ge1)) + 
   theme_bw() + geom_bar(stat = "identity")+ ggtitle("2004") 

@@ -3,11 +3,13 @@ install.packages("dplyr")
 install.packages("tidyr")
 install.packages("ggplot2")
 install.packages("gridExtra")
+install.packages("ggmap")
 library(data.table)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(gridExtra)
+library(ggmap)
 
 # ---------------------------- 1.- Directorio de Trabajo --------------------------
 
@@ -121,7 +123,6 @@ names(MesDeOcurrencia) <- c("General", "Hombres", "Mujeres")
 
 mpData = list(FuenteDeNotificacion, GrupoDeEdad, MesDeOcurrencia)
 names(mpData) <- c("FuenteDeNotificacion", "GrupoDeEdad", "MesDeOcurrencia")
-
 
 # ---------------------------- 3.- Limpieza de Codigo.
 
@@ -414,6 +415,61 @@ tail(mpOrgData$MesDeOcurrencia)
 
 # --------------- Fin limpieza ------------------------
 
+# ---------------- 4.- Pruebas de consistencia.
+
+# Fuente de Notificaci??n.
+GeneralFN <- subset(mpOrgData$FuenteDeNotificacion,  SEXO %in% c("GENERAL"))
+totalGeneralFN <- sum(subset(GeneralFN$MORDEDURAS, ! is.na(GeneralFN$MORDEDURAS)))
+HombresFN <- subset(mpOrgData$FuenteDeNotificacion,  SEXO %in% c("HOMBRES"))
+totalHombresFN <- sum(subset(HombresFN$MORDEDURAS, ! is.na(HombresFN$MORDEDURAS)))
+MujeresFN <- subset(mpOrgData$FuenteDeNotificacion,  SEXO %in% c("MUJERES"))
+totalMujeresFN <- sum(subset(MujeresFN$MORDEDURAS, ! is.na(MujeresFN$MORDEDURAS)))
+totalGeneralFN
+totalHombresFN + totalMujeresFN
+
+# Grupo de Edad.
+GeneralGE <- subset(mpOrgData$GrupoDeEdad,  SEXO %in% c("GENERAL"))
+totalGeneralGE <- sum(subset(GeneralGE$MORDEDURAS, ! is.na(GeneralGE$MORDEDURAS)))
+HombresGE <- subset(mpOrgData$GrupoDeEdad,  SEXO %in% c("HOMBRES"))
+totalHombresGE <- sum(subset(HombresGE$MORDEDURAS, ! is.na(HombresGE$MORDEDURAS)))
+MujeresGE <- subset(mpOrgData$GrupoDeEdad,  SEXO %in% c("MUJERES"))
+totalMujeresGE <- sum(subset(MujeresGE$MORDEDURAS, ! is.na(MujeresGE$MORDEDURAS)))
+totalGeneralGE
+totalHombresGE + totalMujeresGE
+
+# Mes de Ocurrencia.
+GeneralMO <- subset(mpOrgData$MesDeOcurrencia,  SEXO %in% c("GENERAL"))
+totalGeneralMO <- sum(subset(GeneralMO$MORDEDURAS, ! is.na(GeneralMO$MORDEDURAS)))
+HombresMO <- subset(mpOrgData$MesDeOcurrencia,  SEXO %in% c("HOMBRES"))
+totalHombresMO <- sum(subset(HombresMO$MORDEDURAS, ! is.na(HombresMO$MORDEDURAS)))
+MujeresMO <- subset(mpOrgData$MesDeOcurrencia,  SEXO %in% c("MUJERES"))
+totalMujeresMO <- sum(subset(MujeresMO$MORDEDURAS, ! is.na(MujeresMO$MORDEDURAS)))
+totalGeneralMO
+totalHombresMO + totalMujeresMO
+
+
+
+
+
+# Fuente de notificacion 2004
+for (i in 1:12) {
+  # General
+  porSexoYAnioGeneral <- subset(mpOrgData$FuenteDeNotificacion, SEXO == "GENERAL" & ANIO == 2003 + i )
+  sumaG <- sum(subset(porSexoYAnioGeneral$MORDEDURAS, ! is.na(porSexoYAnioGeneral$MORDEDURAS)))
+  # Hombres 
+  porSexoYAnioHombres <- subset(mpOrgData$FuenteDeNotificacion, SEXO == "HOMBRES" & ANIO == 2003 + i )
+  sumaH <- sum(subset(porSexoYAnioHombres$MORDEDURAS, ! is.na(porSexoYAnioHombres$MORDEDURAS)))
+  # Mujeres
+  porSexoYAnioMujeres <- subset(mpOrgData$FuenteDeNotificacion, SEXO == "MUJERES" & ANIO == 2003 + i )
+  sumaM <- sum(subset(porSexoYAnioMujeres$MORDEDURAS, ! is.na(porSexoYAnioMujeres$MORDEDURAS)))
+  # Prueba de consistencia
+  if (sumaG != sumaH + sumaM) {
+    print(2003 + i)
+  }
+}
+
+
+
 
 # Piramides
 hombres <- subset(mpOrgData$FuenteDeNotificacion, SEXO %in% "HOMBRES")
@@ -562,6 +618,14 @@ p <- ggplot(data.frames.eats2, aes(factor(ANIO), TOTAL.MORDEDURAS))
 p + geom_boxplot() + geom_hline(yintercept=4267.594)
 
 
+
+
+
+
+
+
+
+
 # ---------------- Prueba de consistencia ---------
 #Se compara los totales por grupo de edad, mes de ocurrencia y fuente de notificacion.
 #En cada uno se separan los totales en hombres y mujeres por estado
@@ -620,5 +684,4 @@ sum(subset(TotHMM[[3]],! is.na(TotHMM[[3]])))# Suma total de mujeres por mes de 
 sum(subset(TotHMF[[2]],! is.na(TotHMF[[2]])))# Suma total de hombres por fuente de notificacion
 sum(subset(TotHMF[[3]],! is.na(TotHMF[[3]])))# Suma total de mujeres por fuente de notificacion 
 #Los totales no coinciden, por lo tanto no son consistentes.
-
 
