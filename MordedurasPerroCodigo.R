@@ -178,10 +178,15 @@ for (i in 1:length(mpData)) {
                               ESTADO <- gsub("Agua.*es.*", "Aguascalientes", ESTADO)
                               ESTADO <- gsub("Dist.*al.*", "Distrito Federal", ESTADO)
                               ESTADO <- gsub("Guan.*o.*", "Guanajuato", ESTADO)
+                              ESTADO <- gsub("H.idalgo*", "Hidalgo", ESTADO) 
                               ESTADO <- gsub("M.*n.*", "Michoacan", ESTADO)
                               ESTADO <- gsub("M.*los.*", "Morelos", ESTADO)
+                              ESTADO <- gsub("Nuevo L.*e.*.*.*.*n.*", "Nuevo Leon", ESTADO)
                               ESTADO <- gsub("Nuevo Le.*n.*", "Nuevo Leon", ESTADO)
+                              ESTADO <- gsub("T.abasco*", "Tabasco", ESTADO)
+                              ESTADO <- gsub("T.amaulipas*", "Tamaulipas", ESTADO)
                               ESTADO <- gsub("Quer.*ro.*", "Queretaro", ESTADO)
+                              ESTADO <- gsub("Z.acatecas.*", "Zacatecas", ESTADO)
                               ESTADO <- gsub("Zac.*cas.*", "Zacatecas", ESTADO)
                               ESTADO <- gsub("Quint.*oo.*", "Quintana Roo", ESTADO)
                               ESTADO <- gsub("San Luis Pot.*.*", "San Luis Potosi", ESTADO)
@@ -410,11 +415,7 @@ tail(mpOrgData$MesDeOcurrencia)
 # --------------- Fin limpieza ------------------------
 
 
-
-
-# ------------------------- Piramides ------------------------------
-
-# Hombres.
+# Piramides
 hombres <- subset(mpOrgData$FuenteDeNotificacion, SEXO %in% "HOMBRES")
 mujeres <- subset(mpOrgData$FuenteDeNotificacion, SEXO %in% "MUJERES")
 estados <- c('Aguascalientes', 'Baja California', 'Baja California Sur', 'Campeche', 'Chiapas', 'Chihuahua', 'Coahuila', 'Colima', 'Distrito Federal', 'Durango', 'Guanajuato','Guerrero', 'Hidalgo', 'Jalisco', 'Mexico', 'Michoacan', 'Morelos', 'Nayarit','Nuevo Leon', 'Oaxaca', 'Puebla', 'Queretaro', 'Quintana Roo', 'San Luis Potosi','Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas', 'Tlaxcala', 'Veracruz', 'Yucatan','Zacatecas')
@@ -442,16 +443,11 @@ for (i in 1:length(estados)) {
   dataframesPorEstado[[i]] <- data.frame(fuentes, totales1, totales2)
   names(dataframesPorEstado[[i]]) <- c("FUENTE", "HOMBRES", "MUJERES")
 }
-dataframesPorEstado
-
-
 
 
 # A??os vs. Total de mordeduras 
 fn <- subset(mpOrgData$FuenteDeNotificacion, SEXO  %in% c("GENERAL"))
 fn <-subset(fn, !is.na(MORDEDURAS))
-head(fn)
-tail(fn)
 years <- c()
 sums <- c()
 for (i in 1:12) {
@@ -460,14 +456,121 @@ for (i in 1:12) {
   years <- c(years, i+2003)
 }
 FuenteDeN <- data.frame(years, sums)
-FuenteDeN
+# Create Line Chart 
+xrange <- range(FuenteDeN$years) 
+yrange <- range(FuenteDeN$sums) 
+plot(xrange, yrange, type="n", xlab="A??os",
+  	ylab="Mordeduras" )
+lines(FuenteDeN$years, FuenteDeN$sums, type="l", lwd=1.5) 
+title("Total de Mordeduras", "Crecimineto de las mordeduras de perro a trav??s de los a??os.")
 
 
 
+
+
+# -------------- Multiplots.
+
+# Fuente de Notificacio en cada a??o.
+fuente <- c("SALUD","IMSS.ORD","ISSSTE","IMSS.OP","DIF","PEMEX","SEDENA","SEMAR","OTRAS")
+graphs.fn <- list()
+for (i in 1:12) {
+  fn <- subset(mpOrgData$FuenteDeNotificacion, ANIO %in% c(2003 + i))
+  fn <- subset(fn, SEXO %in% c("GENERAL"))
+  valores <- c()
+  for (j in 1:length(fuente)) {
+    fnI <- subset(fn, FUENTE %in% c(fuente[[j]]))
+    suma <- sum(fnI$MORDEDURAS)
+    valores <- c(valores, suma)
+  }
+  fn.data.frame <- data.frame(fuente, valores)
+  names(fn.data.frame) <- c("Fuente", "Mordeduras")
+  graph <- ggplot(fn.data.frame, aes(x = Fuente, y = Mordeduras)) +theme_bw() + geom_bar(stat = "identity")+ ggtitle(paste("", 2003 + i)) + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 5))
+  graphs[[i]] <- graph
+}
+do.call("grid.arrange", c(graphs, ncol=3, top = "Fuente de Notificaci??n"))
+
+# Grupo de edad en cada a??o.
+grupoedad <- c("Ma1","1a4","5a9","10a14","15a19","20a24","25a44","45a49","50a59","60a64","Ma65","NSRE")
+grupoedad <- as.factor(grupoedad)
+levels(grupoedad) <- c("Ma1","1a4","5a9","10a14","15a19","20a24","25a44","45a49","50a59","60a64","Ma65","NSRE")
+intervalos <- c("MAYOR.A.UNO","UNO.A.CUATRO","CINCO.A.NUEVE","DIEZ.A.CATORCE","QUINCE.A.DIECINUEVE","VEINTE.A.VEINTICUATRO","VEINTICINCO.A.CUARENTAYCUATRO","CUARENTAYCINCO.A.CUARENTAYNUEVE","CINCUENTA.A.CINCUENTAYNUEVE","SESENTA.A.SESENTAYCUATRO","MAYOR.A.SESENTAYCINCO","NO.SE.REPORTO.LA.EDAD")
+graphs.ge <- list()
+for (i in 1:12) {
+  ge <- subset(mpOrgData$GrupoDeEdad, ANIO %in% c(2003 + i))
+  ge <- subset(ge, SEXO %in% c("GENERAL"))
+  valores <- c()
+  for (j in 1:length(intervalos)) {
+    geI <- subset(ge, EDAD %in% c(intervalos[[j]]))
+    suma <- sum(geI$MORDEDURAS)
+    valores <- c(valores, suma)
+  }
+  ge.data.frame <- data.frame(grupoedad, valores)
+  names(ge.data.frame) <- c("Grupo", "Mordeduras")
+  graph <-  ggplot(ge.data.frame, aes(x = Grupo, y = Mordeduras)) +theme_bw() + geom_bar(stat = "identity")+ ggtitle(paste("", 2003 + i)) + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 5))
+  graphs.ge[[i]] <- graph
+}
+do.call("grid.arrange", c(graphs.ge, ncol=3, top = "Grupo de Edad"))
+
+# Mes de ocurrencia en cada a??o.
+mes <- c("ENE","FEB","MAR","ABR","MAY","JUN","JUL","AGO","SEP","OCT","NOV","DIC")
+mes1 <- c("ENE","FEB","MAR","ABR","MAY","JUN","JUL","AGO","SEP","OCT","NOV","DIC")
+mes <- as.factor(mes)
+levels(mes) <- c("ENE","FEB","MAR","ABR","MAY","JUN","JUL","AGO","SEP","OCT","NOV","DIC")
+graphs.mo <- list()
+for (i in 1:12) {
+  mo <- subset(mpOrgData$MesDeOcurrencia, ANIO %in% c(2003 + i))
+  mo <- subset(mo, SEXO %in% c("GENERAL"))
+  valores <- c()
+  for (j in 1:length(mes)) {
+    moI <- subset(mo, MES %in% c(mes1[[j]]))
+    suma <- sum(subset(moI$MORDEDURAS, ! is.na(moI$MORDEDURAS)))
+    valores <- c(valores, suma)
+  }
+  mo.data.frame <- data.frame(mes, valores)
+  names(mo.data.frame) <- c("Mes", "Mordeduras")
+  graph <- ggplot(mo.data.frame, aes(x = Mes, y = Mordeduras)) +theme_bw() + geom_bar(stat = "identity")+ ggtitle(paste("", 2003 + i)) + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 5))
+  graphs.mo[[i]] <- graph
+}
+do.call("grid.arrange", c(graphs.mo, ncol=3, top = "Mes de Ocurrencia"))
+
+
+
+
+
+
+
+# Para el Boxplot
+estados <- c('Aguascalientes', 'Baja California', 'Baja California Sur', 'Campeche', 'Chiapas', 'Chihuahua', 'Coahuila', 'Colima', 'Distrito Federal', 'Durango', 'Guanajuato','Guerrero', 'Hidalgo', 'Jalisco', 'Mexico', 'Michoacan', 'Morelos', 'Nayarit','Nuevo Leon', 'Oaxaca', 'Puebla', 'Queretaro', 'Quintana Roo', 'San Luis Potosi','Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas', 'Tlaxcala', 'Veracruz', 'Yucatan','Zacatecas')
+data.frames.eats <- list()
+for (i in 1:12) {
+  porAnio <- subset(mpOrgData$FuenteDeNotificacion, ANIO %in% c(2003 + i))
+  porAnioYGeneral <- subset(porAnio, SEXO %in% c("GENERAL"))
+  totales <- c()
+  vectorAnio <- c()
+  for (j in 1:32) {
+    porAnioYGeneralYEstado <- subset(porAnioYGeneral, ESTADO %in% c(estados[[j]]))
+    totales <- c(totales, sum(subset(porAnioYGeneralYEstado$MORDEDURAS, ! is.na(porAnioYGeneralYEstado$MORDEDURAS))))
+    vectorAnio <- c(vectorAnio, 2003 +i)
+  }
+  data.frame.Estado.Anio.total <- data.frame(estados, vectorAnio, totales)
+  data.frames.eats[[i]] <- data.frame.Estado.Anio.total
+}
+data.frames.eats2 <- do.call(rbind, data.frames.eats)
+names(data.frames.eats2) <- c("ESTADO", "ANIO", "TOTAL.MORDEDURAS")
 # Box plot A??os vs. Mordeduras por estado.
-fn1 <- subset(mpOrgData$FuenteDeNotificacion, SEXO  %in% c("GENERAL"))
-fn1 <-subset(fn, !is.na(MORDEDURAS))
-mean(subset(fn1$MORDEDURAS, fn1$ANIO %in% 2004))
-p <- ggplot(fn1, aes(factor(ANIO), MORDEDURAS))
-p + geom_boxplot()
+p <- ggplot(data.frames.eats2, aes(factor(ANIO), TOTAL.MORDEDURAS))
+p + geom_boxplot() + geom_hline(yintercept=4267.594)
+
+
+
+mean(mtcars$cyl)
+ed <- subset(mtcars, cyl == 4)
+mean(ed$mpg)
+p <- ggplot(ed, aes(factor(cyl), mpg))
+p + geom_boxplot() + geom_hline(yintercept=)
+
+
+
+
+
 

@@ -1,4 +1,7 @@
-#Grafica Grupo de Edad por año
+#Grafica Grupo de Edad por a??o
+
+getwd()
+setwd("/Users/Bernardo/Documents/ITAM/Semestre 07/Estadistica Aplicada I/Proyecto/MordedurasPerro/Data/CSV/GrupoDeEdad/General")
 
 ge2004g <- read.csv("ge2004g.csv", 
                     colClasses = "character", 
