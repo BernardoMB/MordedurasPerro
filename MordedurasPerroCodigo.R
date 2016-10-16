@@ -19,7 +19,7 @@ library(gridExtra)
 
 # Especificar el directorio de trabajo.
 # El directorio de trabajo debe ser la capeta del proyecto:
-workingDirectory <- "/Users/rayangf/Desktop/MordedurasPerro"
+workingDirectory <- "/Users/Bernardo/Documents/ITAM/Semestre 07/Estadistica Aplicada I/Proyecto/MordedurasPerro"
 setwd(workingDirectory)
 
 
@@ -392,11 +392,6 @@ for (i in 1:length(mpOrgData)) {
 # --------------- Fin limpieza ------------------------
 
 
-
-
-
-
-
 # ---------------- 4.- Pruebas de consistencia.
 
 # Si no ocurre que HOMBRES + MUJERES = GENERAL, entonces se imprimir?? el a??o para el cual la informacino es inconsistente.
@@ -494,7 +489,9 @@ for (i in 1:length(estados)) {
 }
 
 
-# Tendencia.
+
+
+# TENDENCIA
 fn <- subset(mpOrgData$FuenteDeNotificacion, SEXO  %in% c("GENERAL"))
 fn <-subset(fn, !is.na(MORDEDURAS))
 years <- c()
@@ -513,11 +510,7 @@ plot(xrange, yrange, type="n", xlab="A??os",
 lines(FuenteDeN$years, FuenteDeN$sums, type="l", lwd=1.5) 
 title("Total de Mordeduras", "Crecimineto de las mordeduras de perro a trav??s de los a??os.")
 
-
-
-
-
-# -------------- Multiplots.
+# MULTIPLOTs
 
 # Fuente de Notificacio en cada a??o.
 fuente <- c("SALUD","IMSS.ORD","ISSSTE","IMSS.OP","DIF","PEMEX","SEDENA","SEMAR","OTRAS")
@@ -583,74 +576,7 @@ for (i in 1:12) {
 }
 do.call("grid.arrange", c(graphs.mo, ncol=3, top = "Mes de Ocurrencia"))
 
-
-
-
-
 # BOXPLOTs 
-
-# Boxplot: Mordeduras de los Estados por a??o.
-estados <- c('Aguascalientes', 'Baja California', 'Baja California Sur', 'Campeche', 'Chiapas', 'Chihuahua', 'Coahuila', 'Colima', 'Distrito Federal', 'Durango', 'Guanajuato','Guerrero', 'Hidalgo', 'Jalisco', 'Mexico', 'Michoacan', 'Morelos', 'Nayarit','Nuevo Leon', 'Oaxaca', 'Puebla', 'Queretaro', 'Quintana Roo', 'San Luis Potosi','Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas', 'Tlaxcala', 'Veracruz', 'Yucatan','Zacatecas')
-data.frames.eats <- list()
-for (i in 1:12) {
-  porAnio <- subset(mpOrgData$FuenteDeNotificacion, ANIO %in% c(2003 + i))
-  porAnioYGeneral <- subset(porAnio, SEXO %in% c("GENERAL"))
-  totales <- c()
-  vectorAnio <- c()
-  for (j in 1:32) {
-    porAnioYGeneralYEstado <- subset(porAnioYGeneral, ESTADO %in% c(estados[[j]]))
-    totales <- c(totales, sum(subset(porAnioYGeneralYEstado$MORDEDURAS, ! is.na(porAnioYGeneralYEstado$MORDEDURAS))))
-    vectorAnio <- c(vectorAnio, 2003 +i)
-  }
-  data.frame.Estado.Anio.total <- data.frame(estados, vectorAnio, totales)
-  data.frames.eats[[i]] <- data.frame.Estado.Anio.total
-}
-data.frames.eats2 <- do.call(rbind, data.frames.eats)
-names(data.frames.eats2) <- c("ESTADO", "ANIO", "TOTAL.MORDEDURAS")
-means <- aggregate(TOTAL.MORDEDURAS ~  ANIO, data.frames.eats2, mean)
-# Mordeduras de los Estados por a??o.
-p <- ggplot(data.frames.eats2, aes(x=factor(ANIO), y=TOTAL.MORDEDURAS)) 
-p + geom_boxplot() + ggtitle("Mordeduras de los estados por a??o") +
-  labs(x="A??o",y="Mordeduras") + 
-  theme(plot.title = element_text(family = "Trebuchet MS", color="#666666", 
-        face="bold", size=32, hjust=0))  + stat_summary(fun.y=mean, 
-        colour="darkred", geom="point", shape=18, 
-        size=3,show_guide = FALSE)
-
-# Boxplot: Mordeduras por fuente de noticiacion en cada a??o.
-fuentes <- c("SALUD","IMSS.ORD","ISSSTE","IMSS.OP","DIF","PEMEX","SEDENA","SEMAR","OTRAS")
-data.frames.aft <- list()
-for (s in 1:12) {
-  porAnio2 <- subset(mpOrgData$FuenteDeNotificacion, ANIO %in% c(2003 + s))
-  porAnioYGeneral2 <- subset(porAnio2, SEXO %in% c("GENERAL"))
-  totales2 <- c()
-  vectorAnio2 <- c()
-  for (r in 1:9) {
-    porAnioYGeneralYFuente2 <- subset(porAnioYGeneral2, FUENTE %in% c(fuentes[[r]]))
-    totales2 <- c(totales2, sum(subset(porAnioYGeneralYFuente2$MORDEDURAS, ! is.na(porAnioYGeneralYFuente2$MORDEDURAS))))
-    vectorAnio2 <- c(vectorAnio2, 2003 + s)
-  }
-  data.frame.Anio.Fuente.total2 <- data.frame(fuentes, vectorAnio2, totales2)
-  data.frames.aft[[s]] <- data.frame.Anio.Fuente.total2
-}
-data.frames.aft2 <- do.call(rbind, data.frames.aft)
-names(data.frames.aft2) <- c("FUENTE", "ANIO", "TOTAL.MORDEDURAS")
-means2 <- aggregate(TOTAL.MORDEDURAS ~  ANIO, data.frames.aft2, mean)
-# Mordeduras por fuente de noticiacion en cada a??o.
-p <- ggplot(data.frames.aft2, aes(x=factor(ANIO), y=TOTAL.MORDEDURAS)) 
-p + geom_boxplot() + ggtitle("Mordeduras por fuente de notificacion en cada a??o") +
-  labs(x="A??o",y="Mordeduras") + 
-  theme(plot.title = element_text(family = "Trebuchet MS", color="#666666", 
-        face="bold", size=32, hjust=0))  + stat_summary(fun.y=mean,
-        colour="darkred", geom="point", 
-        shape=18, size=3,show_guide = FALSE)
-
-
-
-
-
-
-
 
 boxplotea <- function (categoria, sexo) {
   cat <- NULL
@@ -672,6 +598,11 @@ boxplotea <- function (categoria, sexo) {
     cat <- "MES"
     raw <- mpOrgData$MesDeOcurrencia
     titulo <- "Mordeduras por mes de ocurrencia en cada a??o" 
+  } else if (categoria == "estado") {
+    categorias <- c('Aguascalientes', 'Baja California', 'Baja California Sur', 'Campeche', 'Chiapas', 'Chihuahua', 'Coahuila', 'Colima', 'Distrito Federal', 'Durango', 'Guanajuato','Guerrero', 'Hidalgo', 'Jalisco', 'Mexico', 'Michoacan', 'Morelos', 'Nayarit','Nuevo Leon', 'Oaxaca', 'Puebla', 'Queretaro', 'Quintana Roo', 'San Luis Potosi','Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas', 'Tlaxcala', 'Veracruz', 'Yucatan','Zacatecas')
+    cat <- "ESTADO"
+    raw <- mpOrgData$FuenteDeNotificacion
+    titulo <- "Mordeduras por estado en cada a??o" 
   }
   sexos <- NULL
   if (sexo == "general") {
@@ -688,7 +619,12 @@ boxplotea <- function (categoria, sexo) {
     totales <- c()
     vectorAnios <- c()
     for (j in 1:length(categorias)) {
-      porAnioYSexoYCat <- subset(porAnioYSexo, porAnioYSexo[[4]] %in% c(categorias[[j]]))
+      porAnioYSexoYCat <- NULL
+      if (categoria == "estado") {
+        porAnioYSexoYCat <- subset(porAnioYSexo, porAnioYSexo$ESTADO %in% c(categorias[[j]]))
+      } else {
+        porAnioYSexoYCat <- subset(porAnioYSexo, porAnioYSexo[[4]] %in% c(categorias[[j]]))
+      }
       totales <- c(totales, sum(subset(porAnioYSexoYCat$MORDEDURAS, ! is.na(porAnioYSexoYCat$MORDEDURAS))))
       vectorAnios <- c(vectorAnios, 2003 + i)
     }
@@ -699,136 +635,16 @@ boxplotea <- function (categoria, sexo) {
   names(dataConcat) <- c(cat, "ANIO", "TOTAL.MORDEDURAS")
   means <- aggregate(TOTAL.MORDEDURAS ~  ANIO, dataConcat, mean)
   p <- ggplot(dataConcat, aes(x=factor(ANIO), y=TOTAL.MORDEDURAS)) 
-  p + geom_boxplot() + ggtitle(title) + labs(x="A??o",y="Mordeduras") + theme(plot.title = element_text(family = "Trebuchet MS", color="#666666", face="bold", size=32, hjust=0))  + stat_summary(fun.y=mean, colour="darkred", geom="point", shape=18, size=3,show_guide = FALSE)
+  p + geom_boxplot() + ggtitle(paste(paste(titulo, " :"), sexos)) + labs(x="A??o",y="Mordeduras") + theme(plot.title = element_text(family = "Trebuchet MS", color="#666666", face="bold", size=12, hjust=0))  + stat_summary(fun.y=mean, colour="darkred", geom="point", shape=18, size=3,show_guide = FALSE)
 }
 
-
-debug(boxplotea)
-
-
+boxplotea("estado", "general")
 boxplotea("fuente", "general")
-
-# Boxplot: Mordeduras por grupo de edad en cada a??o.
-grupoedad <- c("MAYOR.A.UNO","UNO.A.CUATRO","CINCO.A.NUEVE","DIEZ.A.CATORCE","QUINCE.A.DIECINUEVE","VEINTE.A.VEINTICUATRO","VEINTICINCO.A.CUARENTAYCUATRO","CUARENTAYCINCO.A.CUARENTAYNUEVE","CINCUENTA.A.CINCUENTAYNUEVE","SESENTA.A.SESENTAYCUATRO","MAYOR.A.SESENTAYCINCO","NO.SE.REPORTO.LA.EDAD")
-GrupoDeEdadGeneralDFs <- list()
-for (q in 1:12) {
-  porAnioGEG <- subset(mpOrgData$GrupoDeEdad, ANIO %in% c(2003 + q))
-  porAnioYGeneralGEG <- subset(porAnioGEG, SEXO %in% c("GENERAL"))
-  totalesGEG <- c()
-  vectorAnioGEG <- c()
-  for (k in 1:12) {
-    porAnioYGeneralYMesGEG <- subset(porAnioYGeneralGEG , EDAD %in% c(grupoedad[[k]]))
-    print(porAnioYGeneralYMesGEG)
-    print(" ")
-    totalesGEG <- c(totalesGEG, sum(subset(porAnioYGeneralYMesGEG$MORDEDURAS, ! is.na(porAnioYGeneralYMesGEG$MORDEDURAS))))
-    vectorAnioGEG <- c(vectorAnioGEG, 2003 + q)
-  }
-  data.frame.Anio.Mes.totalGEG <- data.frame(grupoedad, vectorAnioGEG, totalesGEG)
-  GrupoDeEdadGeneralDFs[[q]] <- data.frame.Anio.Mes.totalGEG
-}
-data.frames.GEG <- do.call(rbind, GrupoDeEdadGeneralDFs)
-names(data.frames.GEG) <- c("INTERVALO", "ANIO", "TOTAL.MORDEDURAS")
-meansGEG <- aggregate(TOTAL.MORDEDURAS ~  ANIO, data.frames.GEG, mean)
-# Mordeduras por grupo de edad en cada a??o.
-p <- ggplot(data.frames.GEG, aes(x=factor(ANIO), y=TOTAL.MORDEDURAS)) 
-p + geom_boxplot() + ggtitle("Mordeduras por grupo de edad en cada a??o") +
-  labs(x="A??o",y="Mordeduras") + 
-  theme(plot.title = element_text(family = "Trebuchet MS", color="#666666",
-        face="bold", size=32, hjust=0)) + stat_summary(fun.y=mean, 
-        colour="darkred", geom="point", shape=18, size=3,show_guide = FALSE)
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Boxplot: Mordeduras por mes de ocurrencia en cada a??o.
-meses <- c("ENE","FEB","MAR","ABR","MAY","JUN","JUL","AGO","SEP","OCT","NOV","DIC")
-data.frames.qwe <- list()
-for (q in 1:12) {
-  porAnio3 <- subset(mpOrgData$MesDeOcurrencia, ANIO %in% c(2003 + q))
-  porAnioYGeneral3 <- subset(porAnio3, SEXO %in% c("GENERAL"))
-  totales3 <- c()
-  vectorAnio3 <- c()
-  for (k in 1:12) {
-    porAnioYGeneralYMes3 <- subset(porAnioYGeneral3, MES %in% c(meses[[k]]))
-    totales3 <- c(totales3, sum(subset(porAnioYGeneralYMes3$MORDEDURAS, ! is.na(porAnioYGeneralYMes3$MORDEDURAS))))
-    vectorAnio3 <- c(vectorAnio3, 2003 + q)
-  }
-  data.frame.Anio.Mes.total3 <- data.frame(meses, vectorAnio3, totales3)
-  data.frames.qwe[[q]] <- data.frame.Anio.Mes.total3
-}
-data.frames.qwe2 <- do.call(rbind, data.frames.qwe)
-names(data.frames.qwe2) <- c("MES", "ANIO", "TOTAL.MORDEDURAS")
-means3 <- aggregate(TOTAL.MORDEDURAS ~  ANIO, data.frames.qwe2, mean)
-# Mordeduras por mes de ocurrencia en cada a??o.
-p <- ggplot(data.frames.qwe2, aes(x=factor(ANIO), y=TOTAL.MORDEDURAS)) 
-p + geom_boxplot() + ggtitle("Mordeduras por mes de ocurrencia en cada a??o") +
-  labs(x="A??o",y="Mordeduras") + 
-  theme(plot.title = element_text(family = "Trebuchet MS", color="#666666",
-        face="bold", size=32, hjust=0)) + stat_summary(fun.y=mean, 
-        colour="darkred", geom="point", shape=18, size=3,show_guide = FALSE)
-
-# Boxplot: Mordeduras de los Estados por a??o. (HOMBRES)
-estados <- c('Aguascalientes', 'Baja California', 'Baja California Sur', 'Campeche', 'Chiapas', 'Chihuahua', 'Coahuila', 'Colima', 'Distrito Federal', 'Durango', 'Guanajuato','Guerrero', 'Hidalgo', 'Jalisco', 'Mexico', 'Michoacan', 'Morelos', 'Nayarit','Nuevo Leon', 'Oaxaca', 'Puebla', 'Queretaro', 'Quintana Roo', 'San Luis Potosi','Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas', 'Tlaxcala', 'Veracruz', 'Yucatan','Zacatecas')
-data.frames.eats4 <- list()
-for (i in 1:12) {
-  porAnio4 <- subset(mpOrgData$FuenteDeNotificacion, ANIO %in% c(2003 + i))
-  porAnioYGeneral4 <- subset(porAnio4, SEXO %in% c("HOMBRES"))
-  totales4 <- c()
-  vectorAnio4 <- c()
-  for (j in 1:32) {
-    porAnioYGeneralYEstado4 <- subset(porAnioYGeneral4, ESTADO %in% c(estados[[j]]))
-    totales4 <- c(totales4, sum(subset(porAnioYGeneralYEstado4$MORDEDURAS, ! is.na(porAnioYGeneralYEstado4$MORDEDURAS))))
-    vectorAnio4 <- c(vectorAnio4, 2003 + i)
-  }
-  data.frame.Estado.Anio.total4 <- data.frame(estados, vectorAnio4, totales4)
-  data.frames.eats4[[i]] <- data.frame.Estado.Anio.total4
-}
-data.frames.eats24 <- do.call(rbind, data.frames.eats4)
-names(data.frames.eats24) <- c("ESTADO", "ANIO", "TOTAL.MORDEDURAS")
-means4 <- aggregate(TOTAL.MORDEDURAS ~  ANIO, data.frames.eats24, mean)
-# Mordeduras de los Estados por a??o.
-p4 <- ggplot(data.frames.eats24, aes(x=factor(ANIO), y=TOTAL.MORDEDURAS)) 
-p4 + geom_boxplot() + ggtitle("Mordeduras de los estados por a??o (HOMBRES)") +
-  labs(x="A??o",y="Mordeduras") + 
-  theme(plot.title = element_text(family = "Trebuchet MS", color="#666666", 
-        face="bold", size=32, hjust=0))  + stat_summary(fun.y=mean, 
-        colour="darkred", geom="point", shape=18, 
-        size=3,show_guide = FALSE)
-
-# Boxplot: Mordeduras de los Estados por a??o. (MUJERES)
-estados <- c('Aguascalientes', 'Baja California', 'Baja California Sur', 'Campeche', 'Chiapas', 'Chihuahua', 'Coahuila', 'Colima', 'Distrito Federal', 'Durango', 'Guanajuato','Guerrero', 'Hidalgo', 'Jalisco', 'Mexico', 'Michoacan', 'Morelos', 'Nayarit','Nuevo Leon', 'Oaxaca', 'Puebla', 'Queretaro', 'Quintana Roo', 'San Luis Potosi','Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas', 'Tlaxcala', 'Veracruz', 'Yucatan','Zacatecas')
-data.frames.eats5 <- list()
-for (i in 1:12) {
-  porAnio5 <- subset(mpOrgData$FuenteDeNotificacion, ANIO %in% c(2003 + i))
-  porAnioYGeneral5 <- subset(porAnio5, SEXO %in% c("MUJERES"))
-  totales5 <- c()
-  vectorAnio5 <- c()
-  for (j in 1:32) {
-    porAnioYGeneralYEstado5 <- subset(porAnioYGeneral5, ESTADO %in% c(estados[[j]]))
-    totales5 <- c(totales5, sum(subset(porAnioYGeneralYEstado5$MORDEDURAS, ! is.na(porAnioYGeneralYEstado5$MORDEDURAS))))
-    vectorAnio5 <- c(vectorAnio5, 2003 + i)
-  }
-  data.frame.Estado.Anio.total5 <- data.frame(estados, vectorAnio5, totales5)
-  data.frames.eats5[[i]] <- data.frame.Estado.Anio.total5
-}
-data.frames.eats25 <- do.call(rbind, data.frames.eats5)
-names(data.frames.eats25) <- c("ESTADO", "ANIO", "TOTAL.MORDEDURAS")
-means5 <- aggregate(TOTAL.MORDEDURAS ~  ANIO, data.frames.eats25, mean)
-# Mordeduras de los Estados por a??o.
-p5 <- ggplot(data.frames.eats25, aes(x=factor(ANIO), y=TOTAL.MORDEDURAS)) 
-p5 + geom_boxplot() + ggtitle("Mordeduras de los estados por a??o (HOMBRES)") +
-  labs(x="A??o",y="Mordeduras") + 
-  theme(plot.title = element_text(family = "Trebuchet MS", color="#666666", 
-        face="bold", size=32, hjust=0))  + stat_summary(fun.y=mean, 
-        colour="darkred", geom="point", shape=18,
-        size=3,show_guide = FALSE)
-
+boxplotea("fuente", "hombres")
+boxplotea("fuente", "mujeres")
+boxplotea("grupo", "general")
+boxplotea("grupo", "hombres")
+boxplotea("grupo", "mujeres")
+boxplotea("mes", "general")
+boxplotea("mes", "hombres")
+boxplotea("mes", "mujeres")
