@@ -19,7 +19,7 @@ library(gridExtra)
 
 # Especificar el directorio de trabajo.
 # El directorio de trabajo debe ser la capeta del proyecto:
-workingDirectory <- "/Users/Bernardo/Documents/ITAM/Semestre 07/Estadistica Aplicada I/Proyecto/MordedurasPerro"
+workingDirectory <- "/Users/rayangf/Desktop/MordedurasPerro"
 setwd(workingDirectory)
 
 
