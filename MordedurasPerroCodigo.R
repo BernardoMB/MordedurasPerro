@@ -534,7 +534,7 @@ for (i in 1:length(estados)) {
 }
 
 
-# Tendencia
+# Tendencia.
 fn <- subset(mpOrgData$FuenteDeNotificacion, SEXO  %in% c("GENERAL"))
 fn <-subset(fn, !is.na(MORDEDURAS))
 years <- c()
