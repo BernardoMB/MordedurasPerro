@@ -1,0 +1,911 @@
+---
+title: "Reporte EJECUTIVO"
+autor: "Fernando Chávez 142353, Bernardo Mondragón 143743, Rayan García 144424"
+date: "17 de octubre de 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. Introducción
+El Proyecto consiste en el análisis de la incidencia en mordeduras de perro en México del año 2004 a 2015. Dicha incidencia se ordena por Fuente de Notificación, Mes de Ocurrencia y Grupo de Edad. Los datos usados en este proyecto provienen de la secretaría de salud: http://www.epidemiologia.salud.gob.mx/anuario/html/anuarios.html. 
+
+El objetivo es presentar una serie de gráficas y análisis de cómo ha cambiado la incidencia de las mordeduras de perro a través de los años. Los datos obtenidos de las distinas clasifiaciones (i.e fuente de notificación, mese de ocurrencia y grupo de edad) se presentan de manera clara y organizada. 
+
+Creemos que el análisis de datos es importante para el sector salud, ya que podría utilizarse para conocer la tendencia, la frecuencia y la variabilidad de los datos. Ya que si el sector salud conoce de manera detallada la incidencia de las mordeduras de perro en México puede tomar mejores decisiones para atender a la población. Se pueden crear campañas o  se pueden enfocar más en los estados "problemáticos". 
+
+
+## 2. Definición del Problema
+En la obtención de los datos surgen varias preguntas a resolver y aclarar: ¿Cuál es la tendencia de las mordeduras de perro a través de los años?, ¿cómo se cambió la incidencia de las mordeduras de perro en los estados cada año?, ¿cómo se fueron reportando las mordeduras de perro en las fuentes de notificación a través de los años?, ¿cómo se reportaron las mordeduras en los grupos de edad a través de los años?, ¿cuáles son lo estados que están por arriba de la media en el último año?, ¿cuáles son los máximos y mínimos a través de los años?, ¿cómo es la tendencia de cada estado en cada año?, entre otras. 
+
+Una de las primeras preguntas surge de un pensamiento racional y clásico: ¿Cómo se están comportando las mordeduras en México a través de los años?.
+
+Se presenta una serie de gáficas que comparan el total de mordeduras por año para las clasificaciones de Fuente de Notificación, Mes de Ocurrencia y Grupo de Edad. Además se incluye la comparación de total de mordeduras por estado para el periódo 2004-2015. Esto permite observar el cambio a través del tiempo y especificar la tendendia de cada uno de los casos.
+
+Uno de los análisis que consideramos fue el de los estados que han tenido una mayor tendencia a través de los años en mordeduras, ya que son estados que deben tener mayor prioridad en lo que se refiere a la potencial amenaza en la propagación de algúna enfermedad transmitida por las mismas. Con esto llegamos a una de nuestras conclusiones: el análisis y objetivo de los datos, en sector salud, es prevenir. Se debe prestar especial atención a los estados que estuvieran por arriba de la media.
+
+## 3. Obtención y Descripción de los Datos
+
+### 3.1 Descarga de Archivos
+Se descargaron los PDF's de la pagina consultada para cada año desde 2004 a 2015, tanto para Fuente de Notificación, Mes de Ocurrencia, y Grupo de Edad incluyendo: General, Hombres y Mujeres, 108 en total
+
+Después para poderlos leer en Rstudio, primero se convirtió a formato Excel utilizando la página de internet: https://online2pdf.com/en/pdf2excel.
+
+Al momento de leerlos en Excel se observó lo siguiente:
+
+#### 3.1.1 Fuente de Notificación
+En cada archivo excel de Fuente de Notificación, se encontraba en cada columna: 
+"Estado", Salud", "Imss.ord", "Issste", "Imss.op", "Dif", "Pemex", "Sedena", "Semar", "Otras" y "Total. Siendo "OTRAS", otras fuentes notificación diferentes a las anteriores y Total al total obtenido de cada renglón. También se obtuvo en el excel un renglón de Totales y encabezados de la descripción de cada archivo.
+
+
+#### 3.1.2 Mes de Ocurrencia
+En cada excel de Mes de Ocurrencia, se encontraba en cada columna:
+"Estado" "ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC".
+Dependiendo del año que se descargara el PDF había en algunos una columna con la tasa utilizada para calcular los resultados. También se podían hallar los meses sin abreviaturas y con la primera letra mayúscula, al igual que en algunos la columna de Total variaba en la  primera columna o en la última.
+
+
+#### 3.1.3 Grupo de Edad
+En cada archivo excel de Grupo de Edad, se encuentra en cada columna:
+"Estado", ">1", "1-4", "5-9", "10-14", "15-19", "20-24", "25-44", "45-49", "50-59", "60-64", ">65", "Ign".
+
+Uno de los principales problemas, que se consideraron de esta variable, es que los intervalos de las edades no son constantes, esto es, que hay intervalos de cuatro años al igual que hay un intervalo de 19 años el cual presentará mayor probabilidad de que los datos estén contenidos en este.
+
+Otro de los problemas que presenta cada excel de Grupo de Edad es que su segunda columna ">1" se puede interpretar como mayor a uno pero con la tercera columna "1-4" se puede crear confusión al momento de interpretar los datos.Probablemente lo que quizo mencionar el archivo es que ">1" indica menor a un año.
+
+
+#### 3.1.4 Similaridades en todos los Formatos
+En la columna Estados se encontraban 32 en total, cada uno con Mayúscula al principio y con su respectivo acento, en caso que tuviera. Se indica a la Ciudad de México como "Distrito Federal" y al Estado de México como "México". 
+
+Fueron pocos en los que nos vimos obligados a cambiar a mano la información obtenida para el archivo excel, ya que en la conversión de formato se había modificado considerablemente.
+
+### 3.2 Formato CSV
+Para poder leer los archivos de excel en Rstudio, se tuvieron que guardar en el formato CSV, ya guardados se pudieron leer sin ningún problema en Rstudio.
+
+
+
+## 4. Calidad de los Datos
+En cuanto a la calidad de los datos, se hicieron pruebas de consistencia consistencia. Es decir, se verificó que el total de los archivos de GENERAL fueran iguales los totales de HOMBRES más MUJERE. Se comprobó que no había ninguna inconsistencia en la igualdad de ningún año. También se comprobó que los totales fueran correctos en cada Formato, Fuente de Notificación, Mes de Ocurrencia y Grupo de Edad. 
+
+
+## 5. Transformación de los Datos
+
+### 5.1 Limpieza
+Se limpiaron y acomodaron los datos en Rstudio de tal forma que pudieran estar en un formato limpio y organizado,sin tener columnas innecesarias, datos extra o información desorganizada.
+
+La limpieza consistió en: eliminar espacios entre números, cambiar todas las variables en mayúsculas, eliminar los espacios entre los nombres de los estados, quitar los acentos de todos los estados y por último cambiar "N.A." y "S/R" a NA's para que con Rstudio pudieramos hacer los análisis correspondientes.
+
+En especial se modificó el Dataframe de Grupo de Edad (i.e "1-4" se modificó a "UNO.A.CUATRO")
+
+### 5.2 Organización
+Se realizó la lectura de los archivos, se añadieron para cada archivo un columna con el nombre de ANIO, indicando el año respectivo, se escogió el nombre de "ANIO" y no "AÑO" ya que en computadoras mac no se pueden leer "ñ's" en las variables. Además se agregó la columna de "SEXO", indicando a que archivo correspondian los datos si a: "GENERAL", "HOMBRES" o "MUJERES". 
+
+Después, se juntaron todas las tablas en una, para cada uno de los formatos, creando tres Dataframes, esto es, un Dataframe para Fuente de Notificación, Mes de Ocurrencia y Grupo de Edad, cada uno con las columnas: "ESTADO", "ANIO", Variable("FUENTE", "MES", "EDAD"), "SEXO" y Total de Mordeduras llamado "MORDEDURAS".  
+
+Además de las columnas de "ESTADO", "ANIO", "SEXO" y "MORDEDURAS" en la Variable de cada Dataframe está organizada de la siguiente manera:
+
+#### 5.2.1 Fuente de Notificación
+En el Dataframe de Fuente de Notificación, dentro de su variable "FUENTE", se encuentra: 
+"SALUD", "IMSS.ORD", "ISSSTE", "IMSS.OP", "DIF", "PEMEX", "SEDENA", "SEMAR" y "OTRAS". todas en mayúsculas y el espacio representado por un punto, si es necesario.
+
+
+#### 5.2.2 Dataframe de Grupo de Edad
+En el Dataframe de Grupo de Edad, dentro de la variable "EDAD", se encuentra:
+"MAYOR.A.UNO", "UNO.A.CUATRO", "CINCO.A.NUEVE", "DIEZ.A.CATORCE", "QUINCE.A.DIECINUEVE", "VEINTE.A.VEINTICUATRO", "VEINTICINCO.A.CUARENTAYCUATRO", "CUARENTAYCINCO.A.CUARENTAYNUEVE", "CINCUENTA.A.CINCUENTAYNUEVE", "SESENTA.A.SESENTAYCUATRO", "MAYOR.A.SESENTAYCINCO", "NO.SE.REPORTO.LA.EDAD".
+Cada dato presenta el intervalo de edad donde se presentaron mordeduras por perro todo en mayúsculas y un punto representando el espacio. 
+
+
+#### 3.5.3 Dataframe de Mes de Ocurrencia
+En el Dataframe de Mes de Ocurrencia, dentro de la variable "MES", se encuentra:
+"ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC".
+cada dato representado por la abreviatura de cada mes. 
+
+
+## 6. Análisis Exploratorio
+
+```{r , echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+library(data.table)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(gridExtra)
+library(ggmap)
+library(gridExtra)
+#library(cowplot)
+
+# ---------------------------- 1.- Directorio de Trabajo --------------------------
+
+# Especificar el directorio de trabajo.
+# El directorio de trabajo debe ser la capeta del proyecto:
+workingDirectory <- "/Users/rayangf/Desktop/MordedurasPerro"
+setwd(workingDirectory)
+
+
+# ---------------------------- 2.- Lectura de Tablas ------------------------------
+
+getNames <- function() {
+  nombres <- NULL
+  nombres <- c()
+  for (i in 1:12) {
+    nombres <- c(nombres, paste(2003 + i))
+  }
+  return(nombres)
+}
+nombres <- getNames()
+
+# --------------- 2.1.- Fuente de Notificacion.
+
+# Fuente de Notificacion General
+spath <-paste(getwd(), "/Data/CSV/FuenteDeNotificacion/General/", sep="")
+setwd(spath)
+fng <- list.files()
+fng
+fng <- lapply(fng, fread, sep=",")
+names(fng) <- nombres
+setwd(workingDirectory)
+
+# Fuente de Notificacion Hombres
+spath <-paste(getwd(), "/Data/CSV/FuenteDeNotificacion/Hombres/", sep="")
+setwd(spath)
+fnh <- list.files()
+fnh <- lapply(fnh, fread, sep=",")
+names(fnh) <- nombres
+setwd(workingDirectory)
+
+# Fuente de Notificacion Mujeres
+spath <-paste(getwd(), "/Data/CSV/FuenteDeNotificacion/Mujeres/", sep="")
+setwd(spath)
+fnm <- list.files()
+fnm <- lapply(fnm, fread, sep=",")
+names(fnm) <- nombres
+setwd(workingDirectory)
+
+# --------------- 2.2.- Grupo de Edad.
+
+# Grupo de Edad General
+spath <-paste(getwd(), "/Data/CSV/GrupoDeEdad/General/", sep="")
+setwd(spath)
+geg <- list.files()
+geg <- lapply(geg, fread, sep=",")
+names(geg) <- nombres
+setwd(workingDirectory)
+
+# Grupo de Edad Hombres
+spath <-paste(getwd(), "/Data/CSV/GrupoDeEdad/Hombres/", sep="")
+setwd(spath)
+geh <- list.files()
+geh <- lapply(geh, fread, sep=",")
+names(geh) <- nombres
+setwd(workingDirectory)
+
+# Grupo de Edad Mujeres
+spath <-paste(getwd(), "/Data/CSV/GrupoDeEdad/Mujeres/", sep="")
+setwd(spath)
+gem <- list.files()
+gem <- lapply(gem, fread, sep=",")
+names(gem) <- nombres
+setwd(workingDirectory)
+
+# --------------- 2.3.- Mes de Ocurrencia.
+
+# Mes de Ocurrencia General
+spath <-paste(getwd(), "/Data/CSV/MesDeOcurrencia/General/", sep="")
+setwd(spath)
+mog <- list.files()
+mog <- lapply(mog, fread, sep=",")
+names(mog) <- nombres
+setwd(workingDirectory)
+
+# Mes de Ocurrencia Hombres
+spath <-paste(getwd(), "/Data/CSV/MesDeOcurrencia/Hombres/", sep="")
+setwd(spath)
+moh <- list.files()
+moh <- lapply(moh, fread, sep=",")
+names(moh) <- nombres
+setwd(workingDirectory)
+
+# Mes de Ocurrencia Mujeres
+spath <-paste(getwd(), "/Data/CSV/MesDeOcurrencia/Mujeres/", sep="")
+setwd(spath)
+mom <- list.files()
+mom <- lapply(mom, fread, sep=",")
+names(mom) <- nombres
+setwd(workingDirectory)
+
+# --------------- 2.4.- Diccionario.
+
+FuenteDeNotificacion = list(fng, fnh, fnm)
+names(FuenteDeNotificacion) <- c("General", "Hombres", "Mujeres")
+
+GrupoDeEdad = list(geg, geh, gem)
+names(GrupoDeEdad) <- c("General", "Hombres", "Mujeres")
+
+MesDeOcurrencia = list(mog, moh, mom)
+names(MesDeOcurrencia) <- c("General", "Hombres", "Mujeres")
+
+mpData = list(FuenteDeNotificacion, GrupoDeEdad, MesDeOcurrencia)
+names(mpData) <- c("FuenteDeNotificacion", "GrupoDeEdad", "MesDeOcurrencia")
+
+# ------------ 3.- Limpieza de Codigo.
+
+# ---------------- 3.1.- Eliminacion de columnas.
+
+# Elimina la columna TOTAL de los data.frames de Fuente de Notificacion.
+for (i in 1:length(mpData$FuenteDeNotificacion)) {
+  for (j in 1:length(mpData$FuenteDeNotificacion[[i]])) {
+    mpData$FuenteDeNotificacion[[i]][[j]][[11]] <- NULL
+  }
+}
+
+# Elimina la columna TOTAL de los data.frames de Gruepo de Edad.
+for (i in 1:length(mpData$GrupoDeEdad)) {
+  for (j in 1:length(mpData$GrupoDeEdad[[i]])) {
+    mpData$GrupoDeEdad[[i]][[j]][[14]] <- NULL
+  }
+} 
+
+# ---------------- 3.2.- Nombres, Agrega columnas, Pasa a formato organizado, Mordeduras to numeric.
+
+# Corrige el nombre de los estados y de los encabezados.
+for (i in 1:length(mpData)) {
+  cat <- mpData[[i]]
+  for (j in 1:length(cat)) {
+    type <- cat[[j]]
+    for (l in 1:length(type)) {
+      names(type[[l]]) <- toupper(names(type[[l]]))
+    }
+    for (m in 1:length(type)) {
+      if (i == 1) {
+        # Fuente de Notificacion
+        type[[m]] <- within(type[[m]], 
+                            {
+                              SALUD <- gsub("[ ]", "", SALUD)
+                              IMSS.ORD <- gsub("[ ]", "", IMSS.ORD)
+                              ISSSTE <- gsub("[ ]", "", ISSSTE)
+                              IMSS.OP <- gsub("[ ]", "",IMSS.OP)
+                              DIF <- gsub("[ ]", "", DIF)
+                              PEMEX <- gsub("[ ]", "", PEMEX)
+                              SEDENA <- gsub("[ ]", "", SEDENA)
+                              SEMAR <- gsub("[ ]", "", SEMAR)
+                              OTRAS <- gsub("[ ]", "", OTRAS)
+                              IMSS.ORD <- gsub("N.A.*|S.R*|NA.", "NA", IMSS.ORD)
+                              SALUD <- gsub("N.A.*|S.R*|NA.", "NA", SALUD)
+                              ISSSTE <- gsub("N.A.*|S.R*|NA.", "NA", ISSSTE)
+                              IMSS.OP <- gsub("N.A.*|S.R*|NA.", "NA",IMSS.OP)
+                              DIF <- gsub("N.A.*|S.R*|NA.", "NA", DIF)
+                              PEMEX <- gsub("N.A.*|S.R*|NA.", "NA", PEMEX)
+                              SEDENA <- gsub("N.A.*|S.R*|NA.", "NA", SEDENA)
+                              SEMAR <- gsub("N.A.*|S.R*|NA.", "NA", SEMAR)
+                              OTRAS <- gsub("N.A.*|S.R*|NA.", "NA", OTRAS)
+                              ESTADO <- gsub("M.*co.*", "Mexico", ESTADO)
+                              ESTADO <- gsub("Agua.*es.*", "Aguascalientes", ESTADO)
+                              ESTADO <- gsub("Dist.*al.*", "Distrito Federal", ESTADO)
+                              ESTADO <- gsub("Guan.*o.*", "Guanajuato", ESTADO)
+                              ESTADO <- gsub("H.idalgo*", "Hidalgo", ESTADO) 
+                              ESTADO <- gsub("M.*n.*", "Michoacan", ESTADO)
+                              ESTADO <- gsub("M.*los.*", "Morelos", ESTADO)
+                              ESTADO <- gsub("Nuevo L.*e.*.*.*.*n.*", "Nuevo Leon", ESTADO)
+                              ESTADO <- gsub("Nuevo Le.*n.*", "Nuevo Leon", ESTADO)
+                              ESTADO <- gsub("T.abasco*", "Tabasco", ESTADO)
+                              ESTADO <- gsub("T.amaulipas*", "Tamaulipas", ESTADO)
+                              ESTADO <- gsub("Quer.*ro.*", "Queretaro", ESTADO)
+                              ESTADO <- gsub("Z.acatecas.*", "Zacatecas", ESTADO)
+                              ESTADO <- gsub("Zac.*cas.*", "Zacatecas", ESTADO)
+                              ESTADO <- gsub("Quint.*oo.*", "Quintana Roo", ESTADO)
+                              ESTADO <- gsub("San Luis Pot.*.*", "San Luis Potosi", ESTADO)
+                              ESTADO <- gsub("Yuca.*n.*", "Yucatan",ESTADO)
+                            })
+        # Agregando la columna sexo para pasar a formato organizado.
+        if (j == 1) {
+          SEXO <- c()
+          for (n in 1:32) {
+            SEXO <- c(SEXO, "GENERAL")
+          }
+          type[[m]][["SEXO"]] <- SEXO
+        } else if (j == 2) {
+          SEXO <- c()
+          for (n in 1:32) {
+            SEXO <- c(SEXO, "HOMBRES")
+          }
+          type[[m]][["SEXO"]] <- SEXO
+        } else if (j == 3) {
+          SEXO <- c()
+          for (n in 1:32) {
+            SEXO <- c(SEXO, "MUJERES")
+          }
+          type[[m]][["SEXO"]] <- SEXO
+        }
+        # Agregando la columna de a??o para pasar a formato organizado.
+        ANIO <- c()
+        for (p in 1:32) {
+          ANIO <- c(ANIO, 2003 + m)
+        }
+        type[[m]][["ANIO"]] <- ANIO
+        # Pasar a formato organizado.
+        type[[m]] <- gather(data = type[[m]], 
+                         key = "FUENTE", 
+                         value = "MORDEDURAS", 
+                         2:10)
+      } 
+      else if (i == 2) {
+        # Grupo de Edad
+        type[[m]] <- within(type[[m]] , 
+                            {
+                              MAYOR.A.UNO <- gsub("[ ]", "", MAYOR.A.UNO)
+                              UNO.A.CUATRO <- gsub("[ ]", "", UNO.A.CUATRO)
+                              CINCO.A.NUEVE <- gsub("[ ]", "", CINCO.A.NUEVE)
+                              DIEZ.A.CATORCE <- gsub("[ ]", "",DIEZ.A.CATORCE)
+                              QUINCE.A.DIECINUEVE <- gsub("[ ]", "", QUINCE.A.DIECINUEVE)
+                              VEINTE.A.VEINTICUATRO <- gsub("[ ]", "", VEINTE.A.VEINTICUATRO )
+                              VEINTICINCO.A.CUARENTAYCUATRO <- gsub("[ ]", "", VEINTICINCO.A.CUARENTAYCUATRO)
+                              CUARENTAYCINCO.A.CUARENTAYNUEVE <- gsub("[ ]", "", CUARENTAYCINCO.A.CUARENTAYNUEVE)
+                              CINCUENTA.A.CINCUENTAYNUEVE <- gsub("[ ]", "", CINCUENTA.A.CINCUENTAYNUEVE)
+                              SESENTA.A.SESENTAYCUATRO <- gsub("[ ]", "", SESENTA.A.SESENTAYCUATRO)
+                              MAYOR.A.SESENTAYCINCO <- gsub("[ ]", "", MAYOR.A.SESENTAYCINCO)
+                              NO.SE.REPORTO.LA.EDAD <- gsub("[ ]", "", NO.SE.REPORTO.LA.EDAD)
+                              ESTADO <- gsub("M.*co.*", "Mexico", ESTADO)
+                              ESTADO <- gsub("Agua.*es.*", "Aguascalientes", ESTADO)
+                              ESTADO <- gsub("Dist.*al.*", "Distrito Federal", ESTADO)
+                              ESTADO <- gsub("Guan.*o.*", "Guanajuato", ESTADO)
+                              ESTADO <- gsub("M.*n.*", "Michoacan", ESTADO)
+                              ESTADO <- gsub("M.*los.*", "Morelos", ESTADO)
+                              ESTADO <- gsub("Nuevo Le.*n.*", "Nuevo Leon", ESTADO)
+                              ESTADO <- gsub("Quer.*ro.*", "Queretaro", ESTADO)
+                              ESTADO <- gsub("Zac.*cas.*", "Zacatecas", ESTADO)
+                              ESTADO <- gsub("Quint.*oo.*", "Quintana Roo", ESTADO)
+                              ESTADO <- gsub("San Luis Pot.*.*", "San Luis Potosi", ESTADO)
+                              ESTADO <- gsub("Yuca.*n.*", "Yucatan",ESTADO)
+                            })
+        # Agregando la columna sexo para pasar a formato organizado.
+        if (j == 1) {
+          SEXO <- c()
+          for (n in 1:32) {
+            SEXO <- c(SEXO, "GENERAL")
+          }
+          type[[m]][["SEXO"]] <- SEXO
+        } else if (j == 2) {
+          SEXO <- c()
+          for (n in 1:32) {
+            SEXO <- c(SEXO, "HOMBRES")
+          }
+          type[[m]][["SEXO"]] <- SEXO
+        } else if (j == 3) {
+          SEXO <- c()
+          for (n in 1:32) {
+            SEXO <- c(SEXO, "MUJERES")
+          }
+          type[[m]][["SEXO"]] <- SEXO
+        }
+        # Agregando la columna de a??o para pasar a formato organizado.
+        ANIO <- c()
+        for (p in 1:32) {
+          ANIO <- c(ANIO, 2003 + m)
+        }
+        type[[m]][["ANIO"]] <- ANIO
+        # Pasar a formato organizado.
+        type[[m]] <- gather(data = type[[m]], 
+                         key = "EDAD", 
+                         value = "MORDEDURAS", 
+                         2:13)
+      } 
+      else if (i == 3) {
+        # Mes de ocurrencia
+        type[[m]] <- within(type[[m]] , 
+                             {
+                               ESTADO <- gsub("M.*co.*", "Mexico", ESTADO)
+                               ESTADO <- gsub("Agua.*es.*", "Aguascalientes", ESTADO)
+                               ESTADO <- gsub("Dist.*al.*", "Distrito Federal", ESTADO)
+                               ESTADO <- gsub("Guan.*o.*", "Guanajuato", ESTADO)
+                               ESTADO <- gsub("M.*n.*", "Michoacan", ESTADO)
+                               ESTADO <- gsub("M.*los.*", "Morelos", ESTADO)
+                               ESTADO <- gsub("Nuevo Le.*n.*", "Nuevo Leon", ESTADO)
+                               ESTADO <- gsub("Quer.*ro.*", "Queretaro", ESTADO)
+                               ESTADO <- gsub("Zac.*cas.*", "Zacatecas", ESTADO)
+                               ESTADO <- gsub("Quint.*oo.*", "Quintana Roo", ESTADO)
+                               ESTADO <- gsub("San Luis Pot.*.*", "San Luis Potosi", ESTADO)
+                               ESTADO <- gsub("Yuca.*n.*", "Yucatan",ESTADO)
+                             })
+        # Agregando la columna sexo para pasar a formato organizado.
+        if (j == 1) {
+          SEXO <- c()
+          for (n in 1:32) {
+            SEXO <- c(SEXO, "GENERAL")
+          }
+          type[[m]][["SEXO"]] <- SEXO
+        } else if (j == 2) {
+          SEXO <- c()
+          for (n in 1:32) {
+            SEXO <- c(SEXO, "HOMBRES")
+          }
+          type[[m]][["SEXO"]] <- SEXO
+        } else if (j == 3) {
+          SEXO <- c()
+          for (n in 1:32) {
+            SEXO <- c(SEXO, "MUJERES")
+          }
+          type[[m]][["SEXO"]] <- SEXO
+        }
+        # Agregando la columna de a??o para pasar a formato organizado.
+        ANIO <- c()
+        for (p in 1:32) {
+          ANIO <- c(ANIO, 2003 + m)
+        }
+        type[[m]][["ANIO"]] <- ANIO
+        # Pasar a formato organizado.
+        type[[m]] <- gather(data = type[[m]], 
+                         key = "MES", 
+                         value = "MORDEDURAS", 
+                         2:13)
+      }
+      type[[m]][["MORDEDURAS"]] <- as.numeric(type[[m]][["MORDEDURAS"]])
+    }
+    cat[[j]] <- type
+  }
+  mpData[[i]] <- cat 
+}
+
+# ---------------- 3.3.- Juntar todas las tablas en formato organizado ---------
+
+ofnGeneral <- data.frame()
+ofnHombres <- data.frame()
+ofnMujeres <- data.frame()
+
+ogeGeneral <- data.frame()
+ogeHombres <- data.frame()
+ogeMujeres <- data.frame()
+
+omoGeneral <- data.frame()
+omoHombres <- data.frame()
+omoMujeres <- data.frame()
+
+OFuenteDeNotifiacion = list(ofnGeneral, ofnHombres, ofnMujeres)
+names(OFuenteDeNotifiacion) <- c("General","Hombres","Mujeres")
+
+OGrupoDeEdad = list(ogeGeneral, ogeHombres, ogeMujeres)
+names(OGrupoDeEdad) <- c("General","Hombres","Mujeres")
+
+OMesDeOcurrencia = list(omoGeneral, omoHombres, omoMujeres)
+names(OMesDeOcurrencia) <- c("General","Hombres","Mujeres")
+
+mpOData = list(OFuenteDeNotifiacion, OGrupoDeEdad, OMesDeOcurrencia)
+names(mpOData) <- c("FuenteDeNotificacion","GrupoDeEdad","MesDeOcurrencia")
+
+for (i in 1:3) {
+  for (j in 1:3) {
+     mpOData[[i]][[j]] <- do.call(rbind, mpData[[i]][[j]])
+  }
+}
+
+orgFn = data.frame()
+orgGe = data.frame()
+orgMo = data.frame()
+
+mpOrgData = list(orgFn, orgGe, orgMo)
+names(mpOrgData) <- c("FuenteDeNotificacion", "GrupoDeEdad", "MesDeOcurrencia")
+
+for (i in 1:length(mpOrgData)) {
+  mpOrgData[[i]] <- do.call(rbind, mpOData[[i]])
+}
+
+# --------------- Fin limpieza ------------------------
+```
+
+
+
+### 6.1 Tendencia de las Mordeduras
+Uno de los primeros planteamientos fue: ¿Cómo la incidencia en mordeduras se había comportado a través de los años? y ¿qué tanto había cambiado?
+
+```{r , echo=FALSE}
+# TENDENCIA
+fn <- subset(mpOrgData$FuenteDeNotificacion, SEXO  %in% c("GENERAL"))
+fn <-subset(fn, !is.na(MORDEDURAS))
+years <- c()
+sums <- c()
+for (i in 1:12) {
+  new <- subset(fn, ANIO %in% c(i+2003))
+  sums <- c(sums, sum(new$MORDEDURAS))
+  years <- c(years, i+2003)
+}
+FuenteDeN <- data.frame(years, sums)
+# Create Line Chart 
+xrange <- range(FuenteDeN$years) 
+yrange <- range(FuenteDeN$sums) 
+
+ggplot(FuenteDeN, aes(years, sums)) + geom_point(colour = "red", size = 2) + geom_line() + scale_x_continuous(breaks = c(2004:2015)) + labs(x= "", y = "Total de Mordeduras") + ggtitle("TENDENCIA") + scale_y_continuous(breaks = c(sums[7],110000,150000,120000,130000,sums[1], sums[12]))
+```
+
+Se creó una gráfica que presentara el total de mordeduras en cada año. Por espacio y limpieza se decidió dejar solo algunos intervalos entre los que destacan el número máximo de mordeduras y el número mínimo de mordeduras.
+
+Con esta gráfica se obseva que la incidencia  demordeduras de perro del año 2004 a 2015 han ido disminuyendo a través del tiempo. Se pude apreciar que a partir de 2010 hubo ligeros incrementos en relación al año anterior, sin embargo estos no llegaron a los niveles de los primeros años. También hubo periodos de tiempo, como 2012 y en 2014, en los que la incidencia de mordeduras de perro disminuyó de manera notoria. Resulta razonable pensar que en general la incidencia en mordeduras siempre se mantuvo por debajo de lo reportado en el año 2004.
+
+### 6.2 Multigráficas a través de los años
+
+#### 6.2.1 El cambio de las Mordeduras en Cada Estado
+```{r , echo=FALSE, message=FALSE, warning=FALSE}
+#Multiplot de Estados
+estados.e <- c('Aguascalientes', 'Baja California', 'Baja California Sur', 'Campeche', 'Chiapas', 'Chihuahua', 'Coahuila', 'Colima', 'Distrito Federal', 'Durango', 'Guanajuato','Guerrero', 'Hidalgo', 'Jalisco', 'Mexico', 'Michoacan', 'Morelos', 'Nayarit','Nuevo Leon', 'Oaxaca', 'Puebla', 'Queretaro', 'Quintana Roo', 'San Luis Potosi','Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas', 'Tlaxcala', 'Veracruz', 'Yucatan','Zacatecas')
+grafs.est <- list()
+for (i in 1:12) {
+  fn.e <- subset(mpOrgData$FuenteDeNotificacion, ANIO %in% c(2003 + i))
+  fn.e1 <- subset(fn.e, SEXO %in% c("GENERAL"))
+  valores.e <- c()
+  for (j in 1:32) {
+    fn.e2 <- subset(fn.e1, ESTADO %in% c(estados.e[[j]]))
+    suma.e <- sum(subset(fn.e2$MORDEDURAS, ! is.na(fn.e2$MORDEDURAS)))
+    valores.e <- c(valores.e, suma.e)
+  }
+  estad.data.frame <- data.frame(estados.e, valores.e)
+  names(estad.data.frame) <- c("EST", "MORD")
+  graf.e <- ggplot(estad.data.frame, aes(x = EST, y = MORD)) +theme_bw() + geom_bar(stat = "identity")+ ggtitle(paste("", 2003 + i)) + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 3)) + labs(x="", y="Mordeduras") + theme(plot.title = element_text(size = 12)) + theme(axis.text.y = element_text(size=5))  + theme(axis.title.y = element_text(size = 7)) + expand_limits(y=c(0,20000))
+  grafs.est[[i]] <- graf.e
+}
+do.call("grid.arrange", c(grafs.est, ncol=3))
+```
+
+En esta parte se muestra cómo va cambiando el total de mordeduras por estado en el transcurso del tiempo, considerando el periodo 2004-2015. Por ejemplo, en la primer gáfica se destacan los estados que tuvieron mayor incidencia en mordeduras de perro en el año 2004. También se apreciar cómo cada año que pasa parace haber un decremento en las mordeduras en todos los estados. Cabe mencionar que pese que las mordeduras mordeduras bajaron conforme transcurre el tiempo, los estados tienden a tener la misma relación en proporciones. Es decir, si quitaramos los valores en el eje de mordeduras, las gráficas de los diferentes años parecen tener una forma muy similar.
+
+#### 6.2.2 El Cambio de las Mordeduras en Cada Fuente de Notificación
+
+
+```{r , echo=FALSE, message=FALSE, warning=FALSE}
+# Fuente de Notificacio en cada a??o.
+fuente <- c("SALUD","IMSS.ORD","ISSSTE","IMSS.OP","DIF","PEMEX","SEDENA","SEMAR","OTRAS")
+graphs.fn <- list()
+for (i in 1:12) {
+  fn <- subset(mpOrgData$FuenteDeNotificacion, ANIO %in% c(2003 + i))
+  fn <- subset(fn, SEXO %in% c("GENERAL"))
+  valores <- c()
+  for (j in 1:length(fuente)) {
+    fnI <- subset(fn, FUENTE %in% c(fuente[[j]]))
+    suma <- sum(fnI$MORDEDURAS)
+    valores <- c(valores, suma)
+  }
+  fn.data.frame <- data.frame(fuente, valores)
+  names(fn.data.frame) <- c("Fuente", "Mordeduras")
+  graph <- ggplot(fn.data.frame, aes(x = Fuente, y = Mordeduras)) +theme_bw() + geom_bar(stat = "identity")+ ggtitle(paste("", 2003 + i)) + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 5)) + labs(x="", y="Mordeduras") + theme(plot.title = element_text(size = 12)) + theme(axis.text.y = element_text(size=5))  + theme(axis.title.y = element_text(size = 7)) + expand_limits(y=c(0,100000))
+  graphs.fn[[i]] <- graph
+}
+do.call("grid.arrange", c(graphs.fn, ncol=3))
+```
+
+Notamos el cambio a través de los años de la incidencia de mordeduras en cada una de la instituciones de salud mencionadas. Notamos que el cambio en cuanto a las notificaciones de mordeduras de perro no cambian en gran medida. Identificamos que  "SALUD" es la que reporta más casos de mordeduras en todos los años. "SALUD" la consideramos un valor atípico, es decir el número de casos que reporta se encuentra muy por encima del promedio, considerando las otras instituciones.
+Otra observación importante es que "IMSS.OP" disminuyó considerablemente el registro de mordeduras mientras que "ISSTE" registra cada vez más. 
+Cabe mencionar que en muchas instituciones no se registraron datos, es por eso que en la mayoría de las gráficas hay muchas instituciones que no se logran apreciar con gran claridad, esto tiene también que ver con los procesos de captura de datos y reporte que se maneja en este tipo de instituciones.
+
+
+#### 6.2.3 El Cambio de las Mordeduras en Mes de Ocurrencia
+
+```{r , echo=FALSE, message=FALSE, warning=FALSE}
+# Mes de ocurrencia en cada a??o.
+mes1 <- c("ENE","FEB","MAR","ABR","MAY","JUN","JUL","AGO","SEP","OCT","NOV","DIC")
+mes <- c("ENE","FEB","MAR","ABR","MAY","JUN","JUL","AGO","SEP","OCT","NOV","DIC")
+mes <- as.factor(mes)
+levels(mes) <- c("ENE","FEB","MAR","ABR","MAY","JUN","JUL","AGO","SEP","OCT","NOV","DIC")
+graphs.mo <- list()
+for (i in 1:12) {
+  mo <- subset(mpOrgData$MesDeOcurrencia, ANIO %in% c(2003 + i))
+  mo <- subset(mo, SEXO %in% c("GENERAL"))
+  valores <- c()
+  for (j in 1:length(mes)) {
+    moI <- subset(mo, MES %in% c(mes1[[j]]))
+    suma <- sum(subset(moI$MORDEDURAS, ! is.na(moI$MORDEDURAS)))
+    valores <- c(valores, suma)
+  }
+  mo.data.frame <- data.frame(mes, valores)
+  names(mo.data.frame) <- c("Mes", "Mordeduras")
+  graph <- ggplot(mo.data.frame, aes(x = Mes, y = Mordeduras)) +theme_bw() + geom_bar(stat = "identity")+ ggtitle(paste("", 2003 + i)) + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 5)) + labs(x="", y="Mordeduras") + theme(plot.title = element_text(size = 12)) + theme(axis.text.y = element_text(size=7))  + theme(axis.title.y = element_text(size = 7)) + expand_limits(y=c(0,15000))
+  
+  graphs.mo[[i]] <- graph
+}
+do.call("grid.arrange", c(graphs.mo, ncol=3))
+```
+
+Esta gráfica permite hacer una comparación con la gráfica de tendencia y ver que en efecto, a través de los años va bajando la incidencia en mordeduras de perro. En general las gráficas no parecen variar mucho un mes con respecto al otro, y esta característica se mantiene a lo largo de los doce año que se analizaron. Dicho resultado no es difícil de digerir, si consideramos que los perros muerden por igual en todos los meses del año, uno pudiese esperar ciertos cambios en determinados meses del año por los ciclos de reproducción, sin embargo no hay evidencia de que esto afecte considerablemente.
+
+#### 6.2.4 El Cambio de las Mordeduras en Grupo de Edad
+
+```{r , echo=FALSE, message=FALSE, warning=FALSE}
+# Grupo de edad en cada a??o.
+grupoedad <- c("Ma1","1a4","5a9","10a14","15a19","20a24","25a44","45a49","50a59","60a64","Ma65","NSRE")
+grupoedad <- as.factor(grupoedad)
+levels(grupoedad) <- c("Ma1","1a4","5a9","10a14","15a19","20a24","25a44","45a49","50a59","60a64","Ma65","NSRE")
+intervalos <- c("MAYOR.A.UNO","UNO.A.CUATRO","CINCO.A.NUEVE","DIEZ.A.CATORCE","QUINCE.A.DIECINUEVE","VEINTE.A.VEINTICUATRO","VEINTICINCO.A.CUARENTAYCUATRO","CUARENTAYCINCO.A.CUARENTAYNUEVE","CINCUENTA.A.CINCUENTAYNUEVE","SESENTA.A.SESENTAYCUATRO","MAYOR.A.SESENTAYCINCO","NO.SE.REPORTO.LA.EDAD")
+graphs.ge <- list()
+for (i in 1:12) {
+  ge <- subset(mpOrgData$GrupoDeEdad, ANIO %in% c(2003 + i))
+  ge <- subset(ge, SEXO %in% c("GENERAL"))
+  valores <- c()
+  for (j in 1:length(intervalos)) {
+    geI <- subset(ge, EDAD %in% c(intervalos[[j]]))
+    suma <- sum(geI$MORDEDURAS)
+    valores <- c(valores, suma)
+  }
+  ge.data.frame <- data.frame(grupoedad, valores)
+  names(ge.data.frame) <- c("Grupo", "Mordeduras")
+  graph <-  ggplot(ge.data.frame, aes(x = Grupo, y = Mordeduras)) +theme_bw() + geom_bar(stat = "identity")+ ggtitle(paste("", 2003 + i)) + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 6)) + labs(x="", y="Mordeduras") + theme(plot.title = element_text(size = 12)) + theme(axis.text.y = element_text(size=7))  + theme(axis.title.y = element_text(size = 6)) + expand_limits(y=c(0,30000))
+
+  graphs.ge[[i]] <- graph
+}
+do.call("grid.arrange", c(graphs.ge, ncol=3))
+```
+
+Existe una constante en los resultados obtenidos hasta este momento, esta es, como ya se ha mencionada, la existencia de una tendencia a la baja en la incidencia de mordeduras de perro. Dicho resultado lo vemos nuevamente en cada grupo de edad. De antemano notamos que el grupo de edad que más mordeduras tuvo fue el de "25-44". Este resultado se debe en parte a que es el grupo con un mayor rango de edad; dado que abarca veinte años y gran parte de la población de México se encuentra en este rango de edad, puede haber más personas dentro de dicho intervalo. Uno de los puntos que consideramos importantes en este análisis es la cantidad de perros que muerden a niños muy chicos, ya que se encuentra en el tercer lugar en cuanto a mordeduras. Creemos que se podrían tomar medidas para fomentar la prevención en los padres con respecto a las precauciones que se deben tener con todo tipo de animales, a pesar de que estos sean considerados domésticos.
+
+### 6.3 Boxplots
+Para cada Boxplot el promedio está representada por un rombo rojo.
+Un boxplot o diagrama de caja proporciona una visión general de la simetría de la distribución de los datos. Este dipo de diagrama es útil para ver la presencia de valores atípicos, la dispersión de los puntos con la mediana, los percentiles 25 y 75, y los valores máximos y mínimos. Note que el 50% de la población está en los límites de la "caja".
+
+```{r , echo=FALSE, message=FALSE, warning=FALSE}
+# BOXPLOTs 
+boxplotea <- function (categoria, sexo) {
+  cat <- NULL
+  raw <- NULL
+  categorias <- c()
+  titulo <- NULL
+  if (categoria == "fuente") {
+    categorias <- c("SALUD","IMSS.ORD","ISSSTE","IMSS.OP","DIF","PEMEX","SEDENA","SEMAR","OTRAS")
+    cat = "FUENTE"
+    raw <- mpOrgData$FuenteDeNotificacion
+  } else if (categoria == "grupo") {
+    categorias <- c("MAYOR.A.UNO","UNO.A.CUATRO","CINCO.A.NUEVE","DIEZ.A.CATORCE","QUINCE.A.DIECINUEVE","VEINTE.A.VEINTICUATRO","VEINTICINCO.A.CUARENTAYCUATRO","CUARENTAYCINCO.A.CUARENTAYNUEVE","CINCUENTA.A.CINCUENTAYNUEVE","SESENTA.A.SESENTAYCUATRO","MAYOR.A.SESENTAYCINCO","NO.SE.REPORTO.LA.EDAD")
+    cat <- "EDAD"
+    raw <- mpOrgData$GrupoDeEdad
+  } else if (categoria == "mes") {
+    categorias <- c("ENE","FEB","MAR","ABR","MAY","JUN","JUL","AGO","SEP","OCT","NOV","DIC")
+    cat <- "MES"
+    raw <- mpOrgData$MesDeOcurrencia
+  } else if (categoria == "estado") {
+    categorias <- c('Aguascalientes', 'Baja California', 'Baja California Sur', 'Campeche', 'Chiapas', 'Chihuahua', 'Coahuila', 'Colima', 'Distrito Federal', 'Durango', 'Guanajuato','Guerrero', 'Hidalgo', 'Jalisco', 'Mexico', 'Michoacan', 'Morelos', 'Nayarit','Nuevo Leon', 'Oaxaca', 'Puebla', 'Queretaro', 'Quintana Roo', 'San Luis Potosi','Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas', 'Tlaxcala', 'Veracruz', 'Yucatan','Zacatecas')
+    cat <- "ESTADO"
+    raw <- mpOrgData$FuenteDeNotificacion
+  }
+  sexos <- NULL
+  if (sexo == "general") {
+    sexos <- "GENERAL" 
+  } else if (sexo == "hombres") {
+    sexos <- "HOMBRES"
+  } else if (sexo == "mujeres") {
+    sexos <- "MUJERES"
+  }
+  listaDeDataframes <- list()
+  for (i in 1:12) {
+    porAnio <- subset(raw, ANIO %in% c(2003 + i))
+    porAnioYSexo <- subset(porAnio, SEXO %in% c(sexos))
+    totales <- c()
+    vectorAnios <- c()
+    for (j in 1:length(categorias)) {
+      porAnioYSexoYCat <- NULL
+      if (categoria == "estado") {
+        porAnioYSexoYCat <- subset(porAnioYSexo, porAnioYSexo$ESTADO %in% c(categorias[[j]]))
+      } else {
+        porAnioYSexoYCat <- subset(porAnioYSexo, porAnioYSexo[[4]] %in% c(categorias[[j]]))
+      }
+      totales <- c(totales, sum(subset(porAnioYSexoYCat$MORDEDURAS, ! is.na(porAnioYSexoYCat$MORDEDURAS))))
+      vectorAnios <- c(vectorAnios, 2003 + i)
+    }
+    dataTemporal <- data.frame(categorias, vectorAnios, totales)
+    listaDeDataframes[[i]] <- dataTemporal
+  }
+  dataConcat <- do.call(rbind, listaDeDataframes)
+  names(dataConcat) <- c(cat, "ANIO", "TOTAL.MORDEDURAS")
+  means <- aggregate(TOTAL.MORDEDURAS ~  ANIO, dataConcat, mean)
+  p <- ggplot(dataConcat, aes(x=factor(ANIO), y=TOTAL.MORDEDURAS)) 
+  p + geom_boxplot() + ggtitle(paste(paste(titulo, " :"), sexos)) + labs(x="",y="Total de Mordeduras") + theme(plot.title = element_text(family = "Trebuchet MS", color="#666666", face="bold", size=11, hjust=0))  + stat_summary(fun.y=mean, colour="darkred", geom="point", shape=18, size=3,show_guide = FALSE)
+}
+```
+
+
+#### 6.3.1 Boxplot del Total de Mordeduras a Través de los Años de Cada Estado
+
+```{r , echo=FALSE, message=FALSE, warning=FALSE}
+boxplotea("estado", "general") + ggtitle("")
+```
+
+En este boxplot se representa el total de mordeduras que hubo a través de los años para cada estado.  Por medio de esto se permite deducir que en todos los años el promedio de mordeduras estaba por arriba del valor en el cual se acumulaba el 50% de la distribución (i.e mediana). Esto es evidencia de que la distribución de la incidencia en mordeduras se encuentra sesgada a la derecha en todos los años, es decir la distribución está muy cargada a la derecha (e.g si pensamos en una distribución normal ésta sería más "gorda" del lado derecho). 
+Con respecto a los valores fuera de los límites del diagrama, destaca el "Distrito Federal" y el Estado de México, en este caso "México". Ambos registran el mayor número de mordedruras de todos los estados. La media generalmente se encuentra alrededor de 5000 y 2500, aproximadamente muerden esta cantidad de perros a personas en los estados. Podríamos formular hipótesis al respecto, probablemente exista una relación directa entre el número de personas que habitan una región y el número de perros, recordemos que estos son animáles domésticos. 
+
+
+##### 6.3.1.2 Boxplot del Total de Mordeduras a Través de los Años de Cada Estado para Hombres y Mujeres
+
+```{r , echo=FALSE, message=FALSE, warning=FALSE}
+r1 <- boxplotea("estado", "hombres") + ggtitle("Hombres") + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8)) + expand_limits(y=c(0,12500))
+
+r2 <- boxplotea("estado", "mujeres") + ggtitle("Mujeres") + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8)) + expand_limits(y=c(0,12500))
+
+grid.arrange(r1, r2, ncol = 2, nrow = 1)
+```
+
+Este diagrama hace la separación de hombres y mujeres.Nuevamente podemos apreciar que el promedio tiende a estar hacia la parte de arriba de la "caja". Un punto a resaltar, es que en cuanto a Hombres y Mujeres se puede llegar a la conclusión que en general muerden más a hombres que a mujeres en todos los Estados.Comparando los datos de hombres con los datos de mujeres, los promedios se encuentran por el mismo intervalo y no es demaisada la dispersión de estos.
+
+#### 6.3.2 Boxplot del Total de Mordeduras a Través de los Años de Fuente de Notificación
+```{r , echo=FALSE, message=FALSE, warning=FALSE}
+boxplotea("fuente", "general") + ggtitle("")
+```
+
+En este caso vemos que el promedio de Fuente de Notificación se localiza fuera de la "caja". Esto ocurre porque en Fuente de Notificación existen varios "Sin registros" por parte de las instituciones y como la institución "SALUD" contiene la mayoría de los casos desplaza al promedio por arriba de la mitad de la "caja", convirtiéndose "SALUD" en un valor extremadamente raro.
+
+
+##### 6.3.2.1 Boxplot del Total de Mordeduras a Través de los Años de Fuente de Notificación para Hombres y Mujeres
+
+```{r , echo=FALSE, message=FALSE, warning=FALSE}
+r1.f <- boxplotea("fuente", "hombres") + ggtitle("Hombres") + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8)) + expand_limits(y=c(0,65000))
+
+r2.f <- boxplotea("fuente", "mujeres") + ggtitle("Mujeres") + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8)) + expand_limits(y=c(0,65000))
+
+grid.arrange(r1.f, r2.f, ncol = 2, nrow = 1)
+```
+
+Consideramos los boxplots de hombres y mujeres para fuente de notificación para entender cómo se estaban registrando las mordeduras para ambos géneros. Pudimos notar que las instituciones registran más hombres que mujeres con mordeduras de perro. Aun así, al igual que por Estados, el promedio y el valor que acumula el 50% de la distribución no tienen un gran cambio en hombre mujer.
+
+#### 6.3.3 Boxplot del Total de Mordeduras a Través de los Años de Fuente de Mes de Ocurrencia
+```{r , echo=FALSE, message=FALSE, warning=FALSE}
+boxplotea("mes", "general") + ggtitle("")
+```
+En Mes de Ocurrencia se presentan datos más dispersados que en los pasados diagramas. Hay sesgos a las derecha como a la izquierda. Esto es que los promedios a través de los años varían en dónde se localizan, hay tanto por arriba de la mitad de la "caja", como por debajo de ella. Incluso notamos que en varios años, por ejemplo 2015, que el promedio se acerca a la mitad del diagrama (i.e simetría). En algunos años no existen valores fuera de los límites del diagrama. 
+Si se compara con la gráfica de Tendencia se concluye que es razonable que la media vaya bajando a través de los años ya que previamente se encontró evidencia que la cantidad mordeduras disminuyó con en el transcurso del tiempo.
+
+##### 6.3.3.1 Boxplot del Total de Mordeduras a Través de los Años de Mes de Ocurrencia para Hombres y Mujeres
+
+```{r , echo=FALSE, message=FALSE, warning=FALSE}
+r1.m <- boxplotea("mes", "hombres") + ggtitle("Hombres") + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8)) + expand_limits(y=c(0,10000))
+
+r2.m <- boxplotea("mes", "mujeres") + ggtitle("Mujeres") + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8)) + expand_limits(y=c(0,10000))
+
+grid.arrange(r1.m, r2.m, ncol = 2, nrow = 1)
+```
+
+Al observar el boxplot de hombres y mujeres se encuentra evidencia de que los perros muerden más a los hombres que a las mujeres. En este caso notamos una mayor inclinación del promedio a los extremos, ya sea inferiores o superiores, de la caja. Esto implica que muerden en mayor medida a los hombres cada año, ya que si se esta haciendo por mes el promedio va ligado estrictamente al año mencionado.
+
+#### 6.3.4 Boxplot del Total de Mordeduras a Través de los Años de Grupo de Edad 
+```{r , echo=FALSE, message=FALSE, warning=FALSE}
+boxplotea("grupo", "general") + ggtitle("")
+```
+
+En el boxplot de Grupo de Edad apreciamos un sesgo a la derecha en todos los años, pero se puede ver también que el sesgo ha estado disminuyendo através de los años, esto hace la media más cercana a la mediana.
+Con lo anterior se puede argumentar que ha habido mayor similitud en las mordeduras de grupos de edad a través de los años. Uno de los problemas que siempre registrará el gurpo de edad es que existe un intervalo demasiado grande que abarca a más persona que en otro.
+
+##### 6.3.4.1 Boxplot del Total de Mordeduras a Través de los Años de Grupo de Edad para Hombres y Mujeres
+
+```{r , echo=FALSE, message=FALSE, warning=FALSE}
+r1.g <- boxplotea("grupo", "hombres") + ggtitle("Hombres") + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8)) + expand_limits(y=c(0,18000))
+
+r2.g <- boxplotea("grupo", "mujeres") + ggtitle("Mujeres") + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8)) + expand_limits(y=c(0,18000))
+
+grid.arrange(r1.g, r2.g, ncol = 2, nrow = 1)
+```
+
+En el boxplot de Hombres notamos un sesgo a la derecha mucho mayor que en el de las mujeres. En el de las mujeres apreciamos un mayor acercamiento a la simetría que en el caso de los hombres.
+
+### 6.4 Pirámides
+Cada pirámide representa el total de mordeduras por estado dependiendo de la fuente utilizada: Fuente de Notificación, Mes de Ocurrencia o Grupo de Edad.
+
+En azul esta representado el total de mordeduras de hombres.
+En rojo esta representado el total de mordeduras de mujeres.
+
+#### 6.4.1 Pirámide de Fuente de Notificación 
+```{r , echo=FALSE, message=FALSE, warning=FALSE}
+# Para cada estado dar el total del mordeduras en todos los a??os segun la fuente de notificaci??n. 
+hombres <- subset(mpOrgData$FuenteDeNotificacion, SEXO %in% "HOMBRES")
+mujeres <- subset(mpOrgData$FuenteDeNotificacion, SEXO %in% "MUJERES")
+estados <- c('Aguascalientes', 'Baja California', 'Baja California Sur', 'Campeche', 'Chiapas', 'Chihuahua', 'Coahuila', 'Colima', 'Distrito Federal', 'Durango', 'Guanajuato','Guerrero', 'Hidalgo', 'Jalisco', 'Mexico', 'Michoacan', 'Morelos', 'Nayarit','Nuevo Leon', 'Oaxaca', 'Puebla', 'Queretaro', 'Quintana Roo', 'San Luis Potosi','Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas', 'Tlaxcala', 'Veracruz', 'Yucatan','Zacatecas')
+fuentes <- names(fng$`2015`)
+fuentes <- fuentes[-c(1,11)]
+dataframesPorEstado <- list()
+for (i in 1:length(estados)) {
+  # Hombres
+  hombresYEstado <- subset(hombres, ESTADO %in% estados[[i]])
+  totales1 <- c()  
+  for (j in 1:length(fuentes)) {
+    hombresYEstadoYFuente <- subset(hombresYEstado, FUENTE %in% fuentes[[j]])
+    suma <- sum(subset(hombresYEstadoYFuente$MORDEDURAS,! is.na(hombresYEstadoYFuente$MORDEDURAS)))
+    totales1 <- c(totales1, suma)
+  }
+  # Mujeres
+  mujeresYEstado <- subset(mujeres, ESTADO %in% estados[[i]])
+  totales2 <- c()  
+  for (k in 1:length(fuentes)) {
+    mujeresYEstadoYFuente <- subset(mujeresYEstado, FUENTE %in% fuentes[[k]])
+    suma2 <- sum(subset(mujeresYEstadoYFuente$MORDEDURAS,! is.na(mujeresYEstadoYFuente$MORDEDURAS)))
+    totales2 <- c(totales2, suma2)
+  }
+  # Creacion de los data.drames.
+  dataframesPorEstado[[i]] <- data.frame(fuentes, totales1, totales2)
+  names(dataframesPorEstado[[i]]) <- c("FUENTE", "HOMBRES", "MUJERES")
+}
+#Pir??mide hombres y mujeres, por estado y fuente de notificacion  
+
+par(mfrow = c(4, 8), mar = c(0, 0, 1, 0), oma = c(0, 0, 1.2, 0))
+entidades <- c('Aguascalientes', 'Baja California', 'Baja California Sur', 'Campeche', 'Chiapas', 'Chihuahua', 'Coahuila', 'Colima', 'Distrito Federal', 'Durango', 'Guanajuato','Guerrero', 'Hidalgo', 'Jalisco', 'Mexico', 'Michoacan', 'Morelos', 'Nayarit','Nuevo Leon', 'Oaxaca', 'Puebla', 'Queretaro', 'Quintana Roo', 'San Luis Potosi','Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas', 'Tlaxcala', 'Veracruz', 'Yucatan','Zacatecas')
+
+for (i in 1:32) {
+  PIR <- dataframesPorEstado[[i]]
+  Fem <- PIR[[3]]
+  Masc <- PIR[[2]]
+  
+  with(PIR, plot(0, 0, type = "n", xlim = c(-max(Masc), max(Fem)), ylim = c(0, 10), xlab ="",    ylab = "", axes = FALSE, bty="n", cex.main = 0.8, main = entidades[i]))
+  
+  
+  for(j in 1:10){
+    rect(-Masc[j],j, 0, j+1, col = "blue", border = "white")
+    rect(0,j, Fem[j], j+1, col = "red",  border = "white") 
+  }
+}
+```
+
+Estas gráficas permiten tener una idea visual de qué instituciones concentran la mayor cantidad de reportes de mordeduras de perro en cada uno de los estados. Hacemos mención de la etiqueta de cada uno de los escalones en orden ascendente: "SALUD", "IMSS.ORD","ISSSTE","IMSS.OP","DIF","PEMEX", "SEDENA","SEMAR","OTRAS".
+
+Llama la atención ver repetidamente varios escalones vacios, esto se debe a dos razones. La primera distintas instituciones, como el caso de PEMEX y SEMAR, no se encuentran en todos los estados; por lo tanto el número de casos que reportan, por ejemplo en los estados del centro del país, tienden a ser cero. La segunda razón es que se está haciendo una comparación en proporciones, en el código se fijaron dichos límites de proporciones como el máximo de casos reportados tanto en masculino como en femenino, para cada uno de los estados.
+
+#### 6.4.2 Pirámide de Grupo de Edad 
+
+Definimos los escalones en orden ascendente: ">1", "1-4", "5-9", "10-14", "15-19", "20-24", "25-44", "45-49", "50-59", "60-64", ">65", "Ign".
+
+```{r , echo=FALSE, message=FALSE, warning=FALSE}
+# Grupo de Edad hombres y mujeres
+# Hombres.
+hombresg <- subset(mpOrgData$GrupoDeEdad, SEXO %in% "HOMBRES")
+mujeresg <- subset(mpOrgData$GrupoDeEdad, SEXO %in% "MUJERES")
+estados <- c('Aguascalientes', 'Baja California', 'Baja California Sur', 'Campeche', 'Chiapas', 'Chihuahua', 'Coahuila', 'Colima', 'Distrito Federal', 'Durango', 'Guanajuato','Guerrero', 'Hidalgo', 'Jalisco', 'Mexico', 'Michoacan', 'Morelos', 'Nayarit','Nuevo Leon', 'Oaxaca', 'Puebla', 'Queretaro', 'Quintana Roo', 'San Luis Potosi','Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas', 'Tlaxcala', 'Veracruz', 'Yucatan','Zacatecas')
+grupos <- names(geg$`2015`)
+grupos <- toupper(grupos[-c(1,14)])
+
+dataframesPorEstadog <- list()
+for (i in 1:length(estados)) {
+  # Hombres
+  hombresYEstado <- subset(hombresg, ESTADO %in% estados[[i]])
+  totales1 <- c()  
+  for (j in 1:length(grupos)) {
+    hombresYEstadoYGrupo <- subset(hombresYEstado, EDAD %in% grupos[[j]])
+    suma <- sum(subset(hombresYEstadoYGrupo$MORDEDURAS,! is.na(hombresYEstadoYGrupo$MORDEDURAS)))
+    totales1 <- c(totales1, suma)
+  }
+  # Mujeres
+  mujeresYEstado <- subset(mujeresg, ESTADO %in% estados[[i]])
+  totales2 <- c()  
+  for (k in 1:length(grupos)) {
+    mujeresYEstadoYGrupo <- subset(mujeresYEstado, EDAD %in% grupos[[k]])
+    suma2 <- sum(subset(mujeresYEstadoYGrupo$MORDEDURAS,! is.na(mujeresYEstadoYGrupo$MORDEDURAS)))
+    totales2 <- c(totales2, suma2)
+  }
+  # Creacion de los data.frames.
+  dataframesPorEstadog[[i]] <- data.frame(grupos, totales1, totales2)
+  names(dataframesPorEstadog[[i]]) <- c("EDAD", "HOMBRES", "MUJERES")
+}
+names(dataframesPorEstadog) <- estados
+
+#Pir??mide hombres y mujeres, por estado y grupo de edad
+
+par(mfrow = c(4, 8), mar = c(0, 0, 1, 0), oma = c(0, 0, 1.2, 0))
+entidades <- c('Aguascalientes', 'Baja California', 'Baja California Sur', 'Campeche', 'Chiapas', 'Chihuahua', 'Coahuila', 'Colima', 'Distrito Federal', 'Durango', 'Guanajuato','Guerrero', 'Hidalgo', 'Jalisco', 'Mexico', 'Michoacan', 'Morelos', 'Nayarit','Nuevo Leon', 'Oaxaca', 'Puebla', 'Queretaro', 'Quintana Roo', 'San Luis Potosi','Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas', 'Tlaxcala', 'Veracruz', 'Yucatan','Zacatecas')
+
+for (i in 1:32) {
+  PIRG <- dataframesPorEstadog[[i]]
+  Femg <- PIRG[[3]]
+  Mascg <- PIRG[[2]]
+  
+  with(PIRG, plot(0, 0, type = "n", xlim = c(-max(Mascg), max(Femg)), ylim = c(0, 12), xlab ="",    ylab = "", axes = FALSE, bty="n", cex.main = 0.8, main = entidades[i]))
+  
+  
+  for(j in 1:18){
+    rect(-Mascg[j],j, 0, j+1, col = "blue", border = "white")
+    rect(0,j, Femg[j], j+1, col = "red",  border = "white") 
+  }
+  
+}
+```
+
+Las pirámides de cada uno de los estados tienen formas similares, al igual que en los boxplots notamos sesgos a la derecha (arriba). Reafirmamos la hipótesis antes mencionada de que la incidencia en mordeduras de perro se concentra en el grupo de edad de 25 a 44 años, ya que es un grupo demasiado grande en lo que respecta a la probabilidad de que un evento caiga en ese rango. Creemos que el sector salud debe prestar especial atención en niños de edades entre uno y nueve años, ya que son una población muy vulnerable, sobre todo por la amenaza de adquirir alguna enfermedad transmitida por las mordeduras.
+
+## 7. Conclusiones
+
+Después de observar, analizar y graficar los datos obtenidos, se pudo conlcuir:
+Primero, los datos de cualquiera de las fuentes (Fuente de Notificación, Mes de Ocurrencia o Grupo de Edad) presentan una gran similitud a través de los años, podrán variar y disminuir las mordeduras de perro en cada una de las variables orginales, siempre oscilan en el mismo intervalo. Esto nos obliga a dudar de la veracidad de los datos, nos hace preguntarnos si en verdad se estan capturando los datos de manera eficiente y real. 
+
+Otra de nuestras conclusiones nace de la captura de los datos. En fuente de Notifiación, prácticamente solo hay una institución que esta registrando las mordeduras de perro, también creemos que "OTRAS" puede llegar a resultar muy ambiguo y con motivos a dudar si en "OTRAS" se incuyen a todas las instituciones públicas como tanto privadas.
+
+Cada país toma decisiones con base a análsis estadísticos, porque estos se encargan de presentar pronósticos y aproximaciones de la realidad, y con esto dichas decisiones más acertadas a lo demandado por la realidad.
+Si México está capturando erróneamente sus datos esta produciendo información erronea y esto implicaría malas decisiones, lo que tiene como consecuencia inmediata un mal empleo de los recursos.
+
+
+
