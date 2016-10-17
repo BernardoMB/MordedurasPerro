@@ -396,8 +396,7 @@ for (i in 1:length(mpOrgData)) {
 
 # ---------------- 4.- Pruebas de consistencia.
 
-# Si no ocurre que HOMBRES + MUJERES = GENERAL, entonces se imprimir?? el a??o para el cual la informacino es inconsistente.
-
+# Se imprimen los a??os para los caules las sumas no coinciden. 
 # ---------------- 4.1.- Fuente de notificacion.
 for (i in 1:12) {
   # General
@@ -414,7 +413,6 @@ for (i in 1:12) {
     print(2003 + i)
   }
 }
-
 # ---------------- 4.2.- Grupo de edad.
 for (i in 1:12) {
   # General
@@ -431,7 +429,6 @@ for (i in 1:12) {
     print(2003 + i)
   }
 }
-
 # ---------------- 4.3.- Fuente de notificacion.
 for (i in 1:12) {
   # General
@@ -448,6 +445,101 @@ for (i in 1:12) {
     print(2003 + i)
   }
 }
+
+# ---------------- 4.4.- Pruebas detalladas.
+pruebaDeConsistencia <- function(categoria) {
+  cat <- NULL
+  raw <- NULL
+  categorias <- c()
+  if (categoria == "estado") {
+    categorias <- c('Aguascalientes', 'Baja California', 'Baja California Sur', 'Campeche', 'Chiapas', 'Chihuahua', 'Coahuila', 'Colima', 'Distrito Federal', 'Durango', 'Guanajuato','Guerrero', 'Hidalgo', 'Jalisco', 'Mexico', 'Michoacan', 'Morelos', 'Nayarit','Nuevo Leon', 'Oaxaca', 'Puebla', 'Queretaro', 'Quintana Roo', 'San Luis Potosi','Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas', 'Tlaxcala', 'Veracruz', 'Yucatan','Zacatecas')
+    cat <- "ESTADO"
+    raw <- mpOrgData$FuenteDeNotificacion
+  } else if (categoria == "fuente") {
+    categorias <- c("SALUD","IMSS.ORD","ISSSTE","IMSS.OP","DIF","PEMEX","SEDENA","SEMAR","OTRAS")
+    cat = "FUENTE"
+    raw <- mpOrgData$FuenteDeNotificacion
+  } else if (categoria == "grupo") {
+    categorias <- c("MAYOR.A.UNO","UNO.A.CUATRO","CINCO.A.NUEVE","DIEZ.A.CATORCE","QUINCE.A.DIECINUEVE","VEINTE.A.VEINTICUATRO","VEINTICINCO.A.CUARENTAYCUATRO","CUARENTAYCINCO.A.CUARENTAYNUEVE","CINCUENTA.A.CINCUENTAYNUEVE","SESENTA.A.SESENTAYCUATRO","MAYOR.A.SESENTAYCINCO","NO.SE.REPORTO.LA.EDAD")
+    cat <- "EDAD"
+    raw <- mpOrgData$GrupoDeEdad
+  } else if (categoria == "mes") {
+    categorias <- c("ENE","FEB","MAR","ABR","MAY","JUN","JUL","AGO","SEP","OCT","NOV","DIC")
+    cat <- "MES"
+    raw <- mpOrgData$MesDeOcurrencia
+  }
+  listaDeDataframes <- list()
+  for (i in 1:12) {
+    porAnio <- subset(raw, ANIO %in% c(2003 + i))
+    vectorAnios <- c()
+    
+    # General.
+    porAnioYGeneral <- subset(porAnio, SEXO %in% c("GENERAL"))
+    totalesG <- c()
+    for (j in 1:length(categorias)) {
+      porAnioYSexoYCat <- NULL
+      if (categoria == "estado") {
+        porAnioYSexoYCat <- subset(porAnioYGeneral, porAnioYGeneral$ESTADO %in% c(categorias[[j]]))
+      } else {
+        porAnioYSexoYCat <- subset(porAnioYGeneral, porAnioYGeneral[[4]] %in% c(categorias[[j]]))
+      }
+      totalesG <- c(totalesG, sum(subset(porAnioYSexoYCat$MORDEDURAS, ! is.na(porAnioYSexoYCat$MORDEDURAS))))
+      vectorAnios <- c(vectorAnios, 2003 + i)  
+    }
+    # Hombres.
+    porAnioYHombres <- subset(porAnio, SEXO %in% c("HOMBRES"))
+    totalesH <- c()
+    for (j in 1:length(categorias)) {
+      porAnioYSexoYCat <- NULL
+      if (categoria == "estado") {
+        porAnioYSexoYCat <- subset(porAnioYHombres, porAnioYHombres$ESTADO %in% c(categorias[[j]]))
+      } else {
+        porAnioYSexoYCat <- subset(porAnioYHombres, porAnioYHombres[[4]] %in% c(categorias[[j]]))
+      }
+      totalesH <- c(totalesH, sum(subset(porAnioYSexoYCat$MORDEDURAS, ! is.na(porAnioYSexoYCat$MORDEDURAS))))  
+    }
+    # Mujeres.
+    porAnioYMujeres <- subset(porAnio, SEXO %in% c("MUJERES"))
+    totalesM <- c()
+    for (j in 1:length(categorias)) {
+      porAnioYSexoYCat <- NULL
+      if (categoria == "estado") {
+        porAnioYSexoYCat <- subset(porAnioYMujeres, porAnioYMujeres$ESTADO %in% c(categorias[[j]]))
+      } else {
+        porAnioYSexoYCat <- subset(porAnioYMujeres, porAnioYMujeres[[4]] %in% c(categorias[[j]]))
+      }
+      totalesM <- c(totalesM, sum(subset(porAnioYSexoYCat$MORDEDURAS, ! is.na(porAnioYSexoYCat$MORDEDURAS))))  
+    }
+    # Suma Hombres + Mujeres.
+    totalesHmasM <- c()
+    for (j in 1:length(categorias)) {
+      porAnioYHombresYCat <- NULL
+      if (categoria == "estado") {
+        porAnioYHombresYCat <- subset(porAnioYHombres, porAnioYHombres$ESTADO %in% c(categorias[[j]]))
+      } else {
+        porAnioYHombresYCat <- subset(porAnioYHombres, porAnioYHombres[[4]] %in% c(categorias[[j]]))
+      }
+      porAnioYMujeresYCat <- NULL
+      if (categoria == "estado") {
+        porAnioYMujeresYCat <- subset(porAnioYMujeres, porAnioYMujeres$ESTADO %in% c(categorias[[j]]))
+      } else {
+        porAnioYMujeresYCat <- subset(porAnioYMujeres, porAnioYMujeres[[4]] %in% c(categorias[[j]]))
+      }
+      totalesHmasM <- c(totalesHmasM, sum(subset(porAnioYHombresYCat$MORDEDURAS, ! is.na(porAnioYHombresYCat$MORDEDURAS))) + sum(subset(porAnioYMujeresYCat$MORDEDURAS, ! is.na(porAnioYMujeresYCat$MORDEDURAS))))  
+    }
+    
+    data.frame.anio.categ.total <- data.frame(vectorAnios, categorias, totalesG, totalesH, totalesM, totalesHmasM)
+    names(data.frame.anio.categ.total) <- c("ANIO", cat, "MORD.G", "MORD.H", "MORD.M", "H + M")
+    listaDeDataframes[[i]] <- data.frame.anio.categ.total
+  }
+  print(listaDeDataframes)
+}
+
+pruebaDeConsistencia("estado")
+pruebaDeConsistencia("fuente")
+pruebaDeConsistencia("grupo")
+pruebaDeConsistencia("mes")
+
 
 
 
