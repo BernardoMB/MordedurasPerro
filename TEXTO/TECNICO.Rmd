@@ -546,7 +546,31 @@ Con esta gráfica pudimos apreciar que las mordeduras de Perro del 2004 al 2015 
 
 ### 6.2 Multigráficas a través de los Años
 
-#### 6.2.1 El Cambio de las Mordeduras en Cada Fuente de Notificación
+#### 6.2.1 El cambio de las Mordeduras en Cada Estado
+```{r , echo=FALSE, message=FALSE, warning=FALSE}
+#Multiplot de Estados
+estados.e <- c('Aguascalientes', 'Baja California', 'Baja California Sur', 'Campeche', 'Chiapas', 'Chihuahua', 'Coahuila', 'Colima', 'Distrito Federal', 'Durango', 'Guanajuato','Guerrero', 'Hidalgo', 'Jalisco', 'Mexico', 'Michoacan', 'Morelos', 'Nayarit','Nuevo Leon', 'Oaxaca', 'Puebla', 'Queretaro', 'Quintana Roo', 'San Luis Potosi','Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas', 'Tlaxcala', 'Veracruz', 'Yucatan','Zacatecas')
+grafs.est <- list()
+for (i in 1:12) {
+  fn.e <- subset(mpOrgData$FuenteDeNotificacion, ANIO %in% c(2003 + i))
+  fn.e1 <- subset(fn.e, SEXO %in% c("GENERAL"))
+  valores.e <- c()
+  for (j in 1:32) {
+    fn.e2 <- subset(fn.e1, ESTADO %in% c(estados.e[[j]]))
+    suma.e <- sum(subset(fn.e2$MORDEDURAS, ! is.na(fn.e2$MORDEDURAS)))
+    valores.e <- c(valores.e, suma.e)
+  }
+  estad.data.frame <- data.frame(estados.e, valores.e)
+  names(estad.data.frame) <- c("EST", "MORD")
+  graf.e <- ggplot(estad.data.frame, aes(x = EST, y = MORD)) +theme_bw() + geom_bar(stat = "identity")+ ggtitle(paste("", 2003 + i)) + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 3)) + labs(x="", y="Mordeduras") + theme(plot.title = element_text(size = 12)) + theme(axis.text.y = element_text(size=5))  + theme(axis.title.y = element_text(size = 7)) + expand_limits(y=c(0,20000))
+  grafs.est[[i]] <- graf.e
+}
+do.call("grid.arrange", c(grafs.est, ncol=3))
+```
+
+En cada gráfica por año de cada estado y sus mordeduras totales, podemos apreciar como cada año que pasa parace haber un decrecimiento de las mordeduras en todos los estados. También podemos apreciar, que a pesar de que las mordeduras bajaron los estados tienden a tener la misma relación uno con el otro, esto es, la variabilidad de los estados en cuanto a mordeduras no parece cambiar en gran medida.
+
+#### 6.2.2 El Cambio de las Mordeduras en Cada Fuente de Notificación
 
 
 ```{r , echo=FALSE, message=FALSE, warning=FALSE}
@@ -573,7 +597,7 @@ do.call("grid.arrange", c(graphs.fn, ncol=3))
 En esta gráfica podemos notar el cambio a través de los años de las mordeduras de perro en cada una de la instituciones de salud mencionadas. Podemos apreciar que el cambio en cuanto a las notificaciones de mordeduras de perro no cambian en gran medida, Se puede apreciar que "SALUD" es la que registra mayor cantidad de mordeduras en todos los años. "SALUD" la consideramos un valor atípico ya que por mucho registra mayor cantidad de mordeduras que otras instituciones. También podemos notar como "IMSS.OP" tiende a bajar el registro de mordeduras mientras que "ISSTE" registra cada vez más. Es importante aclarar que en muchas instituciones no se registraron datos es por eso que en la mayoría de las gráficas hay muchas instituciones que no se logran apreciar con gran claridad.
 
 
-#### 6.2.2 El Cambio de las Mordeduras en Mes de Ocurrencia
+#### 6.2.3 El Cambio de las Mordeduras en Mes de Ocurrencia
 
 ```{r , echo=FALSE, message=FALSE, warning=FALSE}
 # Mes de ocurrencia en cada a??o.
@@ -603,7 +627,7 @@ do.call("grid.arrange", c(graphs.mo, ncol=3))
 En los meses podemos hacer la comparación con la gráfica de tendencia y ver que en efecto, a través de los años van bajando las mordeduras de perro. En general se puede apreciar que la tendencia suele ser la misma a través en los meses y la variabilidad de mordedruas de perro en cada mes es muy baja.
 
 
-#### 6.2.3 El Cambio de las Mordeduras en Grupo de Edad
+#### 6.2.4 El Cambio de las Mordeduras en Grupo de Edad
 
 ```{r , echo=FALSE, message=FALSE, warning=FALSE}
 # Grupo de edad en cada a??o.
