@@ -1,8 +1,8 @@
 ---
 title: "Proyecto"
-author: "Fernando Chávez, Bernardo Mondragón, Rayan García"
+author: "Fernando Chavez, Bernardo Mondragon, Rayan Garcia"
 date: "14 de octubre de 2016"
-output: pdf_document
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-# Librerías Instaladas
+# Librer??as Instaladas
 ```{r libreria, echo=TRUE, results='hide', message=FALSE, warning=FALSE}
 paquetes.utilizados <- c("data.table", "dplyr", "tidyr", "ggplot2", "gridExtra")
 paquetes.instalados <- rownames(installed.packages())
@@ -29,7 +29,7 @@ Especificar el directorio de trabajo.
 El directorio de trabajo debe ser la capeta del proyecto:
 
 ```{r , echo=TRUE}
-workingDirectory <- "/Users/fchavezga/Desktop/MordedurasPerro"
+workingDirectory <- "/Users/ferchavez100/Desktop/MordedurasPerro"
 setwd(workingDirectory)
 
 ```
@@ -44,11 +44,11 @@ for (i in 1:12) {
 
 ```
 
-## Fuente de Notificación
+## Fuente de Notificaci??n
 ```{r fuente, echo=TRUE, results='hide', message=FALSE, warning=FALSE}
 
 # Fuente de Notificacion General
-workingDirectory <- "/Users/fchavezga/Desktop/MordedurasPerro"
+workingDirectory <- "/Users/ferchavez100/Desktop/MordedurasPerro"
 setwd(workingDirectory)
 
 spath <-paste(getwd(), "/Data/CSV/FuenteDeNotificacion/General/", sep="")
@@ -80,7 +80,7 @@ setwd(workingDirectory)
 ## Grupo de Edad
 
 ```{r , echo=TRUE, results='hide', message=FALSE, warning=FALSE}
-workingDirectory <- "/Users/fchavezga/Desktop/MordedurasPerro"
+workingDirectory <- "/Users/ferchavez100/Desktop/MordedurasPerro"
 setwd(workingDirectory)
 
 # Grupo de Edad General
@@ -111,7 +111,7 @@ setwd(workingDirectory)
 ## Mes de Ocurrencia
 
 ```{r, echo=TRUE, results='hide', message=FALSE, warning=FALSE}
-workingDirectory <- "/Users/fchavezga/Desktop/MordedurasPerro"
+workingDirectory <- "/Users/ferchavez100/Desktop/MordedurasPerro"
 setwd(workingDirectory)
 
 # Mes de Ocurrencia General
@@ -139,7 +139,7 @@ names(mom) <- nombres
 setwd(workingDirectory)
 ```
 
-## Listas y Creación del Dataframe "mpData"
+## Listas y Creaci??n del Dataframe "mpData"
 
 ```{r , echo=TRUE}
 FuenteDeNotificacion = list(fng, fnh, fnm)
@@ -158,7 +158,7 @@ names(mpData) <- c("FuenteDeNotificacion", "GrupoDeEdad", "MesDeOcurrencia")
 
 # Limpieza de Codigo
 
-## Eliminación de Columnas
+## Eliminaci??n de Columnas
 ```{r , echo=TRUE}
 # Elimina la columna TOTAL de los data.frames de Fuente de Notificacion.
 for (i in 1:length(mpData$FuenteDeNotificacion)) {
@@ -419,9 +419,9 @@ for (i in 1:length(mpOrgData)) {
 }
 ```
 
-# Pirámides
+# Pir??mides
 
-## Creación de DataFrame (Para poder leer la pirámide de Fuente De Notificación)
+## Creaci??n de DataFrame (Para poder leer la pir??mide de Fuente De Notificaci??n)
 
 ```{r , echo=TRUE, message=FALSE, warning=FALSE, results='hide'}
 #Creacion DataFrame 1
@@ -460,7 +460,7 @@ names(dataframesPorEstado) <- estados
 dataframesPorEstado
 ```
 
-## Creación de la Pirámide de Fuente de Notificación
+## Creaci??n de la Pir??mide de Fuente de Notificaci??n
 ```{r , echo=TRUE}
 #Creacion Piramide 1
 #Pir??mide hombres y mujeres, por estado y fuente de notificacion  
@@ -483,7 +483,7 @@ for (i in 1:32) {
 }
 ```
 
-## Creación de DataFrame (Para poder leer la pirámide de Grupo De Edad)
+## Creaci??n de DataFrame (Para poder leer la pir??mide de Grupo De Edad)
 ```{r , echo=TRUE, message=FALSE, warning=FALSE, results='hide'}
 # Grupo de Edad hombres y mujeres
 # Hombres.
@@ -519,9 +519,9 @@ names(dataframesPorEstadog) <- estados
 dataframesPorEstadog
 ```
 
-## Creación de la Pirámide de Grupo de Edad
+## Creaci??n de la Pir??mide de Grupo de Edad
 ```{r , echo=TRUE}
-#Pirámide hombres y mujeres, por estado y grupo de edad
+#Pir??mide hombres y mujeres, por estado y grupo de edad
 
 par(mfrow = c(4, 8), mar = c(0, 0, 1, 0), oma = c(0, 0, 1.2, 0))
 entidades <- c('Aguascalientes', 'Baja California', 'Baja California Sur', 'Campeche', 'Chiapas', 'Chihuahua', 'Coahuila', 'Colima', 'Distrito Federal', 'Durango', 'Guanajuato','Guerrero', 'Hidalgo', 'Jalisco', 'Mexico', 'Michoacan', 'Morelos', 'Nayarit','Nuevo Leon', 'Oaxaca', 'Puebla', 'Queretaro', 'Quintana Roo', 'San Luis Potosi','Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas', 'Tlaxcala', 'Veracruz', 'Yucatan','Zacatecas')
@@ -542,7 +542,7 @@ for (i in 1:32) {
 }
 ```
 
-## Creación de DataFrame (Para poder leer la pirámide de Mes de Ocurrencia)
+## Creaci??n de DataFrame (Para poder leer la pir??mide de Mes de Ocurrencia)
 ```{r , echo=TRUE, message=FALSE, warning=FALSE, results='hide'}
 # Mes de ocurrencia hombres y mujeres
 # Hombres.
@@ -578,7 +578,7 @@ names(dataframesPorEstadom) <- estados
 dataframesPorEstadom
 ```
 
-## Creación de la Pirámide de Mes de Ocurrencia
+## Creaci??n de la Pir??mide de Mes de Ocurrencia
 ```{r , echo=TRUE}
 #Pir??mide hombres y mujeres, mes de ocurrencia.
 
@@ -601,7 +601,7 @@ for (i in 1:32) {
 ```
 
 
-# Tendencia de las Mordeduras a través de los años
+# Tendencia de las Mordeduras a trav??s de los a??os
 ```{r , echo=TRUE}
 fn <- subset(mpOrgData$FuenteDeNotificacion, SEXO  %in% c("GENERAL"))
 fn <-subset(fn, !is.na(MORDEDURAS))
@@ -616,7 +616,7 @@ for (i in 1:12) {
 FuenteDeN <- data.frame(years, sums)
 
 ggplot(FuenteDeN, aes(x=years, y=sums)) + geom_point() + geom_line() + 
-  labs(x = "Años", y = "Mordeduras")
+  labs(x = "A??os", y = "Mordeduras")
 ```
 
 # 
@@ -634,7 +634,7 @@ for (i in 1:12) {
 FuenteDeN <- data.frame(years, sums)
 
 ggplot(FuenteDeN, aes(x=years, y=sums)) + geom_point() + geom_line() + 
-  labs(x = "Años", y = "Mordeduras")
+  labs(x = "A??os", y = "Mordeduras")
 ```
 
 
