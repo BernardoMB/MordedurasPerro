@@ -21,7 +21,7 @@ library(gtable)
 
 # Especificar el directorio de trabajo.
 # El directorio de trabajo debe ser la capeta del proyecto:
-workingDirectory <- "/Users/rayangf/Desktop/MordedurasPerro"
+workingDirectory <- "/Users/ferchavez100/Desktop/MordedurasPerro/DATOS/BRUTOS"    #<---------CAMBIAR DIRECTORIO DE TRABAJO HASTA LA CARPETA
 setwd(workingDirectory)
 
 
@@ -40,7 +40,7 @@ nombres <- getNames()
 # --------------- 2.1.- Fuente de Notificacion.
 
 # Fuente de Notificacion General
-spath <-paste(getwd(), "/Data/CSV/FuenteDeNotificacion/General/", sep="")
+spath <-paste(getwd(), "/CSV/FuenteDeNotificacion/General/", sep="")
 setwd(spath)
 fng <- list.files()
 fng
@@ -49,7 +49,7 @@ names(fng) <- nombres
 setwd(workingDirectory)
 
 # Fuente de Notificacion Hombres
-spath <-paste(getwd(), "/Data/CSV/FuenteDeNotificacion/Hombres/", sep="")
+spath <-paste(getwd(), "/CSV/FuenteDeNotificacion/Hombres/", sep="")
 setwd(spath)
 fnh <- list.files()
 fnh <- lapply(fnh, fread, sep=",")
@@ -57,7 +57,7 @@ names(fnh) <- nombres
 setwd(workingDirectory)
 
 # Fuente de Notificacion Mujeres
-spath <-paste(getwd(), "/Data/CSV/FuenteDeNotificacion/Mujeres/", sep="")
+spath <-paste(getwd(), "/CSV/FuenteDeNotificacion/Mujeres/", sep="")
 setwd(spath)
 fnm <- list.files()
 fnm <- lapply(fnm, fread, sep=",")
@@ -67,7 +67,7 @@ setwd(workingDirectory)
 # --------------- 2.2.- Grupo de Edad.
 
 # Grupo de Edad General
-spath <-paste(getwd(), "/Data/CSV/GrupoDeEdad/General/", sep="")
+spath <-paste(getwd(), "/CSV/GrupoDeEdad/General/", sep="")
 setwd(spath)
 geg <- list.files()
 geg <- lapply(geg, fread, sep=",")
@@ -75,7 +75,7 @@ names(geg) <- nombres
 setwd(workingDirectory)
 
 # Grupo de Edad Hombres
-spath <-paste(getwd(), "/Data/CSV/GrupoDeEdad/Hombres/", sep="")
+spath <-paste(getwd(), "/CSV/GrupoDeEdad/Hombres/", sep="")
 setwd(spath)
 geh <- list.files()
 geh <- lapply(geh, fread, sep=",")
@@ -83,7 +83,7 @@ names(geh) <- nombres
 setwd(workingDirectory)
 
 # Grupo de Edad Mujeres
-spath <-paste(getwd(), "/Data/CSV/GrupoDeEdad/Mujeres/", sep="")
+spath <-paste(getwd(), "/CSV/GrupoDeEdad/Mujeres/", sep="")
 setwd(spath)
 gem <- list.files()
 gem <- lapply(gem, fread, sep=",")
@@ -93,7 +93,7 @@ setwd(workingDirectory)
 # --------------- 2.3.- Mes de Ocurrencia.
 
 # Mes de Ocurrencia General
-spath <-paste(getwd(), "/Data/CSV/MesDeOcurrencia/General/", sep="")
+spath <-paste(getwd(), "/CSV/MesDeOcurrencia/General/", sep="")
 setwd(spath)
 mog <- list.files()
 mog <- lapply(mog, fread, sep=",")
@@ -101,7 +101,7 @@ names(mog) <- nombres
 setwd(workingDirectory)
 
 # Mes de Ocurrencia Hombres
-spath <-paste(getwd(), "/Data/CSV/MesDeOcurrencia/Hombres/", sep="")
+spath <-paste(getwd(), "/CSV/MesDeOcurrencia/Hombres/", sep="")
 setwd(spath)
 moh <- list.files()
 moh <- lapply(moh, fread, sep=",")
@@ -109,7 +109,7 @@ names(moh) <- nombres
 setwd(workingDirectory)
 
 # Mes de Ocurrencia Mujeres
-spath <-paste(getwd(), "/Data/CSV/MesDeOcurrencia/Mujeres/", sep="")
+spath <-paste(getwd(), "/CSV/MesDeOcurrencia/Mujeres/", sep="")
 setwd(spath)
 mom <- list.files()
 mom <- lapply(mom, fread, sep=",")
