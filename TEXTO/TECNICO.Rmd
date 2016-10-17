@@ -8,117 +8,6 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-## 1. Introducción
-El Proyecto consiste en el análisis de la incidencia en mordeduras de perro en México del año 2004 a 2015. Dicha incidencia se ordena por Fuente de Notificación, Mes de Ocurrencia y Grupo de Edad. Los datos usados en este proyecto provienen de la secretaría de salud: http://www.epidemiologia.salud.gob.mx/anuario/html/anuarios.html. 
-
-El objetivo es presentar una serie de gráficas y análisis de cómo ha cambiado la incidencia de las mordeduras de perro a través de los años. Creemos firmemente que el gran objetivo del análisis de datos en el sector salud es prevenir. 
-
-Es importante presentar de manera clara y organizada los datos de las distintas clasificaciones (i.e fuente de notificación, mese de ocurrencia y grupo de edad), como menciona Edward Tufte en su lectura de Beautiful Evidence "las presentaciones deben ser intelectuales, que puedan transmitir conocimiento, que enseñen y que digan algo. Porque el problema con muchas presentaciones hoy en día es que tienen mucho contenido pero no dicen nada, no transmiten una bella evidencia".
-
-También creemos que los datos y la información deben seguir con los principios que Stephen Few menciona en su lectura Statistical Narrative. Es decir, esta debe ser simple, informativa, verdadera, contextual, concreta y procesable.
-También no nos olvidamos de agrupar la información de manera correcta y mostrar la documentación y las comparaciones de su análisis, como lo menciona Edward Tufte.
- 
-Creemos que el análisis de datos es importante para el sector salud, ya que podría utilizarse para conocer la tendencia, la frecuencia y la variabilidad de los datos. Ya que si el sector salud conoce de manera detallada la incidencia de las mordeduras de perro en México puede tomar mejores decisiones para atender a la población. Se pueden crear campañas o  se pueden enfocar más en los estados "problemáticos". 
-
-En este trabajo se pudieron incluir más variables a analizar, sin embargo esto hubiese implicado perder de vista el objetivo principal del curso, el cual es poder presentar un análisis de datos desde el principio, esto es, desde la captura, la limpieza y la organización de datos.
-
-
-## 2. Definición del Problema
-En la obtención de los datos surgen varias preguntas a resolver y aclarar: ¿Cuál es la tendencia de las mordeduras de perro a través de los años?, ¿cómo se cambió la incidencia de las mordeduras de perro en los estados cada año?, ¿cómo se fueron reportando las mordeduras de perro en las fuentes de notificación a través de los años?, ¿cómo se reportaron las mordeduras en los grupos de edad a través de los años?, ¿cuáles son lo estados que están por arriba de la media en el último año?, ¿cuáles son los máximos y mínimos a través de los años?, ¿cómo es la tendencia de cada estado en cada año?, entre otras. 
-
-El planteamiento previo de estas preguntas es relevante para un análisis eficiente.
-Una de nuestras primeras preguntas surgió de un pensamiento racional y clásico: ¿Cómo se están comportando las mordeduras en México a través de los años?.
-
-Las multigráficas de cada año, para Total de mordeduras con Fuente de Notificación, Mes de Ocurrencia y Grupo de Edad, son importantes ya nos premitieron ver el cambio a través de los años y especificar la tendencia de cada uno de los casos a analizar.
-
-Uno de los análisis que consideramos fue el de los estados que han tenido una mayor tendencia a través de los años en mordeduras, ya que son estados que deben tener mayor prioridad en lo que se refiere a la potencial amenaza en la propagación de algúna enfermedad transmitida por las mismas. Con esto llegamos a una de nuestras conclusiones: el análisis y objetivo de los datos, en sector salud, es prevenir. Se debe prestar especial atención a los estados que estuvieran por arriba de la media más la desviación estándar.
-
-También consideramos relevante el uso del tipo de gráfica Boxplot en nuestro análisis, ya que con esto podemos analizar estadísticamente mejor el acumulado de las probabilidades y ver con mayor presición la mediana, la media, y lo cuartiles, al igual que los valores atípicos que registra cada gráfica. Para esto consideramos primordiales cuatro boxplots, incluyendo en el eje de las ordenadas el Total de mordeduras y en el eje de las abscisas los años, comprandolos con: Estados, meses, grupo de edad y fuente de notificación.  
-
-## 3. Obtención y Descripción de los Datos
-
-### 3.1 Descarga de Archivos
-Se descargaron los PDF's de la pagina consultada para cada año desde 2004 a 2015, tanto para Fuente de Notificación, Mes de Ocurrencia, y Grupo de Edad incluyendo: General, Hombres y Mujeres, 108 en total
-
-Después para poderlos leer en Rstudio, primero se convirtió a formato Excel utilizando la página de internet: https://online2pdf.com/en/pdf2excel.
-
-Al momento de leerlos en Excel se observó lo siguiente:
-
-#### 3.1.1 Fuente de Notificación
-En cada archivo excel de Fuente de Notificación, se encontraba en cada columna: 
-"Estado", Salud", "Imss.ord", "Issste", "Imss.op", "Dif", "Pemex", "Sedena", "Semar", "Otras" y "Total. Siendo "OTRAS", otras fuentes notificación diferentes a las anteriores y Total al total obtenido de cada renglón. También se obtuvo en el excel un renglón de Totales y encabezados de la descripción de cada archivo.
-
-
-#### 3.1.2 Mes de Ocurrencia
-En cada excel de Mes de Ocurrencia, se encontraba en cada columna:
-"Estado" "ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC".
-Dependiendo del año que se descargara el PDF había en algunos una columna con la tasa utilizada para calcular los resultados. También se podían hallar los meses sin abreviaturas y con la primera letra mayúscula, al igual que en algunos la columna de Total variaba en la  primera columna o en la última.
-
-Para eso decidimos pertinente dejar todas las columas con las abreviaturas de los meses, eliminar la columna de tasa en todos archivos excel y los espacios encontrados entre columnas, ya que a veces al transformar de PDF a excel puede generar columnas vacías.
-
-
-#### 3.1.3 Grupo de Edad
-En cada archivo excel de Grupo de Edad, se encuentra en cada columna:
-"Estado", ">1", "1-4", "5-9", "10-14", "15-19", "20-24", "25-44", "45-49", "50-59", "60-64", ">65", "Ign".
-
-Uno de los principales problemas, que se consideraron de esta variable, es que los intervalos de las edades no son constantes, esto es, que hay intervalos de cuatro años al igual que hay un intervalo de 19 años el cual presentará mayor probabilidad de que los datos estén contenidos en este. Esto impide que se pueda hacer un mejor análisis ya que los intervalos no son los mismos. En estadística uno de los principios básicos para poder hacer un análisis es que poder comparar con las mismas medidas ya que en otro caso se pueden distorsionar los resultados, como fue en este caso.
-
-Otro de los problemas que presenta cada excel de Grupo de Edad es que su segunda columna ">1" se puede interpretar como mayor a uno pero con la tercera columna "1-4" se puede crear confusión al momento de interpretar los datos.Probablemente lo que quizo mencionar el archivo es que ">1" indica menor a un año.
-
-
-#### 3.1.4 Similaridades en todos los Formatos
-En la columna Estados se encontraban 32 en total, cada uno con Mayúscula al principio y con su respectivo acento, en caso que tuviera. Se indica a la Ciudad de México como "Distrito Federal" y al Estado de México como "México". 
-
-En algunas diapositivas se encuentran "N.A." y "S/R" indicando ambas que no hubo registro de datos en ese apartado.
-
-En cada excel, independientemente de cada Fuente, se encontraba en ciertas ocaciones columnas vacías, datos comprimidos en una misma celda, renglón de Totales y leyendas de la información de cada archivo. En ciertos casos nos vimos obligados a modificar los archivos porque para programar algunos cambios en Rstudio hubieran sido muy complicado, especialmente se tuvo problemas con todos los archivos del año 2012 ya que eliminaba la columna de Estados y la colocaba en otro espacio al igual que los datos los modificaba. 
-
-Fueron pocos en los que nos vimos obligados a cambiar a mano la información obtenida para el archivo excel, ya que en la conversión de formato se había modificado considerablemente.
-
-### 3.2 Formato CSV
-Para poder leer los archivos de excel en Rstudio, se tuvieron que guardar en el formato CSV, ya guardados se pudieron leer sin ningún problema en Rstudio.
-
-
-## 4. Calidad de los Datos
-En cuanto a la calidad de los datos, se tuvo que hacer pruebas de consistencia, esto consiste en probar que el total de los archivos de GENERAL fueran iguales a HOMBRES más MUJERES. Se creo un código para comprobar la igualdad en Rstudio, en caso de que no se diera la igualdad se arrojaba el año en el cual había habido inconsistencia en caso contrario no arrojaba nada. A final de cuentas se comprobó que no había ninguna inconsistencia en la igualdad de ningún año.
-También se comprobó que los totales fueran correctos en cada Formato, Fuente de Notificación, Mes de Ocurrencia y Grupo de Edad. 
-
-
-## 5. Transformación de los Datos
-
-### 5.1 Limpieza
-Se limpiaron y acomodaron los datos en Rstudio de tal forma que pudieran estar en un formato limpio y organizado, como lo mencionan Edward Tufte y Stephen Few en sus respectivas lecturas. No teniendo columnas innecesarias, datos extra y sin tener una información desorganizada.
-
-La limpieza consistió en: eliminar espacios entre números, convertir todos los números en formato "numeric", cambiar todas las variables en mayúsculas, eliminar los espacios entre los nombres de los estados, quitar los acentos de todos los estados y por último cambiar "N.A." y "S/R" a NA's para que con Rstudio pudieramos hacer los análisis correspondientes.
-
-En especial se modificó el Dataframe de Grupo de Edad ya que como Rstudio no lee variables como números tuvimos que cambiar las columnas originales a letra (i.e "1-4" se modificó a "UNO.A.CUATRO")
-
-### 5.2 Organización
-Después de hacer la limpieza para cada archivo se acomodó la información en formato organizado. Se realizó la lectura de los archivos, se añadieron para cada archivo un columna con el nombre de ANIO, indicando el año respectivo, se escogió el nombre de "ANIO" y no "AÑO" ya que en computadoras mac no se pueden leer "ñ's" en las variables. Además se agregó la columna de "SEXO", indicando a que archivo correspondian los datos si a: "GENERAL", "HOMBRES" o "MUJERES". 
-
-Después, se juntaron todas las tablas en una, para cada uno de los formatos, creando tres Dataframes, esto es, un Dataframe para Fuente de Notificación, Mes de Ocurrencia y Grupo de Edad, cada uno con las columnas: "ESTADO", "ANIO", Variable("FUENTE", "MES", "EDAD"), "SEXO" y Total de Mordeduras llamado "MORDEDURAS".  
-
-Además de las columnas de "ESTADO", "ANIO", "SEXO" y "MORDEDURAS" en la Variable de cada Dataframe está organizada de la siguiente manera:
-
-#### 5.2.1 Fuente de Notificación
-En el Dataframe de Fuente de Notificación, dentro de su variable "FUENTE", se encuentra: 
-"SALUD", "IMSS.ORD", "ISSSTE", "IMSS.OP", "DIF", "PEMEX", "SEDENA", "SEMAR" y "OTRAS". Todas en mayúsculas y el espacio representado por un punto, si es necesario.
-
-
-#### 5.2.2 Dataframe de Grupo de Edad
-En el Dataframe de Grupo de Edad, dentro de la variable "EDAD", se encuentra:
-"MAYOR.A.UNO", "UNO.A.CUATRO", "CINCO.A.NUEVE", "DIEZ.A.CATORCE", "QUINCE.A.DIECINUEVE", "VEINTE.A.VEINTICUATRO", "VEINTICINCO.A.CUARENTAYCUATRO", "CUARENTAYCINCO.A.CUARENTAYNUEVE", "CINCUENTA.A.CINCUENTAYNUEVE", "SESENTA.A.SESENTAYCUATRO", "MAYOR.A.SESENTAYCINCO", "NO.SE.REPORTO.LA.EDAD".
-Cada dato presenta el intervalo de edad donde se presentaron mordeduras por perro todo en mayúsculas y un punto representando el espacio. 
-
-
-#### 3.5.3 Dataframe de Mes de Ocurrencia
-En el Dataframe de Mes de Ocurrencia, dentro de la variable "MES", se encuentra:
-"ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC".
-cada dato representado por la abreviatura de cada mes. 
-
-
-## 6. Análisis Exploratorio
-
 
 ```{r , echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
 library(data.table)
@@ -506,6 +395,227 @@ for (i in 1:length(mpOrgData)) {
 
 # --------------- Fin limpieza ------------------------
 ```
+
+
+
+
+## 1. Introducción
+El Proyecto consiste en el análisis de la incidencia en mordeduras de perro en México del año 2004 a 2015. Dicha incidencia se ordena por Fuente de Notificación, Mes de Ocurrencia y Grupo de Edad. Los datos usados en este proyecto provienen de la secretaría de salud: http://www.epidemiologia.salud.gob.mx/anuario/html/anuarios.html. 
+
+El objetivo es presentar una serie de gráficas y análisis de cómo ha cambiado la incidencia de las mordeduras de perro a través de los años. Creemos firmemente que el gran objetivo del análisis de datos en el sector salud es prevenir. 
+
+Es importante presentar de manera clara y organizada los datos de las distintas clasificaciones (i.e fuente de notificación, mese de ocurrencia y grupo de edad), como menciona Edward Tufte en su lectura de Beautiful Evidence "las presentaciones deben ser intelectuales, que puedan transmitir conocimiento, que enseñen y que digan algo. Porque el problema con muchas presentaciones hoy en día es que tienen mucho contenido pero no dicen nada, no transmiten una bella evidencia".
+
+También creemos que los datos y la información deben seguir con los principios que Stephen Few menciona en su lectura Statistical Narrative. Es decir, esta debe ser simple, informativa, verdadera, contextual, concreta y procesable.
+También no nos olvidamos de agrupar la información de manera correcta y mostrar la documentación y las comparaciones de su análisis, como lo menciona Edward Tufte.
+ 
+Creemos que el análisis de datos es importante para el sector salud, ya que podría utilizarse para conocer la tendencia, la frecuencia y la variabilidad de los datos. Ya que si el sector salud conoce de manera detallada la incidencia de las mordeduras de perro en México puede tomar mejores decisiones para atender a la población. Se pueden crear campañas o  se pueden enfocar más en los estados "problemáticos". 
+
+En este trabajo se pudieron incluir más variables a analizar, sin embargo esto hubiese implicado perder de vista el objetivo principal del curso, el cual es poder presentar un análisis de datos desde el principio, esto es, desde la captura, la limpieza y la organización de datos.
+
+
+## 2. Definición del Problema
+En la obtención de los datos surgen varias preguntas a resolver y aclarar: ¿Cuál es la tendencia de las mordeduras de perro a través de los años?, ¿cómo se cambió la incidencia de las mordeduras de perro en los estados cada año?, ¿cómo se fueron reportando las mordeduras de perro en las fuentes de notificación a través de los años?, ¿cómo se reportaron las mordeduras en los grupos de edad a través de los años?, ¿cuáles son lo estados que están por arriba de la media en el último año?, ¿cuáles son los máximos y mínimos a través de los años?, ¿cómo es la tendencia de cada estado en cada año?, entre otras. 
+
+El planteamiento previo de estas preguntas es relevante para un análisis eficiente.
+Una de nuestras primeras preguntas surgió de un pensamiento racional y clásico: ¿Cómo se están comportando las mordeduras en México a través de los años?.
+
+Las multigráficas de cada año, para Total de mordeduras con Fuente de Notificación, Mes de Ocurrencia y Grupo de Edad, son importantes ya nos premitieron ver el cambio a través de los años y especificar la tendencia de cada uno de los casos a analizar.
+
+Uno de los análisis que consideramos fue el de los estados que han tenido una mayor tendencia a través de los años en mordeduras, ya que son estados que deben tener mayor prioridad en lo que se refiere a la potencial amenaza en la propagación de algúna enfermedad transmitida por las mismas. Con esto llegamos a una de nuestras conclusiones: el análisis y objetivo de los datos, en sector salud, es prevenir. Se debe prestar especial atención a los estados que estuvieran por arriba de la media más la desviación estándar.
+
+También consideramos relevante el uso del tipo de gráfica Boxplot en nuestro análisis, ya que con esto podemos analizar estadísticamente mejor el acumulado de las probabilidades y ver con mayor presición la mediana, la media, y lo cuartiles, al igual que los valores atípicos que registra cada gráfica. Para esto consideramos primordiales cuatro boxplots, incluyendo en el eje de las ordenadas el Total de mordeduras y en el eje de las abscisas los años, comprandolos con: Estados, meses, grupo de edad y fuente de notificación.  
+
+## 3. Obtención y Descripción de los Datos
+
+### 3.1 Descarga de Archivos
+Se descargaron los PDF's de la pagina consultada para cada año desde 2004 a 2015, tanto para Fuente de Notificación, Mes de Ocurrencia, y Grupo de Edad incluyendo: General, Hombres y Mujeres, 108 en total
+
+Después para poderlos leer en Rstudio, primero se convirtió a formato Excel utilizando la página de internet: https://online2pdf.com/en/pdf2excel.
+
+Al momento de leerlos en Excel se observó lo siguiente:
+
+#### 3.1.1 Fuente de Notificación
+En cada archivo excel de Fuente de Notificación, se encontraba en cada columna: 
+"Estado", Salud", "Imss.ord", "Issste", "Imss.op", "Dif", "Pemex", "Sedena", "Semar", "Otras" y "Total. Siendo "OTRAS", otras fuentes notificación diferentes a las anteriores y Total al total obtenido de cada renglón. También se obtuvo en el excel un renglón de Totales y encabezados de la descripción de cada archivo.
+
+
+#### 3.1.2 Mes de Ocurrencia
+En cada excel de Mes de Ocurrencia, se encontraba en cada columna:
+"Estado" "ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC".
+Dependiendo del año que se descargara el PDF había en algunos una columna con la tasa utilizada para calcular los resultados. También se podían hallar los meses sin abreviaturas y con la primera letra mayúscula, al igual que en algunos la columna de Total variaba en la  primera columna o en la última.
+
+Para eso decidimos pertinente dejar todas las columas con las abreviaturas de los meses, eliminar la columna de tasa en todos archivos excel y los espacios encontrados entre columnas, ya que a veces al transformar de PDF a excel puede generar columnas vacías.
+
+
+#### 3.1.3 Grupo de Edad
+En cada archivo excel de Grupo de Edad, se encuentra en cada columna:
+"Estado", ">1", "1-4", "5-9", "10-14", "15-19", "20-24", "25-44", "45-49", "50-59", "60-64", ">65", "Ign".
+
+Uno de los principales problemas, que se consideraron de esta variable, es que los intervalos de las edades no son constantes, esto es, que hay intervalos de cuatro años al igual que hay un intervalo de 19 años el cual presentará mayor probabilidad de que los datos estén contenidos en este. Esto impide que se pueda hacer un mejor análisis ya que los intervalos no son los mismos. En estadística uno de los principios básicos para poder hacer un análisis es que poder comparar con las mismas medidas ya que en otro caso se pueden distorsionar los resultados, como fue en este caso.
+
+Otro de los problemas que presenta cada excel de Grupo de Edad es que su segunda columna ">1" se puede interpretar como mayor a uno pero con la tercera columna "1-4" se puede crear confusión al momento de interpretar los datos.Probablemente lo que quizo mencionar el archivo es que ">1" indica menor a un año.
+
+
+#### 3.1.4 Similaridades en todos los Formatos
+En la columna Estados se encontraban 32 en total, cada uno con Mayúscula al principio y con su respectivo acento, en caso que tuviera. Se indica a la Ciudad de México como "Distrito Federal" y al Estado de México como "México". 
+
+En algunas diapositivas se encuentran "N.A." y "S/R" indicando ambas que no hubo registro de datos en ese apartado.
+
+En cada excel, independientemente de cada Fuente, se encontraba en ciertas ocaciones columnas vacías, datos comprimidos en una misma celda, renglón de Totales y leyendas de la información de cada archivo. En ciertos casos nos vimos obligados a modificar los archivos porque para programar algunos cambios en Rstudio hubieran sido muy complicado, especialmente se tuvo problemas con todos los archivos del año 2012 ya que eliminaba la columna de Estados y la colocaba en otro espacio al igual que los datos los modificaba. 
+
+Fueron pocos en los que nos vimos obligados a cambiar a mano la información obtenida para el archivo excel, ya que en la conversión de formato se había modificado considerablemente.
+
+### 3.2 Formato CSV
+Para poder leer los archivos de excel en Rstudio, se tuvieron que guardar en el formato CSV, ya guardados se pudieron leer sin ningún problema en Rstudio.
+
+
+## 4. Calidad de los Datos
+En cuanto a la calidad de los datos, se tuvo que hacer pruebas de consistencia, esto consiste en probar que el total de los archivos de GENERAL fueran iguales a HOMBRES más MUJERES. Se creo un código para comprobar la igualdad en Rstudio, en caso de que no se diera la igualdad se arrojaba el año en el cual había habido inconsistencia en caso contrario no arrojaba nada. A final de cuentas se comprobó que no había ninguna inconsistencia en la igualdad de ningún año.
+También se comprobó que los totales fueran correctos en cada Formato, Fuente de Notificación, Mes de Ocurrencia y Grupo de Edad. 
+
+```{r , echo=FALSE}
+
+# ---------------- 4.4.- Pruebas detalladas.
+pruebaDeConsistencia <- function(categoria) {
+  cat <- NULL
+  raw <- NULL
+  categorias <- c()
+  if (categoria == "estado") {
+    categorias <- c('Aguascalientes', 'Baja California', 'Baja California Sur', 'Campeche', 'Chiapas', 'Chihuahua', 'Coahuila', 'Colima', 'Distrito Federal', 'Durango', 'Guanajuato','Guerrero', 'Hidalgo', 'Jalisco', 'Mexico', 'Michoacan', 'Morelos', 'Nayarit','Nuevo Leon', 'Oaxaca', 'Puebla', 'Queretaro', 'Quintana Roo', 'San Luis Potosi','Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas', 'Tlaxcala', 'Veracruz', 'Yucatan','Zacatecas')
+    cat <- "ESTADO"
+    raw <- mpOrgData$FuenteDeNotificacion
+  } else if (categoria == "fuente") {
+    categorias <- c("SALUD","IMSS.ORD","ISSSTE","IMSS.OP","DIF","PEMEX","SEDENA","SEMAR","OTRAS")
+    cat = "FUENTE"
+    raw <- mpOrgData$FuenteDeNotificacion
+  } else if (categoria == "grupo") {
+    categorias <- c("MAYOR.A.UNO","UNO.A.CUATRO","CINCO.A.NUEVE","DIEZ.A.CATORCE","QUINCE.A.DIECINUEVE","VEINTE.A.VEINTICUATRO","VEINTICINCO.A.CUARENTAYCUATRO","CUARENTAYCINCO.A.CUARENTAYNUEVE","CINCUENTA.A.CINCUENTAYNUEVE","SESENTA.A.SESENTAYCUATRO","MAYOR.A.SESENTAYCINCO","NO.SE.REPORTO.LA.EDAD")
+    cat <- "EDAD"
+    raw <- mpOrgData$GrupoDeEdad
+  } else if (categoria == "mes") {
+    categorias <- c("ENE","FEB","MAR","ABR","MAY","JUN","JUL","AGO","SEP","OCT","NOV","DIC")
+    cat <- "MES"
+    raw <- mpOrgData$MesDeOcurrencia
+  }
+  listaDeDataframes <- list()
+  for (i in 1:12) {
+    porAnio <- subset(raw, ANIO %in% c(2003 + i))
+    vectorAnios <- c()
+    
+    # General.
+    porAnioYGeneral <- subset(porAnio, SEXO %in% c("GENERAL"))
+    totalesG <- c()
+    for (j in 1:length(categorias)) {
+      porAnioYSexoYCat <- NULL
+      if (categoria == "estado") {
+        porAnioYSexoYCat <- subset(porAnioYGeneral, porAnioYGeneral$ESTADO %in% c(categorias[[j]]))
+      } else {
+        porAnioYSexoYCat <- subset(porAnioYGeneral, porAnioYGeneral[[4]] %in% c(categorias[[j]]))
+      }
+      totalesG <- c(totalesG, sum(subset(porAnioYSexoYCat$MORDEDURAS, ! is.na(porAnioYSexoYCat$MORDEDURAS))))
+      vectorAnios <- c(vectorAnios, 2003 + i)  
+    }
+    # Hombres.
+    porAnioYHombres <- subset(porAnio, SEXO %in% c("HOMBRES"))
+    totalesH <- c()
+    for (j in 1:length(categorias)) {
+      porAnioYSexoYCat <- NULL
+      if (categoria == "estado") {
+        porAnioYSexoYCat <- subset(porAnioYHombres, porAnioYHombres$ESTADO %in% c(categorias[[j]]))
+      } else {
+        porAnioYSexoYCat <- subset(porAnioYHombres, porAnioYHombres[[4]] %in% c(categorias[[j]]))
+      }
+      totalesH <- c(totalesH, sum(subset(porAnioYSexoYCat$MORDEDURAS, ! is.na(porAnioYSexoYCat$MORDEDURAS))))  
+    }
+    # Mujeres.
+    porAnioYMujeres <- subset(porAnio, SEXO %in% c("MUJERES"))
+    totalesM <- c()
+    for (j in 1:length(categorias)) {
+      porAnioYSexoYCat <- NULL
+      if (categoria == "estado") {
+        porAnioYSexoYCat <- subset(porAnioYMujeres, porAnioYMujeres$ESTADO %in% c(categorias[[j]]))
+      } else {
+        porAnioYSexoYCat <- subset(porAnioYMujeres, porAnioYMujeres[[4]] %in% c(categorias[[j]]))
+      }
+      totalesM <- c(totalesM, sum(subset(porAnioYSexoYCat$MORDEDURAS, ! is.na(porAnioYSexoYCat$MORDEDURAS))))  
+    }
+    # Suma Hombres + Mujeres.
+    totalesHmasM <- c()
+    for (j in 1:length(categorias)) {
+      porAnioYHombresYCat <- NULL
+      if (categoria == "estado") {
+        porAnioYHombresYCat <- subset(porAnioYHombres, porAnioYHombres$ESTADO %in% c(categorias[[j]]))
+      } else {
+        porAnioYHombresYCat <- subset(porAnioYHombres, porAnioYHombres[[4]] %in% c(categorias[[j]]))
+      }
+      porAnioYMujeresYCat <- NULL
+      if (categoria == "estado") {
+        porAnioYMujeresYCat <- subset(porAnioYMujeres, porAnioYMujeres$ESTADO %in% c(categorias[[j]]))
+      } else {
+        porAnioYMujeresYCat <- subset(porAnioYMujeres, porAnioYMujeres[[4]] %in% c(categorias[[j]]))
+      }
+      totalesHmasM <- c(totalesHmasM, sum(subset(porAnioYHombresYCat$MORDEDURAS, ! is.na(porAnioYHombresYCat$MORDEDURAS))) + sum(subset(porAnioYMujeresYCat$MORDEDURAS, ! is.na(porAnioYMujeresYCat$MORDEDURAS))))  
+    }
+    
+    data.frame.anio.categ.total <- data.frame(vectorAnios, categorias, totalesG, totalesH, totalesM, totalesHmasM)
+    names(data.frame.anio.categ.total) <- c("ANIO", cat, "MORD.G", "MORD.H", "MORD.M", "H + M")
+    listaDeDataframes[[i]] <- data.frame.anio.categ.total
+  }
+  print(listaDeDataframes)
+}
+```
+
+### 4.1 Prueba de Consistencia de Fuente de Notificación
+
+```{r , echo=FALSE}
+pruebaDeConsistencia("fuente")
+```
+
+### 4.2 Prueba de Consistencia para Mes de Ocurrencia
+```{r , echo=FALSE}
+pruebaDeConsistencia("mes")
+```
+
+### 4.3 Prueba de Consistencia para Grupo de Edad
+```{r , echo=FALSE}
+pruebaDeConsistencia("grupo")
+```
+
+## 5. Transformación de los Datos
+
+### 5.1 Limpieza
+Se limpiaron y acomodaron los datos en Rstudio de tal forma que pudieran estar en un formato limpio y organizado, como lo mencionan Edward Tufte y Stephen Few en sus respectivas lecturas. No teniendo columnas innecesarias, datos extra y sin tener una información desorganizada.
+
+La limpieza consistió en: eliminar espacios entre números, convertir todos los números en formato "numeric", cambiar todas las variables en mayúsculas, eliminar los espacios entre los nombres de los estados, quitar los acentos de todos los estados y por último cambiar "N.A." y "S/R" a NA's para que con Rstudio pudieramos hacer los análisis correspondientes.
+
+En especial se modificó el Dataframe de Grupo de Edad ya que como Rstudio no lee variables como números tuvimos que cambiar las columnas originales a letra (i.e "1-4" se modificó a "UNO.A.CUATRO")
+
+### 5.2 Organización
+Después de hacer la limpieza para cada archivo se acomodó la información en formato organizado. Se realizó la lectura de los archivos, se añadieron para cada archivo un columna con el nombre de ANIO, indicando el año respectivo, se escogió el nombre de "ANIO" y no "AÑO" ya que en computadoras mac no se pueden leer "ñ's" en las variables. Además se agregó la columna de "SEXO", indicando a que archivo correspondian los datos si a: "GENERAL", "HOMBRES" o "MUJERES". 
+
+Después, se juntaron todas las tablas en una, para cada uno de los formatos, creando tres Dataframes, esto es, un Dataframe para Fuente de Notificación, Mes de Ocurrencia y Grupo de Edad, cada uno con las columnas: "ESTADO", "ANIO", Variable("FUENTE", "MES", "EDAD"), "SEXO" y Total de Mordeduras llamado "MORDEDURAS".  
+
+Además de las columnas de "ESTADO", "ANIO", "SEXO" y "MORDEDURAS" en la Variable de cada Dataframe está organizada de la siguiente manera:
+
+#### 5.2.1 Fuente de Notificación
+En el Dataframe de Fuente de Notificación, dentro de su variable "FUENTE", se encuentra: 
+"SALUD", "IMSS.ORD", "ISSSTE", "IMSS.OP", "DIF", "PEMEX", "SEDENA", "SEMAR" y "OTRAS". Todas en mayúsculas y el espacio representado por un punto, si es necesario.
+
+
+#### 5.2.2 Dataframe de Grupo de Edad
+En el Dataframe de Grupo de Edad, dentro de la variable "EDAD", se encuentra:
+"MAYOR.A.UNO", "UNO.A.CUATRO", "CINCO.A.NUEVE", "DIEZ.A.CATORCE", "QUINCE.A.DIECINUEVE", "VEINTE.A.VEINTICUATRO", "VEINTICINCO.A.CUARENTAYCUATRO", "CUARENTAYCINCO.A.CUARENTAYNUEVE", "CINCUENTA.A.CINCUENTAYNUEVE", "SESENTA.A.SESENTAYCUATRO", "MAYOR.A.SESENTAYCINCO", "NO.SE.REPORTO.LA.EDAD".
+Cada dato presenta el intervalo de edad donde se presentaron mordeduras por perro todo en mayúsculas y un punto representando el espacio. 
+
+
+#### 3.5.3 Dataframe de Mes de Ocurrencia
+En el Dataframe de Mes de Ocurrencia, dentro de la variable "MES", se encuentra:
+"ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC".
+cada dato representado por la abreviatura de cada mes. 
+
+
+## 6. Análisis Exploratorio
 
 ### 6.1 Tablas con información básica
 Para cada tabla se incluye el Año, La fuente con el valor máximo y su respectivo valor, la fuente con el valor mínimo y su respectivo valor, la media, la desvaición estandar, y cada cuartil. 
