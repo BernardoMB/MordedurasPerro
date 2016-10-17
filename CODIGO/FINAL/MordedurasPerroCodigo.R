@@ -21,7 +21,7 @@ library(gtable)
 
 # Especificar el directorio de trabajo.
 # El directorio de trabajo debe ser la capeta del proyecto:
-workingDirectory <- "/Users/ferchavez100/Desktop/MordedurasPerro/DATOS/BRUTOS"    #<---------CAMBIAR DIRECTORIO DE TRABAJO HASTA LA CARPETA
+workingDirectory <- "/Users/bmondragb/Desktop/MordedurasPerro/DATOS/BRUTOS"    #<---------CAMBIAR DIRECTORIO DE TRABAJO HASTA LA CARPETA
 setwd(workingDirectory)
 
 
@@ -472,6 +472,7 @@ pruebaDeConsistencia <- function(categoria) {
   for (i in 1:12) {
     porAnio <- subset(raw, ANIO %in% c(2003 + i))
     vectorAnios <- c()
+    totalDeNAs <- c()
     
     # General.
     porAnioYGeneral <- subset(porAnio, SEXO %in% c("GENERAL"))
@@ -485,6 +486,7 @@ pruebaDeConsistencia <- function(categoria) {
       }
       totalesG <- c(totalesG, sum(subset(porAnioYSexoYCat$MORDEDURAS, ! is.na(porAnioYSexoYCat$MORDEDURAS))))
       vectorAnios <- c(vectorAnios, 2003 + i)  
+      totalDeNAs <- c(totalDeNAs, sum(is.na(porAnioYSexoYCat)))
     }
     # Hombres.
     porAnioYHombres <- subset(porAnio, SEXO %in% c("HOMBRES"))
@@ -528,8 +530,8 @@ pruebaDeConsistencia <- function(categoria) {
       totalesHmasM <- c(totalesHmasM, sum(subset(porAnioYHombresYCat$MORDEDURAS, ! is.na(porAnioYHombresYCat$MORDEDURAS))) + sum(subset(porAnioYMujeresYCat$MORDEDURAS, ! is.na(porAnioYMujeresYCat$MORDEDURAS))))  
     }
     
-    data.frame.anio.categ.total <- data.frame(vectorAnios, categorias, totalesG, totalesH, totalesM, totalesHmasM)
-    names(data.frame.anio.categ.total) <- c("ANIO", cat, "MORD.G", "MORD.H", "MORD.M", "H + M")
+    data.frame.anio.categ.total <- data.frame(vectorAnios, categorias, totalesG, totalesH, totalesM, totalesHmasM, totalDeNAs)
+    names(data.frame.anio.categ.total) <- c("ANIO", cat, "MORD.G", "MORD.H", "MORD.M", "H + M", "NA's")
     listaDeDataframes[[i]] <- data.frame.anio.categ.total
   }
   print(listaDeDataframes)
