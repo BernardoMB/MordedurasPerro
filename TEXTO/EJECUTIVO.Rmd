@@ -1,6 +1,6 @@
 ---
-title: "Reporte Tecnico"
-author: "Fernando Chávez 142353, Bernardo Mondragón 143743, Rayan García 144424"
+title: "Reporte EJECUTIVO"
+autor: "Fernando Chávez 142353, Bernardo Mondragón 143743, Rayan García 144424"
 date: "17 de octubre de 2016"
 output: html_document
 ---
@@ -8,32 +8,23 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
 ## 1. Introducción
 El Proyecto consiste en el análisis de la incidencia en mordeduras de perro en México del año 2004 a 2015. Dicha incidencia se ordena por Fuente de Notificación, Mes de Ocurrencia y Grupo de Edad. Los datos usados en este proyecto provienen de la secretaría de salud: http://www.epidemiologia.salud.gob.mx/anuario/html/anuarios.html. 
 
-El objetivo es presentar una serie de gráficas y análisis de cómo ha cambiado la incidencia de las mordeduras de perro a través de los años. Creemos firmemente que el gran objetivo del análisis de datos en el sector salud es prevenir. 
+El objetivo es presentar una serie de gráficas y análisis de cómo ha cambiado la incidencia de las mordeduras de perro a través de los años. Los datos obtenidos de las distinas clasifiaciones (i.e fuente de notificación, mese de ocurrencia y grupo de edad) se presentan de manera clara y organizada. 
 
-Es importante presentar de manera clara y organizada los datos de las distintas clasificaciones (i.e fuente de notificación, mese de ocurrencia y grupo de edad), como menciona Edward Tufte en su lectura de Beautiful Evidence "las presentaciones deben ser intelectuales, que puedan transmitir conocimiento, que enseñen y que digan algo. Porque el problema con muchas presentaciones hoy en día es que tienen mucho contenido pero no dicen nada, no transmiten una bella evidencia".
-
-También creemos que los datos y la información deben seguir con los principios que Stephen Few menciona en su lectura Statistical Narrative. Es decir, esta debe ser simple, informativa, verdadera, contextual, concreta y procesable.
-También no nos olvidamos de agrupar la información de manera correcta y mostrar la documentación y las comparaciones de su análisis, como lo menciona Edward Tufte.
- 
 Creemos que el análisis de datos es importante para el sector salud, ya que podría utilizarse para conocer la tendencia, la frecuencia y la variabilidad de los datos. Ya que si el sector salud conoce de manera detallada la incidencia de las mordeduras de perro en México puede tomar mejores decisiones para atender a la población. Se pueden crear campañas o  se pueden enfocar más en los estados "problemáticos". 
-
-En este trabajo se pudieron incluir más variables a analizar, sin embargo esto hubiese implicado perder de vista el objetivo principal del curso, el cual es poder presentar un análisis de datos desde el principio, esto es, desde la captura, la limpieza y la organización de datos.
 
 
 ## 2. Definición del Problema
 En la obtención de los datos surgen varias preguntas a resolver y aclarar: ¿Cuál es la tendencia de las mordeduras de perro a través de los años?, ¿cómo se cambió la incidencia de las mordeduras de perro en los estados cada año?, ¿cómo se fueron reportando las mordeduras de perro en las fuentes de notificación a través de los años?, ¿cómo se reportaron las mordeduras en los grupos de edad a través de los años?, ¿cuáles son lo estados que están por arriba de la media en el último año?, ¿cuáles son los máximos y mínimos a través de los años?, ¿cómo es la tendencia de cada estado en cada año?, entre otras. 
 
-El planteamiento previo de estas preguntas es relevante para un análisis eficiente.
-Una de nuestras primeras preguntas surgió de un pensamiento racional y clásico: ¿Cómo se están comportando las mordeduras en México a través de los años?.
+Una de las primeras preguntas surge de un pensamiento racional y clásico: ¿Cómo se están comportando las mordeduras en México a través de los años?.
 
-Las multigráficas de cada año, para Total de mordeduras con Fuente de Notificación, Mes de Ocurrencia y Grupo de Edad, son importantes ya nos premitieron ver el cambio a través de los años y especificar la tendencia de cada uno de los casos a analizar.
+Se presenta una serie de gáficas que comparan el total de mordeduras por año para las clasificaciones de Fuente de Notificación, Mes de Ocurrencia y Grupo de Edad. Además se incluye la comparación de total de mordeduras por estado para el periódo 2004-2015. Esto permite observar el cambio a través del tiempo y especificar la tendendia de cada uno de los casos.
 
-Uno de los análisis que consideramos fue el de los estados que han tenido una mayor tendencia a través de los años en mordeduras, ya que son estados que deben tener mayor prioridad en lo que se refiere a la potencial amenaza en la propagación de algúna enfermedad transmitida por las mismas. Con esto llegamos a una de nuestras conclusiones: el análisis y objetivo de los datos, en sector salud, es prevenir. Se debe prestar especial atención a los estados que estuvieran por arriba de la media más la desviación estándar.
-
-También consideramos relevante el uso del tipo de gráfica Boxplot en nuestro análisis, ya que con esto podemos analizar estadísticamente mejor el acumulado de las probabilidades y ver con mayor presición la mediana, la media, y lo cuartiles, al igual que los valores atípicos que registra cada gráfica. Para esto consideramos primordiales cuatro boxplots, incluyendo en el eje de las ordenadas el Total de mordeduras y en el eje de las abscisas los años, comprandolos con: Estados, meses, grupo de edad y fuente de notificación.  
+Uno de los análisis que consideramos fue el de los estados que han tenido una mayor tendencia a través de los años en mordeduras, ya que son estados que deben tener mayor prioridad en lo que se refiere a la potencial amenaza en la propagación de algúna enfermedad transmitida por las mismas. Con esto llegamos a una de nuestras conclusiones: el análisis y objetivo de los datos, en sector salud, es prevenir. Se debe prestar especial atención a los estados que estuvieran por arriba de la media.
 
 ## 3. Obtención y Descripción de los Datos
 
@@ -54,14 +45,12 @@ En cada excel de Mes de Ocurrencia, se encontraba en cada columna:
 "Estado" "ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC".
 Dependiendo del año que se descargara el PDF había en algunos una columna con la tasa utilizada para calcular los resultados. También se podían hallar los meses sin abreviaturas y con la primera letra mayúscula, al igual que en algunos la columna de Total variaba en la  primera columna o en la última.
 
-Para eso decidimos pertinente dejar todas las columas con las abreviaturas de los meses, eliminar la columna de tasa en todos archivos excel y los espacios encontrados entre columnas, ya que a veces al transformar de PDF a excel puede generar columnas vacías.
-
 
 #### 3.1.3 Grupo de Edad
 En cada archivo excel de Grupo de Edad, se encuentra en cada columna:
 "Estado", ">1", "1-4", "5-9", "10-14", "15-19", "20-24", "25-44", "45-49", "50-59", "60-64", ">65", "Ign".
 
-Uno de los principales problemas, que se consideraron de esta variable, es que los intervalos de las edades no son constantes, esto es, que hay intervalos de cuatro años al igual que hay un intervalo de 19 años el cual presentará mayor probabilidad de que los datos estén contenidos en este. Esto impide que se pueda hacer un mejor análisis ya que los intervalos no son los mismos. En estadística uno de los principios básicos para poder hacer un análisis es que poder comparar con las mismas medidas ya que en otro caso se pueden distorsionar los resultados, como fue en este caso.
+Uno de los principales problemas, que se consideraron de esta variable, es que los intervalos de las edades no son constantes, esto es, que hay intervalos de cuatro años al igual que hay un intervalo de 19 años el cual presentará mayor probabilidad de que los datos estén contenidos en este.
 
 Otro de los problemas que presenta cada excel de Grupo de Edad es que su segunda columna ">1" se puede interpretar como mayor a uno pero con la tercera columna "1-4" se puede crear confusión al momento de interpretar los datos.Probablemente lo que quizo mencionar el archivo es que ">1" indica menor a un año.
 
@@ -69,32 +58,28 @@ Otro de los problemas que presenta cada excel de Grupo de Edad es que su segunda
 #### 3.1.4 Similaridades en todos los Formatos
 En la columna Estados se encontraban 32 en total, cada uno con Mayúscula al principio y con su respectivo acento, en caso que tuviera. Se indica a la Ciudad de México como "Distrito Federal" y al Estado de México como "México". 
 
-En algunas diapositivas se encuentran "N.A." y "S/R" indicando ambas que no hubo registro de datos en ese apartado.
-
-En cada excel, independientemente de cada Fuente, se encontraba en ciertas ocaciones columnas vacías, datos comprimidos en una misma celda, renglón de Totales y leyendas de la información de cada archivo. En ciertos casos nos vimos obligados a modificar los archivos porque para programar algunos cambios en Rstudio hubieran sido muy complicado, especialmente se tuvo problemas con todos los archivos del año 2012 ya que eliminaba la columna de Estados y la colocaba en otro espacio al igual que los datos los modificaba. 
-
 Fueron pocos en los que nos vimos obligados a cambiar a mano la información obtenida para el archivo excel, ya que en la conversión de formato se había modificado considerablemente.
 
 ### 3.2 Formato CSV
 Para poder leer los archivos de excel en Rstudio, se tuvieron que guardar en el formato CSV, ya guardados se pudieron leer sin ningún problema en Rstudio.
 
 
+
 ## 4. Calidad de los Datos
-En cuanto a la calidad de los datos, se tuvo que hacer pruebas de consistencia, esto consiste en probar que el total de los archivos de GENERAL fueran iguales a HOMBRES más MUJERES. Se creo un código para comprobar la igualdad en Rstudio, en caso de que no se diera la igualdad se arrojaba el año en el cual había habido inconsistencia en caso contrario no arrojaba nada. A final de cuentas se comprobó que no había ninguna inconsistencia en la igualdad de ningún año.
-También se comprobó que los totales fueran correctos en cada Formato, Fuente de Notificación, Mes de Ocurrencia y Grupo de Edad. 
+En cuanto a la calidad de los datos, se hicieron pruebas de consistencia consistencia. Es decir, se verificó que el total de los archivos de GENERAL fueran iguales los totales de HOMBRES más MUJERE. Se comprobó que no había ninguna inconsistencia en la igualdad de ningún año. También se comprobó que los totales fueran correctos en cada Formato, Fuente de Notificación, Mes de Ocurrencia y Grupo de Edad. 
 
 
 ## 5. Transformación de los Datos
 
 ### 5.1 Limpieza
-Se limpiaron y acomodaron los datos en Rstudio de tal forma que pudieran estar en un formato limpio y organizado, como lo mencionan Edward Tufte y Stephen Few en sus respectivas lecturas. No teniendo columnas innecesarias, datos extra y sin tener una información desorganizada.
+Se limpiaron y acomodaron los datos en Rstudio de tal forma que pudieran estar en un formato limpio y organizado,sin tener columnas innecesarias, datos extra o información desorganizada.
 
-La limpieza consistió en: eliminar espacios entre números, convertir todos los números en formato "numeric", cambiar todas las variables en mayúsculas, eliminar los espacios entre los nombres de los estados, quitar los acentos de todos los estados y por último cambiar "N.A." y "S/R" a NA's para que con Rstudio pudieramos hacer los análisis correspondientes.
+La limpieza consistió en: eliminar espacios entre números, cambiar todas las variables en mayúsculas, eliminar los espacios entre los nombres de los estados, quitar los acentos de todos los estados y por último cambiar "N.A." y "S/R" a NA's para que con Rstudio pudieramos hacer los análisis correspondientes.
 
-En especial se modificó el Dataframe de Grupo de Edad ya que como Rstudio no lee variables como números tuvimos que cambiar las columnas originales a letra (i.e "1-4" se modificó a "UNO.A.CUATRO")
+En especial se modificó el Dataframe de Grupo de Edad (i.e "1-4" se modificó a "UNO.A.CUATRO")
 
 ### 5.2 Organización
-Después de hacer la limpieza para cada archivo se acomodó la información en formato organizado. Se realizó la lectura de los archivos, se añadieron para cada archivo un columna con el nombre de ANIO, indicando el año respectivo, se escogió el nombre de "ANIO" y no "AÑO" ya que en computadoras mac no se pueden leer "ñ's" en las variables. Además se agregó la columna de "SEXO", indicando a que archivo correspondian los datos si a: "GENERAL", "HOMBRES" o "MUJERES". 
+Se realizó la lectura de los archivos, se añadieron para cada archivo un columna con el nombre de ANIO, indicando el año respectivo, se escogió el nombre de "ANIO" y no "AÑO" ya que en computadoras mac no se pueden leer "ñ's" en las variables. Además se agregó la columna de "SEXO", indicando a que archivo correspondian los datos si a: "GENERAL", "HOMBRES" o "MUJERES". 
 
 Después, se juntaron todas las tablas en una, para cada uno de los formatos, creando tres Dataframes, esto es, un Dataframe para Fuente de Notificación, Mes de Ocurrencia y Grupo de Edad, cada uno con las columnas: "ESTADO", "ANIO", Variable("FUENTE", "MES", "EDAD"), "SEXO" y Total de Mordeduras llamado "MORDEDURAS".  
 
@@ -102,7 +87,7 @@ Además de las columnas de "ESTADO", "ANIO", "SEXO" y "MORDEDURAS" en la Variabl
 
 #### 5.2.1 Fuente de Notificación
 En el Dataframe de Fuente de Notificación, dentro de su variable "FUENTE", se encuentra: 
-"SALUD", "IMSS.ORD", "ISSSTE", "IMSS.OP", "DIF", "PEMEX", "SEDENA", "SEMAR" y "OTRAS". Todas en mayúsculas y el espacio representado por un punto, si es necesario.
+"SALUD", "IMSS.ORD", "ISSSTE", "IMSS.OP", "DIF", "PEMEX", "SEDENA", "SEMAR" y "OTRAS". todas en mayúsculas y el espacio representado por un punto, si es necesario.
 
 
 #### 5.2.2 Dataframe de Grupo de Edad
@@ -119,7 +104,6 @@ cada dato representado por la abreviatura de cada mes.
 
 ## 6. Análisis Exploratorio
 
-
 ```{r , echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
 library(data.table)
 library(dplyr)
@@ -134,7 +118,7 @@ library(gridExtra)
 
 # Especificar el directorio de trabajo.
 # El directorio de trabajo debe ser la capeta del proyecto:
-workingDirectory <- "/Users/rayangf/Desktop/MordedurasPerro"
+workingDirectory <- "/Users/ferchavez100/Desktop/MordedurasPerro/DATOS/BRUTOS"     #<----- CAMBIAR DIRECTORIO DE TRABAJO
 setwd(workingDirectory)
 
 
@@ -153,7 +137,7 @@ nombres <- getNames()
 # --------------- 2.1.- Fuente de Notificacion.
 
 # Fuente de Notificacion General
-spath <-paste(getwd(), "/Data/CSV/FuenteDeNotificacion/General/", sep="")
+spath <-paste(getwd(), "/CSV/FuenteDeNotificacion/General/", sep="")
 setwd(spath)
 fng <- list.files()
 fng
@@ -162,7 +146,7 @@ names(fng) <- nombres
 setwd(workingDirectory)
 
 # Fuente de Notificacion Hombres
-spath <-paste(getwd(), "/Data/CSV/FuenteDeNotificacion/Hombres/", sep="")
+spath <-paste(getwd(), "/CSV/FuenteDeNotificacion/Hombres/", sep="")
 setwd(spath)
 fnh <- list.files()
 fnh <- lapply(fnh, fread, sep=",")
@@ -170,7 +154,7 @@ names(fnh) <- nombres
 setwd(workingDirectory)
 
 # Fuente de Notificacion Mujeres
-spath <-paste(getwd(), "/Data/CSV/FuenteDeNotificacion/Mujeres/", sep="")
+spath <-paste(getwd(), "/CSV/FuenteDeNotificacion/Mujeres/", sep="")
 setwd(spath)
 fnm <- list.files()
 fnm <- lapply(fnm, fread, sep=",")
@@ -180,7 +164,7 @@ setwd(workingDirectory)
 # --------------- 2.2.- Grupo de Edad.
 
 # Grupo de Edad General
-spath <-paste(getwd(), "/Data/CSV/GrupoDeEdad/General/", sep="")
+spath <-paste(getwd(), "/CSV/GrupoDeEdad/General/", sep="")
 setwd(spath)
 geg <- list.files()
 geg <- lapply(geg, fread, sep=",")
@@ -188,7 +172,7 @@ names(geg) <- nombres
 setwd(workingDirectory)
 
 # Grupo de Edad Hombres
-spath <-paste(getwd(), "/Data/CSV/GrupoDeEdad/Hombres/", sep="")
+spath <-paste(getwd(), "/CSV/GrupoDeEdad/Hombres/", sep="")
 setwd(spath)
 geh <- list.files()
 geh <- lapply(geh, fread, sep=",")
@@ -196,7 +180,7 @@ names(geh) <- nombres
 setwd(workingDirectory)
 
 # Grupo de Edad Mujeres
-spath <-paste(getwd(), "/Data/CSV/GrupoDeEdad/Mujeres/", sep="")
+spath <-paste(getwd(), "/CSV/GrupoDeEdad/Mujeres/", sep="")
 setwd(spath)
 gem <- list.files()
 gem <- lapply(gem, fread, sep=",")
@@ -206,7 +190,7 @@ setwd(workingDirectory)
 # --------------- 2.3.- Mes de Ocurrencia.
 
 # Mes de Ocurrencia General
-spath <-paste(getwd(), "/Data/CSV/MesDeOcurrencia/General/", sep="")
+spath <-paste(getwd(), "/CSV/MesDeOcurrencia/General/", sep="")
 setwd(spath)
 mog <- list.files()
 mog <- lapply(mog, fread, sep=",")
@@ -214,7 +198,7 @@ names(mog) <- nombres
 setwd(workingDirectory)
 
 # Mes de Ocurrencia Hombres
-spath <-paste(getwd(), "/Data/CSV/MesDeOcurrencia/Hombres/", sep="")
+spath <-paste(getwd(), "/CSV/MesDeOcurrencia/Hombres/", sep="")
 setwd(spath)
 moh <- list.files()
 moh <- lapply(moh, fread, sep=",")
@@ -222,7 +206,7 @@ names(moh) <- nombres
 setwd(workingDirectory)
 
 # Mes de Ocurrencia Mujeres
-spath <-paste(getwd(), "/Data/CSV/MesDeOcurrencia/Mujeres/", sep="")
+spath <-paste(getwd(), "/CSV/MesDeOcurrencia/Mujeres/", sep="")
 setwd(spath)
 mom <- list.files()
 mom <- lapply(mom, fread, sep=",")
@@ -509,7 +493,6 @@ for (i in 1:length(mpOrgData)) {
 
 
 
-
 ### 6.1 Tendencia de las Mordeduras
 Uno de los primeros planteamientos fue: ¿Cómo la incidencia en mordeduras se había comportado a través de los años? y ¿qué tanto había cambiado?
 
@@ -532,10 +515,9 @@ yrange <- range(FuenteDeN$sums)
 ggplot(FuenteDeN, aes(years, sums)) + geom_point(colour = "red", size = 2) + geom_line() + scale_x_continuous(breaks = c(2004:2015)) + labs(x= "", y = "Total de Mordeduras") + ggtitle("TENDENCIA") + scale_y_continuous(breaks = c(sums[7],110000,150000,120000,130000,sums[1], sums[12]))
 ```
 
-Se creó una gráfica que presentara el total de mordeduras en cada año. Por espacio y limpieza se decidió dejar solo algunos intervalos entre los que destacan el máximo, el mínimo, el primer valor y el último valor. 
+Se creó una gráfica que presentara el total de mordeduras en cada año. Por espacio y limpieza se decidió dejar solo algunos intervalos entre los que destacan el número máximo de mordeduras y el número mínimo de mordeduras.
 
-Con esta gráfica pudimos apreciar que la incidencia de mordeduras de perro del año 2004 a 2015 ha tenido la tendencia a bajar a través de los años en General. Se puden apreciar incrementos a partir del 2010 pero también hubo decrementos marcados como en el 2012 y en 2014. Lo más razonable sería pensar que la incidencia se mantuvo en un nivel bajo a comparación del 2004 que fue el año donde más mordeduras hubo.
-
+Con esta gráfica se obseva que la incidencia  demordeduras de perro del año 2004 a 2015 han ido disminuyendo a través del tiempo. Se pude apreciar que a partir de 2010 hubo ligeros incrementos en relación al año anterior, sin embargo estos no llegaron a los niveles de los primeros años. También hubo periodos de tiempo, como 2012 y en 2014, en los que la incidencia de mordeduras de perro disminuyó de manera notoria. Resulta razonable pensar que en general la incidencia en mordeduras siempre se mantuvo por debajo de lo reportado en el año 2004.
 
 ### 6.2 Multigráficas a través de los años
 
@@ -561,7 +543,7 @@ for (i in 1:12) {
 do.call("grid.arrange", c(grafs.est, ncol=3))
 ```
 
-En cada gráfica por año de cada estado y sus mordeduras totales, podemos apreciar como cada año que pasa parace haber un decremento en las mordeduras en todos los estados. También podemos apreciar que, a pesar de que las mordeduras bajaron, los estados tienden a tener la misma relación uno con el otro, esto es, la variabilidad de los estados en cuanto a mordeduras no parece cambiar en gran medida.
+En esta parte se muestra cómo va cambiando el total de mordeduras por estado en el transcurso del tiempo, considerando el periodo 2004-2015. Por ejemplo, en la primer gáfica se destacan los estados que tuvieron mayor incidencia en mordeduras de perro en el año 2004. También se apreciar cómo cada año que pasa parace haber un decremento en las mordeduras en todos los estados. Cabe mencionar que pese que las mordeduras mordeduras bajaron conforme transcurre el tiempo, los estados tienden a tener la misma relación en proporciones. Es decir, si quitaramos los valores en el eje de mordeduras, las gráficas de los diferentes años parecen tener una forma muy similar.
 
 #### 6.2.2 El Cambio de las Mordeduras en Cada Fuente de Notificación
 
@@ -587,7 +569,9 @@ for (i in 1:12) {
 do.call("grid.arrange", c(graphs.fn, ncol=3))
 ```
 
-En esta gráfica podemos notar el cambio a través de los años de la incidencia de mordeduras en cada una de la instituciones de salud mencionadas. Podemos apreciar que el cambio en cuanto a las notificaciones de mordeduras de perro no cambian en gran medida. Se puede apreciar que "SALUD" es la que reporta más casos de mordeduras en todos los años. "SALUD" la consideramos un valor atípico ya que por mucho registra mayor cantidad de mordeduras que otras instituciones. También podemos notar como "IMSS.OP" tiende a bajar el registro de mordeduras mientras que "ISSTE" registra cada vez más. Es importante aclarar que en muchas instituciones no se registraron datos es por eso que en la mayoría de las gráficas hay muchas instituciones que no se logran apreciar con gran claridad.
+Notamos el cambio a través de los años de la incidencia de mordeduras en cada una de la instituciones de salud mencionadas. Notamos que el cambio en cuanto a las notificaciones de mordeduras de perro no cambian en gran medida. Identificamos que  "SALUD" es la que reporta más casos de mordeduras en todos los años. "SALUD" la consideramos un valor atípico, es decir el número de casos que reporta se encuentra muy por encima del promedio, considerando las otras instituciones.
+Otra observación importante es que "IMSS.OP" disminuyó considerablemente el registro de mordeduras mientras que "ISSTE" registra cada vez más. 
+Cabe mencionar que en muchas instituciones no se registraron datos, es por eso que en la mayoría de las gráficas hay muchas instituciones que no se logran apreciar con gran claridad, esto tiene también que ver con los procesos de captura de datos y reporte que se maneja en este tipo de instituciones.
 
 
 #### 6.2.3 El Cambio de las Mordeduras en Mes de Ocurrencia
@@ -617,8 +601,7 @@ for (i in 1:12) {
 do.call("grid.arrange", c(graphs.mo, ncol=3))
 ```
 
-En los meses podemos hacer la comparación con la gráfica de tendencia y ver que en efecto, a través de los años va bajando la tendencia. En general se puede apreciar que la tendencia suele ser la misma a través en los meses y la variabilidad de mordedruas de perro en cada mes es muy baja.
-
+Esta gráfica permite hacer una comparación con la gráfica de tendencia y ver que en efecto, a través de los años va bajando la incidencia en mordeduras de perro. En general las gráficas no parecen variar mucho un mes con respecto al otro, y esta característica se mantiene a lo largo de los doce año que se analizaron. Dicho resultado no es difícil de digerir, si consideramos que los perros muerden por igual en todos los meses del año, uno pudiese esperar ciertos cambios en determinados meses del año por los ciclos de reproducción, sin embargo no hay evidencia de que esto afecte considerablemente.
 
 #### 6.2.4 El Cambio de las Mordeduras en Grupo de Edad
 
@@ -647,10 +630,12 @@ for (i in 1:12) {
 do.call("grid.arrange", c(graphs.ge, ncol=3))
 ```
 
-A medida que van cambiando los años suele haber un decremento en las mordeduras de perro en cada grupo de edad. De antemano, notamos que el grupo de edad que más mordeduras tuvo fue el de "25-44" ya que es el grupo con un mayor intervalo de edad por lo tanto pueden haber más personas dentro de este intervalo. Uno de los puntos que consideramos importantes en este análisis es la cantidad de perros que muerden a niños muy chicos, ya que se encuentra en el tercer lugar en cuanto a mordeduras. Creemos que se podrían tomar medidas para responsabilizar a los padres dado que las mordedruas de perro ocurren con gran frecuencia a edades muy chicas.
+Existe una constante en los resultados obtenidos hasta este momento, esta es, como ya se ha mencionada, la existencia de una tendencia a la baja en la incidencia de mordeduras de perro. Dicho resultado lo vemos nuevamente en cada grupo de edad. De antemano notamos que el grupo de edad que más mordeduras tuvo fue el de "25-44". Este resultado se debe en parte a que es el grupo con un mayor rango de edad; dado que abarca veinte años y gran parte de la población de México se encuentra en este rango de edad, puede haber más personas dentro de dicho intervalo. Uno de los puntos que consideramos importantes en este análisis es la cantidad de perros que muerden a niños muy chicos, ya que se encuentra en el tercer lugar en cuanto a mordeduras. Creemos que se podrían tomar medidas para fomentar la prevención en los padres con respecto a las precauciones que se deben tener con todo tipo de animales, a pesar de que estos sean considerados domésticos.
 
 ### 6.3 Boxplots
-Para cada Boxplot la media esta representada por un rombo rojo.
+Para cada Boxplot el promedio está representada por un rombo rojo.
+Un boxplot o diagrama de caja proporciona una visión general de la simetría de la distribución de los datos. Este dipo de diagrama es útil para ver la presencia de valores atípicos, la dispersión de los puntos con la mediana, los percentiles 25 y 75, y los valores máximos y mínimos. Note que el 50% de la población está en los límites de la "caja".
+
 ```{r , echo=FALSE, message=FALSE, warning=FALSE}
 # BOXPLOTs 
 boxplotea <- function (categoria, sexo) {
@@ -717,8 +702,8 @@ boxplotea <- function (categoria, sexo) {
 boxplotea("estado", "general") + ggtitle("")
 ```
 
-En este boxplot se representa el total de mordeduras que hubo a través de los años para cada estado. Por medio del Boxplot se pudo deducir que en todos los años la media estaba por arriba de la mediana. Esto es evidencia de que la distribución de la incidencia en mordeduras se encuentra sesgada a la derecha en todos los años. 
-Con respecto a valores atípicos, destaca el "Distrito Federal" y el Estado de México, en este caso "México". Ambos registran el mayor número de mordedruras de todos los estados. La media generalmente se encuentra alrededor de 5000 y 2500, aproximadamente muerden esta cantidad de perros a personas en los estados. Podríamos formular hipótesis al respecto, probablemente exista una relación directa entre el número de personas que habitan una región y el número de perros, recordemos que estos son animáles domésticos. Una de nuestras limitantes es no conocer el total de personas porque se podría hacer un estimado de cuantas personas del total de la población son mordidas por un perro.
+En este boxplot se representa el total de mordeduras que hubo a través de los años para cada estado.  Por medio de esto se permite deducir que en todos los años el promedio de mordeduras estaba por arriba del valor en el cual se acumulaba el 50% de la distribución (i.e mediana). Esto es evidencia de que la distribución de la incidencia en mordeduras se encuentra sesgada a la derecha en todos los años, es decir la distribución está muy cargada a la derecha (e.g si pensamos en una distribución normal ésta sería más "gorda" del lado derecho). 
+Con respecto a los valores fuera de los límites del diagrama, destaca el "Distrito Federal" y el Estado de México, en este caso "México". Ambos registran el mayor número de mordedruras de todos los estados. La media generalmente se encuentra alrededor de 5000 y 2500, aproximadamente muerden esta cantidad de perros a personas en los estados. Podríamos formular hipótesis al respecto, probablemente exista una relación directa entre el número de personas que habitan una región y el número de perros, recordemos que estos son animáles domésticos. 
 
 
 ##### 6.3.1.2 Boxplot del Total de Mordeduras a Través de los Años de Cada Estado para Hombres y Mujeres
@@ -731,14 +716,14 @@ r2 <- boxplotea("estado", "mujeres") + ggtitle("Mujeres") + theme(axis.text.x = 
 grid.arrange(r1, r2, ncol = 2, nrow = 1)
 ```
 
-En este boxplot se hace la separación de hombres y mujeres.Podemos apreciar, al igual que en la observación general, la media esta por encima de todas las medianas generando sesgos en ambos boxplots. Un punto a resaltar, es que en cuanto a Hombres y Mujeres se puede llegar a la conclusión que en general muerden más a hombres que a mujeres en todos los Estados. A pesar de que sus respectivos valores atípicos se encuentran en mayor diferencia, comparando el del hombre con el de la mujer, las medias y las medianas se encuentran por el mismo intervalo y no es gran la dispersión de estos, con esto podemos conlcuir que podría no afectar ser hombre o mujer pueden tener la misma probabilidad de ser mordidos.
+Este diagrama hace la separación de hombres y mujeres.Nuevamente podemos apreciar que el promedio tiende a estar hacia la parte de arriba de la "caja". Un punto a resaltar, es que en cuanto a Hombres y Mujeres se puede llegar a la conclusión que en general muerden más a hombres que a mujeres en todos los Estados.Comparando los datos de hombres con los datos de mujeres, los promedios se encuentran por el mismo intervalo y no es demaisada la dispersión de estos.
 
 #### 6.3.2 Boxplot del Total de Mordeduras a Través de los Años de Fuente de Notificación
 ```{r , echo=FALSE, message=FALSE, warning=FALSE}
 boxplotea("fuente", "general") + ggtitle("")
 ```
 
-El boxplot de Fuente de Notificación permite visualizar que la media supera el tercer cuartil, y se hace demasiado sesgada a la derecha. Esto ocurre porque en Fuente de Notificación existen varios "Sin registros" por parte de las instituciones y como la institución "SALUD" contiene la mayoría de los casos desplaza la media por arriba de la mediana, convirtiéndose "SALUD" en un valor extremadamente atípico.
+En este caso vemos que el promedio de Fuente de Notificación se localiza fuera de la "caja". Esto ocurre porque en Fuente de Notificación existen varios "Sin registros" por parte de las instituciones y como la institución "SALUD" contiene la mayoría de los casos desplaza al promedio por arriba de la mitad de la "caja", convirtiéndose "SALUD" en un valor extremadamente raro.
 
 
 ##### 6.3.2.1 Boxplot del Total de Mordeduras a Través de los Años de Fuente de Notificación para Hombres y Mujeres
@@ -751,13 +736,13 @@ r2.f <- boxplotea("fuente", "mujeres") + ggtitle("Mujeres") + theme(axis.text.x 
 grid.arrange(r1.f, r2.f, ncol = 2, nrow = 1)
 ```
 
-Consideramos los boxplots de hombres y mujeres para fuente de notificación para entender cómo se estaban registrando las mordeduras para ambos géneros. Pudimos apreciar que las instituciones registran más hombres que mujeres con mordeduras de perro. Aun así, al igual que por Estados, la mediana y la media no tienen un gran cambio en hombre mujer.
+Consideramos los boxplots de hombres y mujeres para fuente de notificación para entender cómo se estaban registrando las mordeduras para ambos géneros. Pudimos notar que las instituciones registran más hombres que mujeres con mordeduras de perro. Aun así, al igual que por Estados, el promedio y el valor que acumula el 50% de la distribución no tienen un gran cambio en hombre mujer.
 
 #### 6.3.3 Boxplot del Total de Mordeduras a Través de los Años de Fuente de Mes de Ocurrencia
 ```{r , echo=FALSE, message=FALSE, warning=FALSE}
 boxplotea("mes", "general") + ggtitle("")
 ```
-En Mes de Ocurrencia se presentan datos más dispersados que en los pasados boxplots. Hay sesgos a las derecha como a la izquierda, e incluso se acercan varios años a la simetría, como en 2015. En algunos años no existen valores atípicos. 
+En Mes de Ocurrencia se presentan datos más dispersados que en los pasados diagramas. Hay sesgos a las derecha como a la izquierda. Esto es que los promedios a través de los años varían en dónde se localizan, hay tanto por arriba de la mitad de la "caja", como por debajo de ella. Incluso notamos que en varios años, por ejemplo 2015, que el promedio se acerca a la mitad del diagrama (i.e simetría). En algunos años no existen valores fuera de los límites del diagrama. 
 Si se compara con la gráfica de Tendencia se concluye que es razonable que la media vaya bajando a través de los años ya que previamente se encontró evidencia que la cantidad mordeduras disminuyó con en el transcurso del tiempo.
 
 ##### 6.3.3.1 Boxplot del Total de Mordeduras a Través de los Años de Mes de Ocurrencia para Hombres y Mujeres
@@ -770,14 +755,14 @@ r2.m <- boxplotea("mes", "mujeres") + ggtitle("Mujeres") + theme(axis.text.x = e
 grid.arrange(r1.m, r2.m, ncol = 2, nrow = 1)
 ```
 
-Al observar el boxplot de hombres y mujeres se encuentra evidencia de que los perros muerden más a los hombres que a las mujeres. En este caso notamos una mayor desviación de la media y la mediana de hombres con respecto a mujeres, implicando que muerden en mayor medida a los hombres cada año, ya que si se esta haciendo por mes el promedio va ligado estrictamente al año mencionado.
+Al observar el boxplot de hombres y mujeres se encuentra evidencia de que los perros muerden más a los hombres que a las mujeres. En este caso notamos una mayor inclinación del promedio a los extremos, ya sea inferiores o superiores, de la caja. Esto implica que muerden en mayor medida a los hombres cada año, ya que si se esta haciendo por mes el promedio va ligado estrictamente al año mencionado.
 
 #### 6.3.4 Boxplot del Total de Mordeduras a Través de los Años de Grupo de Edad 
 ```{r , echo=FALSE, message=FALSE, warning=FALSE}
 boxplotea("grupo", "general") + ggtitle("")
 ```
 
-En el boxplot de Grupo de Edad se aprecia un sesgo a la derecha en todos los años, pero se puede ver también que el sesgo ha estado disminuyendo através de los años, esto hace la media más cercana a la mediana.
+En el boxplot de Grupo de Edad apreciamos un sesgo a la derecha en todos los años, pero se puede ver también que el sesgo ha estado disminuyendo através de los años, esto hace la media más cercana a la mediana.
 Con lo anterior se puede argumentar que ha habido mayor similitud en las mordeduras de grupos de edad a través de los años. Uno de los problemas que siempre registrará el gurpo de edad es que existe un intervalo demasiado grande que abarca a más persona que en otro.
 
 ##### 6.3.4.1 Boxplot del Total de Mordeduras a Través de los Años de Grupo de Edad para Hombres y Mujeres
@@ -848,72 +833,11 @@ for (i in 1:32) {
 }
 ```
 
-Estas gráficas permiten tener una idea visual de qué instituciones concentran la mayor cantidad de reportes de mordeduras de perro en cada uno de los estados. Se omitieron las etiquetas que indican la institución que representa cada escalón por cuestiones de falta de espacio, de haber incluido dichas etiquetas hubiese resultado en un exceso de información para el lector y por lo tanto mayor dificultad para interpretarlas. Hacemos mención en orden ascendente: "SALUD", "IMSS.ORD","ISSSTE","IMSS.OP","DIF","PEMEX", "SEDENA","SEMAR","OTRAS".
+Estas gráficas permiten tener una idea visual de qué instituciones concentran la mayor cantidad de reportes de mordeduras de perro en cada uno de los estados. Hacemos mención de la etiqueta de cada uno de los escalones en orden ascendente: "SALUD", "IMSS.ORD","ISSSTE","IMSS.OP","DIF","PEMEX", "SEDENA","SEMAR","OTRAS".
 
 Llama la atención ver repetidamente varios escalones vacios, esto se debe a dos razones. La primera distintas instituciones, como el caso de PEMEX y SEMAR, no se encuentran en todos los estados; por lo tanto el número de casos que reportan, por ejemplo en los estados del centro del país, tienden a ser cero. La segunda razón es que se está haciendo una comparación en proporciones, en el código se fijaron dichos límites de proporciones como el máximo de casos reportados tanto en masculino como en femenino, para cada uno de los estados.
-Pese a lo anterior, la información es consistente al revelar nuevemente que "SALUD" es la institución que predomina en todos los estados en reportar casos de mordeduras. El único caso en que dicha institución no predomina es en Tamaulipas, donde "IMMS.OP" es la principal.
 
-#### 6.4.2 Pirámide de Mes de Ocurrencia 
-
-Definimos cada uno de los escalones en orden ascendente: "ENERO","FEBRERO", "MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE".
-
-```{r , echo=FALSE, message=FALSE, warning=FALSE}
-# Mes de ocurrencia hombres y mujeres
-# Hombres.
-hombresm <- subset(mpOrgData$MesDeOcurrencia, SEXO %in% "HOMBRES")
-mujeresm <- subset(mpOrgData$MesDeOcurrencia, SEXO %in% "MUJERES")
-estados <- c('Aguascalientes', 'Baja California', 'Baja California Sur', 'Campeche', 'Chiapas', 'Chihuahua', 'Coahuila', 'Colima', 'Distrito Federal', 'Durango', 'Guanajuato','Guerrero', 'Hidalgo', 'Jalisco', 'Mexico', 'Michoacan', 'Morelos', 'Nayarit','Nuevo Leon', 'Oaxaca', 'Puebla', 'Queretaro', 'Quintana Roo', 'San Luis Potosi','Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas', 'Tlaxcala', 'Veracruz', 'Yucatan','Zacatecas')
-meses <- names(mog$`2015`)
-meses <- meses[-c(1)]
-
-dataframesPorEstadom <- list()
-for (i in 1:length(estados)) {
-  # Hombres
-  hombresYEstado <- subset(hombresm, ESTADO %in% estados[[i]])
-  totales1 <- c()  
-  for (j in 1:length(meses)) {
-    hombresYEstadoYMes <- subset(hombresYEstado, MES %in% meses[[j]])
-    suma <- sum(subset(hombresYEstadoYMes$MORDEDURAS,! is.na(hombresYEstadoYMes$MORDEDURAS)))
-    totales1 <- c(totales1, suma)
-  }
-  # Mujeres
-  mujeresYEstado <- subset(mujeresm, ESTADO %in% estados[[i]])
-  totales2 <- c()  
-  for (k in 1:length(meses)) {
-    mujeresYEstadoYMes <- subset(mujeresYEstado, MES %in% meses[[k]])
-    suma2 <- sum(subset(mujeresYEstadoYMes$MORDEDURAS,! is.na(mujeresYEstadoYMes$MORDEDURAS)))
-    totales2 <- c(totales2, suma2)
-  }
-  # Creacion de los data.frames.
-  dataframesPorEstadom[[i]] <- data.frame(meses, totales1, totales2)
-  names(dataframesPorEstadom[[i]]) <- c("MES", "HOMBRES", "MUJERES")
-}
-names(dataframesPorEstadom) <- estados
-
-
-#Pir??mide hombres y mujeres, mes de ocurrencia.
-
-par(mfrow = c(4, 8), mar = c(0, 0, 1, 0), oma = c(0, 0, 1.2, 0))
-entidades <- c('Aguascalientes', 'Baja California', 'Baja California Sur', 'Campeche', 'Chiapas', 'Chihuahua', 'Coahuila', 'Colima', 'Distrito Federal', 'Durango', 'Guanajuato','Guerrero', 'Hidalgo', 'Jalisco', 'Mexico', 'Michoacan', 'Morelos', 'Nayarit','Nuevo Leon', 'Oaxaca', 'Puebla', 'Queretaro', 'Quintana Roo', 'San Luis Potosi','Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas', 'Tlaxcala', 'Veracruz', 'Yucatan','Zacatecas')
-
-for (i in 1:32) {
-  PIRM <- dataframesPorEstadom[[i]]
-  Femm <- PIRM[[3]]
-  Mascm <- PIRM[[2]]
-  
-  with(PIRM, plot(0, 0, type = "n", xlim = c(-max(Mascm), max(Femm)), ylim = c(0, 14), xlab ="",    ylab = "", axes = FALSE, bty="n", cex.main = 0.8, main = entidades[i]))
-  
-  
-  for(j in 1:12){
-    rect(-Mascm[j],j, 0, j+1, col = "blue", border = "white")
-    rect(0,j, Femm[j], j+1, col = "red",  border = "white") 
-  }
-}
-```
-
-Notamos que la distribución de merdeduras de perro por mes de ocurrencia dividido en hombres y mujeres, tiene un comportamiento similar a una distribución uniforme en la mayoría de los casos. Se reafirma la hipótesis de que los perros muerden por igual en cualquier mes del año y que a pesar de que los hombres son más propensos a sufrir mordedsuras de perros, no existe una gran diferencia entre el total de modeduras en mujer y en hombre.
-
-#### 6.4.3 Pirámide de Grupo de Edad 
+#### 6.4.2 Pirámide de Grupo de Edad 
 
 Definimos los escalones en orden ascendente: ">1", "1-4", "5-9", "10-14", "15-19", "20-24", "25-44", "45-49", "50-59", "60-64", ">65", "Ign".
 
@@ -976,19 +900,12 @@ Las pirámides de cada uno de los estados tienen formas similares, al igual que 
 ## 7. Conclusiones
 
 Después de observar, analizar y graficar los datos obtenidos, se pudo conlcuir:
-Primero, los datos de cualquiera de las fuentes (Fuente de Notificación, Mes de Ocurrencia o Grupo de Edad) presentan una gran similitud a través de los años, podrán variar y disminuir las mordeduras perro en cada una de las variables orginales, siempre oscilan en el mismo intervalo. Esto nos obliga a dudar de la veracidad de los datos, nos hace preguntarnos si en verdad se estan capturando los datos de manera eficiente y real. En caso de que estemos equivocados tenemos que conlcuir que las Mordeduras de Perro presentan un patrón muy común.Se pueden utilizar métodos numéricos para crear aproximaciones a los patrones y hacer buenas estimaciones de los próximos años. 
+Primero, los datos de cualquiera de las fuentes (Fuente de Notificación, Mes de Ocurrencia o Grupo de Edad) presentan una gran similitud a través de los años, podrán variar y disminuir las mordeduras de perro en cada una de las variables orginales, siempre oscilan en el mismo intervalo. Esto nos obliga a dudar de la veracidad de los datos, nos hace preguntarnos si en verdad se estan capturando los datos de manera eficiente y real. 
 
 Otra de nuestras conclusiones nace de la captura de los datos. En fuente de Notifiación, prácticamente solo hay una institución que esta registrando las mordeduras de perro, también creemos que "OTRAS" puede llegar a resultar muy ambiguo y con motivos a dudar si en "OTRAS" se incuyen a todas las instituciones públicas como tanto privadas.
-En Grupo de Edad, se deben cambiar los intervalos de edad porque al momento de hacer cualquier análisis estadístico se alteraran las conlcusiones si se tiene un intervalo de 19 años. 
 
-Creemos que México debe ser educado en cuanto a la captura de información, México no se esta actualizando en las capturas de información y esto esta provocando análisis dudosos y poco nutritivos. Si los análisis se estan haciendo con datos falsos o con datos faltantes se estan haciendo análisis falsos y análisis incompletos. 
 Cada país toma decisiones con base a análsis estadísticos, porque estos se encargan de presentar pronósticos y aproximaciones de la realidad, y con esto dichas decisiones más acertadas a lo demandado por la realidad.
-Si México esta capturando erróneamente sus datos esta produciendo datos falsos y esto implicaría malas decisiones, y un mal empleo de los recursos.
-
-Creemos que es tiempo de revisar y cuestionar los métodos utilizados para capturar información, ya que los estadísticos tiene como obligación presentar datos verídicos como los menciona Stephen Few y como lo establece "The Actuarial Standard of Practice"
-Se debe ser crítico con los datos y mucho más con nuestro trabjo como lo menciona Edward Tufte, por eso en este trabajo se trata de ser muy crítico y reflejar la realidad de los datos capturados.
-
-
+Si México está capturando erróneamente sus datos esta produciendo información erronea y esto implicaría malas decisiones, lo que tiene como consecuencia inmediata un mal empleo de los recursos.
 
 
 
