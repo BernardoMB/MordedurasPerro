@@ -5,7 +5,8 @@ install.packages("ggplot2")
 install.packages("gridExtra")
 install.packages("ggmap")
 install.packages("gridExtra")
-#install.packages("cowplot")
+install.packages("grid")
+install.packages("gtable")
 library(data.table)
 library(dplyr)
 library(tidyr)
@@ -13,7 +14,8 @@ library(ggplot2)
 library(gridExtra)
 library(ggmap)
 library(gridExtra)
-#library(cowplot)
+library(grid)
+library(gtable)
 
 # ---------------------------- 1.- Directorio de Trabajo --------------------------
 
@@ -447,6 +449,125 @@ for (i in 1:12) {
   }
 }
 
+
+
+
+
+
+
+
+# Medidas descriptivas.
+
+describe <- function(categoria) {
+  cat <- NULL
+  raw <- NULL
+  categorias <- c()
+  if (categoria == "estado") {
+    categorias <- c('Aguascalientes', 'Baja California', 'Baja California Sur', 'Campeche', 'Chiapas', 'Chihuahua', 'Coahuila', 'Colima', 'Distrito Federal', 'Durango', 'Guanajuato','Guerrero', 'Hidalgo', 'Jalisco', 'Mexico', 'Michoacan', 'Morelos', 'Nayarit','Nuevo Leon', 'Oaxaca', 'Puebla', 'Queretaro', 'Quintana Roo', 'San Luis Potosi','Sinaloa', 'Sonora', 'Tabasco', 'Tamaulipas', 'Tlaxcala', 'Veracruz', 'Yucatan','Zacatecas')
+    cat <- "ESTADO"
+    titutlo <- "Estado"
+    raw <- mpOrgData$FuenteDeNotificacion
+  } else if (categoria == "fuente") {
+    categorias <- c("SALUD","IMSS.ORD","ISSSTE","IMSS.OP","DIF","PEMEX","SEDENA","SEMAR","OTRAS")
+    cat = "FUENTE"
+    titutlo <- "Fuente de notificaci??n"
+    raw <- mpOrgData$FuenteDeNotificacion
+  } else if (categoria == "grupo") {
+    categorias <- c("MAYOR.A.UNO","UNO.A.CUATRO","CINCO.A.NUEVE","DIEZ.A.CATORCE","QUINCE.A.DIECINUEVE","VEINTE.A.VEINTICUATRO","VEINTICINCO.A.CUARENTAYCUATRO","CUARENTAYCINCO.A.CUARENTAYNUEVE","CINCUENTA.A.CINCUENTAYNUEVE","SESENTA.A.SESENTAYCUATRO","MAYOR.A.SESENTAYCINCO","NO.SE.REPORTO.LA.EDAD")
+    cat <- "EDAD"
+    titutlo <- "Grupo de edad"
+    raw <- mpOrgData$GrupoDeEdad
+  } else if (categoria == "mes") {
+    categorias <- c("ENE","FEB","MAR","ABR","MAY","JUN","JUL","AGO","SEP","OCT","NOV","DIC")
+    cat <- "MES"
+    titutlo <- "Mes de ocurrencia"
+    raw <- mpOrgData$MesDeOcurrencia
+  }
+  listaDeDataframes <- list()
+  for (i in 1:12) {
+    porAnio <- subset(raw, ANIO %in% c(2003 + i))
+    porAnioYSexo <- subset(porAnio, SEXO %in% c("GENERAL"))
+    totales <- c()
+    vectorAnios <- c()
+    for (j in 1:length(categorias)) {
+      porAnioYSexoYCat <- NULL
+      if (categoria == "estado") {
+        porAnioYSexoYCat <- subset(porAnioYSexo, porAnioYSexo$ESTADO %in% c(categorias[[j]]))
+      } else {
+        porAnioYSexoYCat <- subset(porAnioYSexo, porAnioYSexo[[4]] %in% c(categorias[[j]]))
+      }
+      totales <- c(totales, sum(subset(porAnioYSexoYCat$MORDEDURAS, ! is.na(porAnioYSexoYCat$MORDEDURAS))))
+      vectorAnios <- c(vectorAnios, 2003 + i)  
+    }
+    data.frame.anio.categ.total <- data.frame(vectorAnios, categorias, totales)
+    names(data.frame.anio.categ.total) <- c("ANIO", cat, "MORDEDURAS")
+    listaDeDataframes[[i]] <- data.frame.anio.categ.total
+  }
+  vectorAnios <- c()
+  vectorMaxCat <- c() 
+  vectorMaximos <- c()
+  vectorMinCat <- c() 
+  vectorMinimos <- c()
+  vectorMedias <- c()
+  vectorVarianzas <- c()
+  vectorDesviacionesEstandar <- c()
+  vectorPrimerosCuartiles <- c()
+  vectorSegundosCuartiles <- c()
+  vectorTercerosCuartiles <- c()
+  vectorCuartosCuartiles <- c()
+  for (k in 1:12) {
+    maximo <- max(listaDeDataframes[[k]]$MORDEDURAS)
+    minimo <- min(listaDeDataframes[[k]]$MORDEDURAS)
+    catMax <- NULL 
+    catMin <- NULL 
+    if (categoria == "estado") {
+      catMax <- paste("",listaDeDataframes[[k]][listaDeDataframes[[k]]$MORDEDURAS == maximo, ]$ESTADO)
+      catMin <- paste("",listaDeDataframes[[k]][listaDeDataframes[[k]]$MORDEDURAS == minimo, ]$ESTADO) 
+    } else {
+      catMax <- paste("",listaDeDataframes[[k]][listaDeDataframes[[k]]$MORDEDURAS == maximo, ][[2]]) 
+      catMin <- paste("",listaDeDataframes[[k]][listaDeDataframes[[k]]$MORDEDURAS == minimo, ][[2]]) 
+    }
+    media <- mean(listaDeDataframes[[k]]$MORDEDURAS)
+    varianza <- var(listaDeDataframes[[k]]$MORDEDURAS)
+    desviacion.estandar <- sqrt(varianza)
+    primerCuartil <- quantile(listaDeDataframes[[k]]$MORDEDURAS)[[1]]
+    segundoCuartil <- quantile(listaDeDataframes[[k]]$MORDEDURAS)[[2]]
+    tercerCuartil <- quantile(listaDeDataframes[[k]]$MORDEDURAS)[[3]]
+    CuartoCuartil <- quantile(listaDeDataframes[[k]]$MORDEDURAS)[[4]]
+    vectorAnios <- c(vectorAnios, 2003 + k)
+    vectorMaxCat <- c(vectorMaxCat, catMax)
+    vectorMaximos <- c(vectorMaximos, maximo)
+    vectorMinCat <- c(vectorMinCat, catMax)
+    vectorMinimos <- c(vectorMinimos, minimo)
+    vectorMedias <- c(vectorMedias, media)
+    vectorVarianzas <- c(vectorVarianzas, varianza)
+    vectorDesviacionesEstandar <- c(vectorDesviacionesEstandar, desviacion.estandar)
+    vectorPrimerosCuartiles <- c(vectorPrimerosCuartiles, primerCuartil)
+    vectorSegundosCuartiles <- c(vectorSegundosCuartiles, segundoCuartil)
+    vectorTercerosCuartiles <- c(vectorTercerosCuartiles, tercerCuartil)
+    vectorCuartosCuartiles <- c(vectorCuartosCuartiles, CuartoCuartil)
+  }
+  resumen.data.drame <- data.frame(vectorAnios, vectorMaxCat, 
+                                   vectorMaximos, vectorMinCat, 
+                                   vectorMinimos, vectorMedias,
+                                   vectorVarianzas, vectorDesviacionesEstandar,
+                                   vectorPrimerosCuartiles, vectorSegundosCuartiles,
+                                   vectorTercerosCuartiles, vectorCuartosCuartiles)
+  names(resumen.data.drame) <- c("ANIO", paste(cat, ".MAX"), "MAX", paste(cat, ".MIN"), "MIN", "MEDIA", "VAR", "STD", "1st.Q","2nd.Q","3rd.Q","4rd.Q")
+  #print(resumen.data.drame)
+  BushDid911 <- tableGrob(resumen.data.drame)
+  return(BushDid911)
+}
+
+BushDid911 <- describe("estado")
+HitlerDidNothingWrong <- describe("fuente")
+BlazeItFaggot <- describe("grupo")
+OpIsAFaggot <- describe("mes")
+
+grid.arrange(BushDid911)
+grid.arrange(HitlerDidNothingWrong)
+grid.arrange(BlazeItFaggot)
+grid.arrange(OpIsAFaggot)
 
 
 
