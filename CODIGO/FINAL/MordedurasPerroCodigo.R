@@ -227,9 +227,9 @@ for (i in 1:length(mpData)) {
         type[[m]][["ANIO"]] <- ANIO
         # Pasar a formato organizado.
         type[[m]] <- gather(data = type[[m]], 
-                         key = "FUENTE", 
-                         value = "MORDEDURAS", 
-                         2:10)
+                            key = "FUENTE", 
+                            value = "MORDEDURAS", 
+                            2:10)
       } 
       else if (i == 2) {
         # Grupo de Edad
@@ -288,27 +288,27 @@ for (i in 1:length(mpData)) {
         type[[m]][["ANIO"]] <- ANIO
         # Pasar a formato organizado.
         type[[m]] <- gather(data = type[[m]], 
-                         key = "EDAD", 
-                         value = "MORDEDURAS", 
-                         2:13)
+                            key = "EDAD", 
+                            value = "MORDEDURAS", 
+                            2:13)
       } 
       else if (i == 3) {
         # Mes de ocurrencia
         type[[m]] <- within(type[[m]] , 
-                             {
-                               ESTADO <- gsub("M.*co.*", "Mexico", ESTADO)
-                               ESTADO <- gsub("Agua.*es.*", "Aguascalientes", ESTADO)
-                               ESTADO <- gsub("Dist.*al.*", "Distrito Federal", ESTADO)
-                               ESTADO <- gsub("Guan.*o.*", "Guanajuato", ESTADO)
-                               ESTADO <- gsub("M.*n.*", "Michoacan", ESTADO)
-                               ESTADO <- gsub("M.*los.*", "Morelos", ESTADO)
-                               ESTADO <- gsub("Nuevo Le.*n.*", "Nuevo Leon", ESTADO)
-                               ESTADO <- gsub("Quer.*ro.*", "Queretaro", ESTADO)
-                               ESTADO <- gsub("Zac.*cas.*", "Zacatecas", ESTADO)
-                               ESTADO <- gsub("Quint.*oo.*", "Quintana Roo", ESTADO)
-                               ESTADO <- gsub("San Luis Pot.*.*", "San Luis Potosi", ESTADO)
-                               ESTADO <- gsub("Yuca.*n.*", "Yucatan",ESTADO)
-                             })
+                            {
+                              ESTADO <- gsub("M.*co.*", "Mexico", ESTADO)
+                              ESTADO <- gsub("Agua.*es.*", "Aguascalientes", ESTADO)
+                              ESTADO <- gsub("Dist.*al.*", "Distrito Federal", ESTADO)
+                              ESTADO <- gsub("Guan.*o.*", "Guanajuato", ESTADO)
+                              ESTADO <- gsub("M.*n.*", "Michoacan", ESTADO)
+                              ESTADO <- gsub("M.*los.*", "Morelos", ESTADO)
+                              ESTADO <- gsub("Nuevo Le.*n.*", "Nuevo Leon", ESTADO)
+                              ESTADO <- gsub("Quer.*ro.*", "Queretaro", ESTADO)
+                              ESTADO <- gsub("Zac.*cas.*", "Zacatecas", ESTADO)
+                              ESTADO <- gsub("Quint.*oo.*", "Quintana Roo", ESTADO)
+                              ESTADO <- gsub("San Luis Pot.*.*", "San Luis Potosi", ESTADO)
+                              ESTADO <- gsub("Yuca.*n.*", "Yucatan",ESTADO)
+                            })
         # Agregando la columna sexo para pasar a formato organizado.
         if (j == 1) {
           SEXO <- c()
@@ -337,9 +337,9 @@ for (i in 1:length(mpData)) {
         type[[m]][["ANIO"]] <- ANIO
         # Pasar a formato organizado.
         type[[m]] <- gather(data = type[[m]], 
-                         key = "MES", 
-                         value = "MORDEDURAS", 
-                         2:13)
+                            key = "MES", 
+                            value = "MORDEDURAS", 
+                            2:13)
       }
       type[[m]][["MORDEDURAS"]] <- as.numeric(type[[m]][["MORDEDURAS"]])
     }
@@ -376,7 +376,7 @@ names(mpOData) <- c("FuenteDeNotificacion","GrupoDeEdad","MesDeOcurrencia")
 
 for (i in 1:3) {
   for (j in 1:3) {
-     mpOData[[i]][[j]] <- do.call(rbind, mpData[[i]][[j]])
+    mpOData[[i]][[j]] <- do.call(rbind, mpData[[i]][[j]])
   }
 }
 
@@ -615,11 +615,11 @@ describe <- function(categoria) {
     catMax <- NULL 
     catMin <- NULL 
     if (categoria == "estado") {
-      catMax <- paste("",listaDeDataframes[[k]][listaDeDataframes[[k]]$MORDEDURAS == maximo, ]$ESTADO)
-      catMin <- paste("",listaDeDataframes[[k]][listaDeDataframes[[k]]$MORDEDURAS == minimo, ]$ESTADO) 
+      catMax <- paste("",listaDeDataframes[[k]][listaDeDataframes[[k]]$MORDEDURAS == maximo, ]$ESTADO, sep = "")
+      catMin <- paste("",listaDeDataframes[[k]][listaDeDataframes[[k]]$MORDEDURAS == minimo, ]$ESTADO, sep = "") 
     } else {
-      catMax <- paste("",listaDeDataframes[[k]][listaDeDataframes[[k]]$MORDEDURAS == maximo, ][[2]]) 
-      catMin <- paste("",listaDeDataframes[[k]][listaDeDataframes[[k]]$MORDEDURAS == minimo, ][[2]]) 
+      catMax <- paste("",listaDeDataframes[[k]][listaDeDataframes[[k]]$MORDEDURAS == maximo, ][[2]], sep = "") 
+      catMin <- paste("",listaDeDataframes[[k]][listaDeDataframes[[k]]$MORDEDURAS == minimo, ][[2]], sep = "") 
     }
     media <- mean(listaDeDataframes[[k]]$MORDEDURAS)
     varianza <- var(listaDeDataframes[[k]]$MORDEDURAS)
@@ -647,7 +647,7 @@ describe <- function(categoria) {
                                    vectorVarianzas, vectorDesviacionesEstandar,
                                    vectorPrimerosCuartiles, vectorSegundosCuartiles,
                                    vectorTercerosCuartiles, vectorCuartosCuartiles)
-  names(resumen.data.drame) <- c("ANIO", paste(cat, ".MAX"), "MAX", paste(cat, ".MIN"), "MIN", "MEDIA", "VAR", "STD", "1st.Q","2nd.Q","3rd.Q","4rd.Q")
+  names(resumen.data.drame) <- c("ANIO", paste(cat, ".MAX", sep = ""), "MAX", paste(cat, ".MIN", sep = ""), "MIN", "MEDIA", "VAR", "STD", "1st.Q","2nd.Q","3rd.Q","4rd.Q")
   #print(resumen.data.drame)
   BushDid911 <- tableGrob(resumen.data.drame)
   return(BushDid911)
@@ -839,7 +839,7 @@ FuenteDeN <- data.frame(years, sums)
 xrange <- range(FuenteDeN$years) 
 yrange <- range(FuenteDeN$sums) 
 plot(xrange, yrange, type="n", xlab="A??os",
-  	ylab="Mordeduras" )
+     ylab="Mordeduras" )
 lines(FuenteDeN$years, FuenteDeN$sums, type="l", lwd=1.5) 
 title("Total de Mordeduras", "Crecimineto de las mordeduras de perro a trav??s de los a??os.")
 
@@ -860,7 +860,7 @@ for (i in 1:12) {
   fn.data.frame <- data.frame(fuente, valores)
   print(fn.data.frame)
   names(fn.data.frame) <- c("Fuente", "Mordeduras")
-  graph <- ggplot(fn.data.frame, aes(x = Fuente, y = Mordeduras)) +theme_bw() + geom_bar(stat = "identity")+ ggtitle(paste("", 2003 + i)) + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 5))
+  graph <- ggplot(fn.data.frame, aes(x = Fuente, y = Mordeduras)) +theme_bw() + geom_bar(stat = "identity")+ ggtitle(paste0("", 2003 + i)) + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 5))
   graphs.fn[[i]] <- graph
 }
 do.call("grid.arrange", c(graphs.fn, ncol=3, top = "Fuente de Notificaci??n"))
@@ -904,7 +904,7 @@ for (i in 1:12) {
   }
   mo.data.frame <- data.frame(mes, valores)
   names(mo.data.frame) <- c("Mes", "Mordeduras")
-  graph <- ggplot(mo.data.frame, aes(x = Mes, y = Mordeduras)) +theme_bw() + geom_bar(stat = "identity")+ ggtitle(paste("", 2003 + i)) + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 5))
+  graph <- ggplot(mo.data.frame, aes(x = Mes, y = Mordeduras)) +theme_bw() + geom_bar(stat = "identity")+ ggtitle(paste0("", 2003 + i)) + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 5))
   graphs.mo[[i]] <- graph
 }
 do.call("grid.arrange", c(graphs.mo, ncol=3, top = "Mes de Ocurrencia"))
@@ -968,7 +968,7 @@ boxplotea <- function (categoria, sexo) {
   names(dataConcat) <- c(cat, "ANIO", "TOTAL.MORDEDURAS")
   means <- aggregate(TOTAL.MORDEDURAS ~  ANIO, dataConcat, mean)
   p <- ggplot(dataConcat, aes(x=factor(ANIO), y=TOTAL.MORDEDURAS)) 
-  p + geom_boxplot() + ggtitle(paste(paste(titulo, " :"), sexos)) + labs(x="A??o",y="Mordeduras") + theme(plot.title = element_text(family = "Trebuchet MS", color="#666666", face="bold", size=12, hjust=0))  + stat_summary(fun.y=mean, colour="darkred", geom="point", shape=18, size=3,show_guide = FALSE)
+  p + geom_boxplot() + ggtitle(paste0(paste0(titulo, " :"), sexos)) + labs(x="A??o",y="Mordeduras") + theme(plot.title = element_text(family = "Trebuchet MS", color="#666666", face="bold", size=12, hjust=0))  + stat_summary(fun.y=mean, colour="darkred", geom="point", shape=18, size=3,show_guide = FALSE)
 }
 
 boxplotea("estado", "general")
