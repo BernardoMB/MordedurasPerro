@@ -415,16 +415,19 @@ En este trabajo se pudieron incluir más variables a analizar, sin embargo esto 
 
 
 ## 2. Definición del Problema
-En la obtención de los datos surgen varias preguntas a resolver y aclarar: ¿Cuál es la tendencia de las mordeduras de perro a través de los años?, ¿cómo se cambió la incidencia de las mordeduras de perro en los estados cada año?, ¿cómo se fueron reportando las mordeduras de perro en las fuentes de notificación a través de los años?, ¿cómo se reportaron las mordeduras en los grupos de edad a través de los años?, ¿cuáles son lo estados que están por arriba de la media en el último año?, ¿cuáles son los máximos y mínimos a través de los años?, ¿cómo es la tendencia de cada estado en cada año?, entre otras. 
+En la obtención de los datos surgen varias preguntas a resolver y aclarar: ¿Cuál es la tendencia de las mordeduras de perro a través de los años?, ¿Cómo se cambió la incidencia de las mordeduras de perro en los estados cada año?, ¿Cómo se fueron reportando las mordeduras de perro en las fuentes de notificación a través de los años?, ¿Cómo se reportaron las mordeduras en los grupos de edad a través de los años?, ¿Cuáles son lo estados que están por arriba de la media en cada año?, ¿Cuáles son los máximos y mínimos a través de los años?, ¿Cómo es la tendencia de cada estado en cada año?
 
-El planteamiento previo de estas preguntas es relevante para un análisis eficiente.
-Una de nuestras primeras preguntas surgió de un pensamiento racional y clásico: ¿Cómo se están comportando las mordeduras en México a través de los años?.
+Para poder resolver nuestras preguntas tuvimos que plantaer nuestro análisis en cinco divisiones:
+La primera sería conocer el máximo, el mínimo, la media, la varianza, la desviación estandar, y los cuartiles, esto es para conocer mejor la probabilidad y la organización de nuestros datos en el tiempo.
 
-Las multigráficas de cada año, para Total de mordeduras con Fuente de Notificación, Mes de Ocurrencia y Grupo de Edad, son importantes ya nos premitieron ver el cambio a través de los años y especificar la tendencia de cada uno de los casos a analizar.
+La segunda pregunta surge de un pensamiento racional y clásico: ¿Cómo se están comportando las mordeduras en México a través de los años? es decir la tendencia.
 
-Uno de los análisis que consideramos fue el de los estados que han tenido una mayor tendencia a través de los años en mordeduras, ya que son estados que deben tener mayor prioridad en lo que se refiere a la potencial amenaza en la propagación de algúna enfermedad transmitida por las mismas. Con esto llegamos a una de nuestras conclusiones: el análisis y objetivo de los datos, en sector salud, es prevenir. Se debe prestar especial atención a los estados que estuvieran por arriba de la media más la desviación estándar.
+La tercera, sería analizar cada una de nuestras variables(Fuente de Notificación, Mes de Ocurrencia y Grupo de Edad) incluyendo también por cada uno de nuestros estados el cambio en el tiempo en una multigráfica para ver con mayor presición como los años cambian las mordeduras en el tiempo.
 
-También consideramos relevante el uso del tipo de gráfica Boxplot en nuestro análisis, ya que con esto podemos analizar estadísticamente mejor el acumulado de las probabilidades y ver con mayor presición la mediana, la media, y lo cuartiles, al igual que los valores atípicos que registra cada gráfica. Para esto consideramos primordiales cuatro boxplots, incluyendo en el eje de las ordenadas el Total de mordeduras y en el eje de las abscisas los años, comprandolos con: Estados, meses, grupo de edad y fuente de notificación.  
+La cuarta,consideramos relevante el uso del tipo de gráfica Boxplot en nuestro análisis, ya que con esto podemos analizar estadísticamente mejor el acumulado de las probabilidades y ver con mayor presición la mediana, la media, y lo cuartiles, al igual que los valores atípicos que registra cada gráfica. Para esto consideramos primordiales cuatro boxplots, incluyendo en el eje de las ordenadas el Total de mordeduras y en el eje de las abscisas los años, comprandolos con: Estados, meses, grupo de edad y fuente de notificación.  
+
+Para la quinta, es necesario presentar gráficas en forma de pirámide para ver la comparación de los datos entre mujers y hombres.
+
 
 ## 3. Obtención y Descripción de los Datos
 
@@ -475,8 +478,6 @@ En cuanto a la calidad de los datos, se tuvo que hacer pruebas de consistencia, 
 También se comprobó que los totales fueran correctos en cada Formato, Fuente de Notificación, Mes de Ocurrencia y Grupo de Edad. 
 
 ```{r , echo=FALSE}
-
-# ---------------- 4.4.- Pruebas detalladas.
 pruebaDeConsistencia <- function(categoria) {
   cat <- NULL
   raw <- NULL
@@ -502,6 +503,7 @@ pruebaDeConsistencia <- function(categoria) {
   for (i in 1:12) {
     porAnio <- subset(raw, ANIO %in% c(2003 + i))
     vectorAnios <- c()
+    totalDeNAs <- c()
     
     # General.
     porAnioYGeneral <- subset(porAnio, SEXO %in% c("GENERAL"))
@@ -515,6 +517,7 @@ pruebaDeConsistencia <- function(categoria) {
       }
       totalesG <- c(totalesG, sum(subset(porAnioYSexoYCat$MORDEDURAS, ! is.na(porAnioYSexoYCat$MORDEDURAS))))
       vectorAnios <- c(vectorAnios, 2003 + i)  
+      totalDeNAs <- c(totalDeNAs, sum(is.na(porAnioYSexoYCat)))
     }
     # Hombres.
     porAnioYHombres <- subset(porAnio, SEXO %in% c("HOMBRES"))
@@ -558,8 +561,8 @@ pruebaDeConsistencia <- function(categoria) {
       totalesHmasM <- c(totalesHmasM, sum(subset(porAnioYHombresYCat$MORDEDURAS, ! is.na(porAnioYHombresYCat$MORDEDURAS))) + sum(subset(porAnioYMujeresYCat$MORDEDURAS, ! is.na(porAnioYMujeresYCat$MORDEDURAS))))  
     }
     
-    data.frame.anio.categ.total <- data.frame(vectorAnios, categorias, totalesG, totalesH, totalesM, totalesHmasM)
-    names(data.frame.anio.categ.total) <- c("ANIO", cat, "MORD.G", "MORD.H", "MORD.M", "H + M")
+    data.frame.anio.categ.total <- data.frame(vectorAnios, categorias, totalesG, totalesH, totalesM, totalesHmasM, totalDeNAs)
+    names(data.frame.anio.categ.total) <- c("ANIO", cat, "MORD.G", "MORD.H", "MORD.M", "H + M", "NA's")
     listaDeDataframes[[i]] <- data.frame.anio.categ.total
   }
   print(listaDeDataframes)
@@ -609,7 +612,7 @@ En el Dataframe de Grupo de Edad, dentro de la variable "EDAD", se encuentra:
 Cada dato presenta el intervalo de edad donde se presentaron mordeduras por perro todo en mayúsculas y un punto representando el espacio. 
 
 
-#### 3.5.3 Dataframe de Mes de Ocurrencia
+#### 5.2.3 Dataframe de Mes de Ocurrencia
 En el Dataframe de Mes de Ocurrencia, dentro de la variable "MES", se encuentra:
 "ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC".
 cada dato representado por la abreviatura de cada mes. 
@@ -622,8 +625,6 @@ Para cada tabla se incluye el Año, La fuente con el valor máximo y su respecti
 
 
 ```{r , echo=FALSE}
-# Medidas descriptivas.
-
 describe <- function(categoria) {
   cat <- NULL
   raw <- NULL
@@ -687,11 +688,11 @@ describe <- function(categoria) {
     catMax <- NULL 
     catMin <- NULL 
     if (categoria == "estado") {
-      catMax <- paste("",listaDeDataframes[[k]][listaDeDataframes[[k]]$MORDEDURAS == maximo, ]$ESTADO)
-      catMin <- paste("",listaDeDataframes[[k]][listaDeDataframes[[k]]$MORDEDURAS == minimo, ]$ESTADO) 
+      catMax <- paste0("",listaDeDataframes[[k]][listaDeDataframes[[k]]$MORDEDURAS == maximo, ]$ESTADO)
+      catMin <- paste0("",listaDeDataframes[[k]][listaDeDataframes[[k]]$MORDEDURAS == minimo, ]$ESTADO) 
     } else {
-      catMax <- paste("",listaDeDataframes[[k]][listaDeDataframes[[k]]$MORDEDURAS == maximo, ][[2]]) 
-      catMin <- paste("",listaDeDataframes[[k]][listaDeDataframes[[k]]$MORDEDURAS == minimo, ][[2]]) 
+      catMax <- paste0("",listaDeDataframes[[k]][listaDeDataframes[[k]]$MORDEDURAS == maximo, ][[2]]) 
+      catMin <- paste0("",listaDeDataframes[[k]][listaDeDataframes[[k]]$MORDEDURAS == minimo, ][[2]]) 
     }
     media <- mean(listaDeDataframes[[k]]$MORDEDURAS)
     varianza <- var(listaDeDataframes[[k]]$MORDEDURAS)
@@ -719,7 +720,7 @@ describe <- function(categoria) {
                                    vectorVarianzas, vectorDesviacionesEstandar,
                                    vectorPrimerosCuartiles, vectorSegundosCuartiles,
                                    vectorTercerosCuartiles, vectorCuartosCuartiles)
-  names(resumen.data.drame) <- c("ANIO", paste(cat, ".MAX"), "MAX", paste(cat, ".MIN"), "MIN", "MEDIA", "VAR", "STD", "1st.Q","2nd.Q","3rd.Q","4rd.Q")
+  names(resumen.data.drame) <- c("ANIO", paste0(cat, ".MAX"), "MAX", paste0(cat, ".MIN"), "MIN", "MEDIA", "VAR", "STD", "1st.Q","2nd.Q","3rd.Q","4rd.Q")
   print(resumen.data.drame)
   #info.estado <- tableGrob(resumen.data.drame)
   #return(info.estado)
@@ -750,7 +751,7 @@ Para los datos obtenidos en Mes de Ocurrencia podemos apreciar que para el máxi
 describe("grupo")
 ```
 
-Como era de esperarse, al ser el intervalo con mayor número de edades, el intervalo de Veinticinco a Cuarenta y Cuatro es el que registra mayor número de mordeduras. Cuando no se reportó la edad, es comprensible que registrara menores casos, porque implica que en la mayoría de los casos se reporta la edad. podemos notar que la media oscila entre 8,500 y 12,000 pero en la mayoría de los casos vemos media entre 9,000 y 10,000 haciendo el supuesto de que en promedio muerden aproximadamente mordieron a más de 9000 personas en cada grupo de edad.t
+Como era de esperarse, al ser el intervalo con mayor número de edades, el intervalo de Veinticinco a Cuarenta y Cuatro es el que registra mayor número de mordeduras. Cuando no se reportó la edad, es comprensible que registrara menores casos, porque implica que en la mayoría de los casos se reporta la edad. podemos notar que la media oscila entre 8,500 y 12,000 pero en la mayoría de los casos vemos media entre 9,000 y 10,000 haciendo el supuesto de que en promedio muerden aproximadamente mordieron a más de 9000 personas en cada grupo de edad
 
 ### 6.2 Tendencia de las Mordeduras
 Uno de los primeros planteamientos fue: ¿Cómo la incidencia en mordeduras se había comportado a través de los años? y ¿qué tanto había cambiado?
