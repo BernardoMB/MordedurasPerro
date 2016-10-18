@@ -838,11 +838,7 @@ FuenteDeN <- data.frame(years, sums)
 # Create Line Chart 
 xrange <- range(FuenteDeN$years) 
 yrange <- range(FuenteDeN$sums) 
-plot(xrange, yrange, type="n", xlab="A??os",
-     ylab="Mordeduras" )
-lines(FuenteDeN$years, FuenteDeN$sums, type="l", lwd=1.5) 
-title("Total de Mordeduras", "Crecimineto de las mordeduras de perro a trav??s de los a??os.")
-
+ggplot(FuenteDeN, aes(years, sums)) + geom_point(colour = "red", size = 2) + geom_line() + scale_x_continuous(breaks = c(2004:2015)) + labs(x= "", y = "Total de Mordeduras") + ggtitle("TENDENCIA") + scale_y_continuous(breaks = c(sums[7],110000,150000,120000,130000,sums[1], sums[12]))
 # MULTIPLOTs
 
 # Fuente de Notificacio en cada a??o.
