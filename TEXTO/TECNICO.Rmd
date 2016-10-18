@@ -1,5 +1,5 @@
 ---
-title: "Reporte Tecnico"
+title: "Reporte Técnico"
 author: "Fernando Chávez 142353, Bernardo Mondragón 143743, Rayan García 144424"
 date: "17 de octubre de 2016"
 output: html_document
@@ -24,7 +24,7 @@ library(gridExtra)
 
 # Especificar el directorio de trabajo.
 # El directorio de trabajo debe ser la capeta del proyecto:
-workingDirectory <- "/Users/ferchavez100/Desktop/MordedurasPerro/DATOS/BRUTOS"  # <----- CAMBIAR DIRECTORIO DE TRABAJO
+workingDirectory <- "/Users/bmondragb/Desktop/MordedurasPerro/DATOS/BRUTOS"  # <----- CAMBIAR DIRECTORIO DE TRABAJO
 setwd(workingDirectory)
 
 
