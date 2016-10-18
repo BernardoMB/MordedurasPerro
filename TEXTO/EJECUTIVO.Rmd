@@ -406,31 +406,29 @@ Creemos que el análisis de datos es importante para el sector salud, ya que pod
 
 
 ## 2. Definición del Problema
-En la obtención de los datos surgen varias preguntas a resolver y aclarar: ¿Cuál es la tendencia de las mordeduras de perro a través de los años?, ¿Cómo se cambió la incidencia de las mordeduras de perro en los estados cada año?, ¿Cómo se fueron reportando las mordeduras de perro en las fuentes de notificación a través de los años?, ¿Cómo se reportaron las mordeduras en los grupos de edad a través de los años?, ¿Cuáles son lo estados que están por arriba de la media en cada año?, ¿Cuáles son los máximos y mínimos a través de los años?, ¿Cómo es la tendencia de cada estado en cada año?
+En la obtención de los datos surgen varias preguntas a resolver y aclarar: ¿Cuál es la tendencia de las mordeduras de perro a través de los años?, ¿Cómo se cambió la incidencia de las mordeduras de perro en los estados cada año?, ¿Cómo se fueron reportando las mordeduras de perro en las fuentes de notificación a través de los años?, ¿Cómo se reportaron las mordeduras en los grupos de edad a través de los años?, ¿Cuáles son los estados que están por arriba de la media en cada año?, ¿Cuáles son los máximos y mínimos a través de los años?, ¿Cómo es la tendencia de cada estado en cada año?
 
-Para poder resolver nuestras preguntas tuvimos que plantaer nuestro análisis en cinco divisiones:
-La primera sería conocer el máximo, el mínimo, la media, la varianza, la desviación estandar, y los cuartiles, esto es para conocer mejor la probabilidad y la organización de nuestros datos en el tiempo.
+Para poder resolver nuestras preguntas tuvimos que plantear nuestro análisis en cuatro divisiones:
+La primera sería conocer el máximo, el mínimo, la media, la varianza, la desviación estándar, y los cuartiles, esto es para conocer mejor la probabilidad y la organización de nuestros datos en el tiempo.
 
 La segunda pregunta surge de un pensamiento racional y clásico: ¿Cómo se están comportando las mordeduras en México a través de los años? es decir la tendencia.
 
-La tercera, sería analizar cada una de nuestras variables(Fuente de Notificación, Mes de Ocurrencia y Grupo de Edad) incluyendo también por cada uno de nuestros estados el cambio en el tiempo en una multigráfica para ver con mayor presición como los años cambian las mordeduras en el tiempo.
+La tercera, sería analizar cada una de nuestras variables(Fuente de Notificación, Mes de Ocurrencia y Grupo de Edad) incluyendo también por cada uno de nuestros estados el cambio en el tiempo en una multigráfica para ver con mayor precisión como los años cambian las mordeduras en el tiempo.
 
-La cuarta, sería analizar nuestro proyecto con Boxplots, esto es para poder comparar junto con el primer análisis más detallado y ver como se comporta en términos de probabilidad nuestros datos y poder hacer una comparación objetiva.
-
-Para la quinta, es necesario presentar gráficas en forma de pirámide para ver la comparación de los datos entre mujers y hombres.
+La cuarta, sería analizar nuestro proyecto con Boxplots, esto es para poder comparar junto con el primer análisis más detallado y ver cómo se comporta en términos de probabilidad nuestros datos y poder hacer una comparación objetiva.
 
 ## 3. Obtención y Descripción de los Datos
-Se descargo cada PDF de la información de las mordeduras de perro y se convirtieron a formato Excel para más adelante poderlos pasar a formato CSV para poder hacer nuestros análisis en Rstudio.
+Se descargó cada PDF de la información de las mordeduras de perro y se convirtieron a formato Excel para más adelante poderlos pasar a formato CSV para poder hacer nuestros análisis en Rstudio.
 Es importante mencionar que se limpiaron los datos, se organizaron y se modificaron para que de tal manera quedaran presentables.
 
 
 ## 4. Calidad de los Datos
-En cuanto a la calidad de los datos, se hicieron pruebas de consistencia consistencia. Es decir, se verificó que el total de los archivos de GENERAL fueran iguales los totales de HOMBRES más MUJERES. Se comprobó que no hubiera ninguna inconsistencia en la igualdad de ningún año. También se comprobó que los totales fueran correctos en cada Formato, Fuente de Notificación, Mes de Ocurrencia y Grupo de Edad. 
+En cuanto a la calidad de los datos, se hicieron pruebas de consistencia. Es decir, se verificó que el total de los archivos de GENERAL fueran iguales los totales de HOMBRES más MUJERES. Se comprobó que no hubiera ninguna inconsistencia en la igualdad de ningún año. También se comprobó que los totales fueran correctos en cada Formato, Fuente de Notificación, Mes de Ocurrencia y Grupo de Edad. 
 
 ## 5. Transformación de los Datos
-Consideramos prescindible para entender el proyecto explicar como se encuentran los datos: 
+Consideramos prescindible para entender el proyecto explicar cómo se encuentran los datos: 
 Están organizados en tres tablas cada una por su respectiva fuente: Fuente de Notificación, Mes de Ocurrencia y Grupo de Edad.
-En cada tabla se encuntran columnas indicando: Estado, Año, Sexo(General, Hombres o Mujeres), Fuente(Fuente de Notificación, Mes de Ocurrencia o Grupo de Edad) y Total de Mordeduras. 
+En cada tabla se encuentran columnas indicando: Estado, Año, Sexo(General, Hombres o Mujeres), Fuente(Fuente de Notificación, Mes de Ocurrencia o Grupo de Edad) y Total de Mordeduras. 
 
 Ejemplo:
 
@@ -452,7 +450,7 @@ head(mpOrgData$GrupoDeEdad)
 ## 6. Análisis Exploratorio
 
 ### 6.1 Tablas con información básica
-Para cada tabla se incluye el Año, La fuente con el valor máximo y su respectivo valor, la fuente con el valor mínimo y su respectivo valor, la media, la desvaición estandar, y cada cuartil. 
+Para cada tabla se incluye el Año, La fuente con el valor máximo y su respectivo valor, la fuente con el valor mínimo y su respectivo valor, la media, la desviación estándar, y cada cuartil. 
 
 
 ```{r , echo=FALSE}
@@ -874,18 +872,19 @@ En el boxplot de Hombres notamos un sesgo a la derecha mucho mayor que en el de 
 
 ## 7. Conclusiones
 
-Después de observar, analizar y graficar los datos obtenidos, se pudo conlcuir:
-Primero, los datos de cualquiera de las fuentes (Fuente de Notificación, Mes de Ocurrencia o Grupo de Edad) presentan una gran similitud a través de los años, podrán variar y disminuir las mordeduras perro en cada una de las variables orginales, siempre oscilan en el mismo intervalo. Esto nos obliga a dudar de la veracidad de los datos, nos hace preguntarnos si en verdad se estan capturando los datos de manera eficiente y real. En caso de que estemos equivocados tenemos que conlcuir que las Mordeduras de Perro presentan un patrón muy común.Se pueden utilizar métodos numéricos para crear aproximaciones a los patrones y hacer buenas estimaciones de los próximos años. 
+Después de observar, analizar y graficar los datos obtenidos, se pudo concluir:
+Primero, los datos de cualquiera de las fuentes (Fuente de Notificación, Mes de Ocurrencia o Grupo de Edad) presentan una gran similitud a través de los años, podrán variar y disminuir las mordeduras perro en cada una de las variables originales, siempre oscilan en el mismo intervalo. Esto nos obliga a dudar de la veracidad de los datos, nos hace preguntarnos si en verdad se están capturando los datos de manera eficiente y real. En caso de que estemos equivocados tenemos que concluir que las Mordeduras de Perro presentan un patrón muy común. Se pueden utilizar métodos numéricos para crear aproximaciones a los patrones y hacer buenas estimaciones de los próximos años. 
 
-Otra de nuestras conclusiones nace de la captura de los datos. En fuente de Notifiación, prácticamente solo hay una institución que esta registrando las mordeduras de perro, también creemos que "OTRAS" puede llegar a resultar muy ambiguo y con motivos a dudar si en "OTRAS" se incuyen a todas las instituciones públicas como tanto privadas.
-En Grupo de Edad, se deben cambiar los intervalos de edad porque al momento de hacer cualquier análisis estadístico se alteraran las conlcusiones si se tiene un intervalo de 19 años. 
+Otra de nuestras conclusiones nace de la captura de los datos. En fuente de Notificación, prácticamente solo hay una institución que está registrando las mordeduras de perro, también creemos que "OTRAS" puede llegar a resultar muy ambiguo y con motivos a dudar si en "OTRAS" se incluyen a todas las instituciones públicas como tanto privadas.
+En Grupo de Edad, se deben cambiar los intervalos de edad porque al momento de hacer cualquier análisis estadístico se alteraran las conclusiones si se tiene un intervalo de 19 años. 
 
-Creemos que México debe ser educado en cuanto a la captura de información, México no se esta actualizando en las capturas de información y esto esta provocando análisis dudosos y poco nutritivos. Si los análisis se estan haciendo con datos falsos o con datos faltantes se estan haciendo análisis falsos y análisis incompletos. 
-Cada país toma decisiones con base a análsis estadísticos, porque estos se encargan de presentar pronósticos y aproximaciones de la realidad, y con esto dichas decisiones más acertadas a lo demandado por la realidad.
-Si México esta capturando erróneamente sus datos esta produciendo datos falsos y esto implicaría malas decisiones, y un mal empleo de los recursos.
+Creemos que México debe ser educado en cuanto a la captura de información, México no se está actualizando en las capturas de información y esto está provocando análisis dudosos y poco nutritivos. Si los análisis se están haciendo con datos falsos o con datos faltantes se están haciendo análisis falsos y análisis incompletos. 
+Cada país toma decisiones con base a análisis estadísticos, porque estos se encargan de presentar pronósticos y aproximaciones de la realidad, y con esto dichas decisiones más acertadas a lo demandado por la realidad.
+Si México está capturando erróneamente sus datos está produciendo datos falsos y esto implicaría malas decisiones, y un mal empleo de los recursos.
 
 Creemos que es tiempo de revisar y cuestionar los métodos utilizados para capturar información, ya que los estadísticos tiene como obligación presentar datos verídicos como los menciona Stephen Few y como lo establece "The Actuarial Standard of Practice"
-Se debe ser crítico con los datos y mucho más con nuestro trabjo como lo menciona Edward Tufte, por eso en este trabajo se trata de ser muy crítico y reflejar la realidad de los datos capturados.
+Se debe ser crítico con los datos y mucho más con nuestro trabajo como lo menciona Edward Tufte, por eso en este trabajo se trata de ser muy crítico y reflejar la realidad de los datos capturados.
+
 
 
 
